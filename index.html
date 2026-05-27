@@ -55,7 +55,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="iCall Sim">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG">
+    <link class="rounded-full" rel="apple-touch-icon" href="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG">
 
     <style>
         /* Force true edge-to-edge layout across notches, safe area insets & viewport heights */
@@ -138,8 +138,8 @@
     <!-- Background Wallpaper: Remained sharp, crystal clear, scaled slightly to avoid white/dark gaps when swiping -->
     <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG'); height: 100%; height: -webkit-fill-available;"></div>
     
-    <!-- Subtle linear vignette for high contrast visibility without softening the center image details -->
-    <div class="fixed inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/60 z-10 pointer-events-none"></div>
+    <!-- Reduced dark vignette gradient to let the natural colors and light of the mountain show clearly -->
+    <div class="fixed inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/30 z-10 pointer-events-none"></div>
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
     <!-- Safe Area Insets ensure buttons and names clear Apple's dynamic island / notch and home indicator -->
@@ -299,44 +299,129 @@
         let currentTranslate = 0;
         let maxDragDistance = 0;
         let isCallActive = false;
-        let lastTickStep = 0;
 
-        /* DOM Bindings */
-        const sliderTrack = document.getElementById('slider-track');
-        const sliderHandle = document.getElementById('slider-handle');
-        const sliderText = document.getElementById('slider-text');
-        const sliderFill = document.getElementById('slider-fill');
-        const callScreen = document.getElementById('call-screen');
-        const agendaScreen = document.getElementById('agenda-screen');
-        const endCallBtn = document.getElementById('end-call-btn');
-        const toast = document.getElementById('toast');
+        /* Synthesized Web Audio Loop Variables */
+        let audioCtx = null;
+        let ringtoneInterval = null;
 
-        /* Initialize Native iOS Safari Toggle Switch Haptic Elements */
-        let hapticInput = document.createElement('input');
-        hapticInput.type = 'checkbox';
-        hapticInput.id = 'haptic-switch';
-        hapticInput.setAttribute('switch', '');
-        hapticInput.style.display = 'none';
-        document.body.appendChild(hapticInput);
+        /* Global DOM Declarations */
+        let sliderTrack = null;
+        let sliderHandle = null;
+        let sliderText = null;
+        let sliderFill = null;
+        let callScreen = null;
+        let agendaScreen = null;
+        let endCallBtn = null;
+        let toast = null;
 
-        let hapticLabel = document.createElement('label');
-        hapticLabel.htmlFor = 'haptic-switch';
-        hapticLabel.style.display = 'none';
-        document.body.appendChild(hapticLabel);
+        function initAudioOnInteraction() {
+            if (!audioCtx) {
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.warn("Web Audio Context initialization failed: ", e);
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            startRingtone();
+        }
 
-        /* Native Haptic Engine Driver */
-        function triggerHaptic() {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            if (isIOS) {
-                // Clicking the label of a switch toggles it and fires the Taptic Engine in Safari!
-                hapticLabel.click();
-            } else if (navigator.vibrate) {
-                // High-fidelity fallback vibration for Android devices
-                navigator.vibrate(12);
+        function startRingtone() {
+            if (!audioCtx || ringtoneInterval || isCallActive) return;
+
+            const playNote = (frequency, startTime, duration) => {
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(frequency, startTime);
+
+                // Quick elegant marimba-style bell attack/decay envelope
+                gainNode.gain.setValueAtTime(0, startTime);
+                gainNode.gain.linearRampToValueAtTime(0.35, startTime + 0.015);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                osc.start(startTime);
+                osc.stop(startTime + duration);
+            };
+
+            const playPattern = () => {
+                if (!audioCtx || isCallActive) return;
+                const now = audioCtx.currentTime;
+
+                // Authentic soft iOS bell melodic sequence
+                playNote(523.25, now, 0.4);       // C5
+                playNote(659.25, now + 0.15, 0.4);  // E5
+                playNote(783.99, now + 0.3, 0.4);   // G5
+                playNote(880.00, now + 0.45, 0.5);  // A5
+                playNote(1046.50, now + 0.6, 0.6);  // C6
+                playNote(880.00, now + 0.85, 0.4);  // A5
+            };
+
+            playPattern();
+            // Elegant loop pattern
+            ringtoneInterval = setInterval(playPattern, 2200);
+        }
+
+        function stopRingtone() {
+            // Keep AudioContext active so we can play the connecting/disconnecting chimes
+            if (ringtoneInterval) {
+                clearInterval(ringtoneInterval);
+                ringtoneInterval = null;
             }
         }
 
-        /* Dynamic PWA Manifest & Service Worker Generation */
+        function playConnectSound() {
+            if (!audioCtx) return;
+            const now = audioCtx.currentTime;
+            
+            const playTone = (freq, time, dur) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, time);
+                gain.gain.setValueAtTime(0, time);
+                gain.gain.linearRampToValueAtTime(0.25, time + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + dur);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(time);
+                osc.stop(time + dur);
+            };
+            
+            // Soft rising connected double-tone feedback
+            playTone(659.25, now, 0.18);       // E5
+            playTone(880.00, now + 0.08, 0.28); // A5
+        }
+
+        function playDisconnectSound() {
+            if (!audioCtx) return;
+            const now = audioCtx.currentTime;
+            
+            const playTone = (freq, time, dur) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, time);
+                gain.gain.setValueAtTime(0, time);
+                gain.gain.linearRampToValueAtTime(0.25, time + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + dur);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(time);
+                osc.stop(time + dur);
+            };
+            
+            // Soft descending hanging up feedback
+            playTone(523.25, now, 0.18);       // C5
+            playTone(392.00, now + 0.10, 0.28); // G4
+        }
+
         function initPWA() {
             const manifestObj = {
                 name: "iPhone Call Mockup Simulator",
@@ -360,7 +445,7 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE_NAME = 'ios-call-cache-v33';
+                    const CACHE_NAME = 'ios-call-cache-v34';
                     const ASSETS = [
                         './',
                         'https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG',
@@ -384,7 +469,9 @@
         }
 
         function calculateLimits() {
-            maxDragDistance = sliderTrack.clientWidth - sliderHandle.clientWidth - 16;
+            if (sliderTrack && sliderHandle) {
+                maxDragDistance = sliderTrack.clientWidth - sliderHandle.clientWidth - 16;
+            }
         }
 
         function initDragEvents() {
@@ -392,13 +479,14 @@
                 if (isCallActive) return;
                 isDragging = true;
                 
+                // Active Audio Engine instantly on first touch
+                initAudioOnInteraction();
+
                 // Disable automated nudge animation on active drag
                 sliderHandle.classList.remove('animate-nudge');
                 sliderHandle.classList.remove('transition-transform');
                 
                 startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-                lastTickStep = 0;
-                triggerHaptic(); // Primary click response
             };
 
             const drag = (e) => {
@@ -407,25 +495,8 @@
                 const offset = clientX - startX;
                 
                 currentTranslate = Math.max(0, Math.min(offset, maxDragDistance));
-                
-                // Dynamic tactile tick feedback simulation
-                const progress = currentTranslate / maxDragDistance;
-                const currentTickStep = Math.floor(progress * 6); // 6 precise haptic steps across slider
-                
-                let scaleVal = 1;
-                if (currentTickStep !== lastTickStep) {
-                    lastTickStep = currentTickStep;
-                    triggerHaptic(); // Trigger Apple Taptic Engine tick!
-                    // Induce sudden high-precision scale pulse (simulating a solid mechanic physical tick)
-                    scaleVal = 1.08;
-                    setTimeout(() => {
-                        if (isDragging) {
-                            sliderHandle.style.transform = `translateX(${currentTranslate}px) scale(1)`;
-                        }
-                    }, 50);
-                }
 
-                sliderHandle.style.transform = `translateX(${currentTranslate}px) scale(${scaleVal})`;
+                sliderHandle.style.transform = `translateX(${currentTranslate}px)`;
                 sliderFill.style.width = `${currentTranslate + 36}px`;
                 
                 // Fade out sliding instruction relative to progress
@@ -441,11 +512,10 @@
                 if (currentTranslate >= maxDragDistance * 0.80) {
                     answerCall();
                 } else {
-                    triggerHaptic(); // Fallback bounce haptic
                     // Reset slider container to idle state smoothly
                     sliderHandle.classList.add('transition-transform');
                     sliderHandle.classList.add('animate-nudge');
-                    sliderHandle.style.transform = 'translateX(0px) scale(1)';
+                    sliderHandle.style.transform = 'translateX(0px)';
                     sliderFill.style.width = '2.5rem';
                     sliderText.style.opacity = '1';
                     currentTranslate = 0;
@@ -465,7 +535,8 @@
 
         function answerCall() {
             isCallActive = true;
-            triggerHaptic();
+            stopRingtone();
+            playConnectSound();
 
             callScreen.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
             
@@ -478,7 +549,8 @@
 
         function hangUpCall() {
             isCallActive = false;
-            triggerHaptic();
+            stopRingtone();
+            playDisconnectSound();
 
             // Transition interfaces back smoothly
             agendaScreen.classList.remove('opacity-100');
@@ -489,16 +561,23 @@
             // Re-activate nudge properties
             sliderHandle.classList.add('transition-transform');
             sliderHandle.classList.add('animate-nudge');
-            sliderHandle.style.transform = 'translateX(0px) scale(1)';
+            sliderHandle.style.transform = 'translateX(0px)';
             sliderFill.style.width = '2.5rem';
             sliderText.style.opacity = '1';
             currentTranslate = 0;
 
             showToast("Call Disconnected.");
+
+            // Soft-re-trigger of the loop after hanging up so they can demo it again
+            setTimeout(() => {
+                if (!isCallActive) {
+                    startRingtone();
+                }
+            }, 1500);
         }
 
         function handleSecondaryAction(act) {
-            triggerHaptic();
+            initAudioOnInteraction();
             showToast(`${act} simulation activated.`);
         }
 
@@ -514,12 +593,26 @@
 
         /* App bootstrap on content load */
         window.onload = function() {
+            // Bind DOM elements safely before executing calculations or functions
+            sliderTrack = document.getElementById('slider-track');
+            sliderHandle = document.getElementById('slider-handle');
+            sliderText = document.getElementById('slider-text');
+            sliderFill = document.getElementById('slider-fill');
+            callScreen = document.getElementById('call-screen');
+            agendaScreen = document.getElementById('agenda-screen');
+            endCallBtn = document.getElementById('end-call-btn');
+            toast = document.getElementById('toast');
+
             initPWA();
             calculateLimits();
             initDragEvents();
 
             window.addEventListener('resize', calculateLimits);
             endCallBtn.addEventListener('click', hangUpCall);
+
+            // Audio Auto-Play Unlock handlers for modern touch devices
+            window.addEventListener('touchstart', initAudioOnInteraction, { once: true });
+            window.addEventListener('mousedown', initAudioOnInteraction, { once: true });
         };
     </script>
 </body>
