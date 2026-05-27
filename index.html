@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>iPhone Call Simulator</title>
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -62,13 +63,22 @@
             overflow: hidden;
             position: fixed;
             width: 100%;
-            height: 100dvh;
+            height: 100%;
+            height: -webkit-fill-available;
             margin: 0;
             padding: 0;
             background-color: #000;
             user-select: none;
             -webkit-user-select: none;
             touch-action: none;
+        }
+
+        /* Safely position contents relative to iPhone notches and Dynamic Island */
+        .ios-safe-top {
+            padding-top: calc(env(safe-area-inset-top, 0px) + 24px);
+        }
+        .ios-safe-bottom {
+            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 32px);
         }
 
         /* Modern Glass Sheet for Agenda Cards */
@@ -126,14 +136,14 @@
 <body class="text-white font-sans antialiased flex flex-col justify-between overflow-hidden">
 
     <!-- Background Wallpaper: Remained sharp, crystal clear, scaled slightly to avoid white/dark gaps when swiping -->
-    <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
+    <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG'); height: 100%; height: -webkit-fill-available;"></div>
     
     <!-- Subtle linear vignette for high contrast visibility without softening the center image details -->
     <div class="fixed inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/60 z-10 pointer-events-none"></div>
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
     <!-- Safe Area Insets ensure buttons and names clear Apple's dynamic island / notch and home indicator -->
-    <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full pt-[calc(env(safe-area-inset-top)+20px)] pb-[calc(env(safe-area-inset-bottom)+30px)] px-6 transition-all duration-500">
+    <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full ios-safe-top ios-safe-bottom px-6 transition-all duration-500">
         
         <!-- Top Section: Caller Identity -->
         <div class="flex flex-col items-center text-center mt-6 select-none">
@@ -196,7 +206,7 @@
     </div>
 
     <!-- EVENT AGENDA SCREEN INTERFACE (Appears upon answering the call) -->
-    <div id="agenda-screen" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between p-6 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)]">
+    <div id="agenda-screen" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between p-6 ios-safe-bottom ios-safe-top">
         
         <!-- Agenda Header -->
         <div class="w-full text-center mt-4 select-none border-b border-white/10 pb-4">
@@ -301,6 +311,31 @@
         const endCallBtn = document.getElementById('end-call-btn');
         const toast = document.getElementById('toast');
 
+        /* Initialize Native iOS Safari Toggle Switch Haptic Elements */
+        let hapticInput = document.createElement('input');
+        hapticInput.type = 'checkbox';
+        hapticInput.id = 'haptic-switch';
+        hapticInput.setAttribute('switch', '');
+        hapticInput.style.display = 'none';
+        document.body.appendChild(hapticInput);
+
+        let hapticLabel = document.createElement('label');
+        hapticLabel.htmlFor = 'haptic-switch';
+        hapticLabel.style.display = 'none';
+        document.body.appendChild(hapticLabel);
+
+        /* Native Haptic Engine Driver */
+        function triggerHaptic() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+                // Clicking the label of a switch toggles it and fires the Taptic Engine in Safari!
+                hapticLabel.click();
+            } else if (navigator.vibrate) {
+                // High-fidelity fallback vibration for Android devices
+                navigator.vibrate(12);
+            }
+        }
+
         /* Dynamic PWA Manifest & Service Worker Generation */
         function initPWA() {
             const manifestObj = {
@@ -363,6 +398,7 @@
                 
                 startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
                 lastTickStep = 0;
+                triggerHaptic(); // Primary click response
             };
 
             const drag = (e) => {
@@ -374,11 +410,12 @@
                 
                 // Dynamic tactile tick feedback simulation
                 const progress = currentTranslate / maxDragDistance;
-                const currentTickStep = Math.floor(progress * 5); // 5 tactile tick marks
+                const currentTickStep = Math.floor(progress * 6); // 6 precise haptic steps across slider
                 
                 let scaleVal = 1;
                 if (currentTickStep !== lastTickStep) {
                     lastTickStep = currentTickStep;
+                    triggerHaptic(); // Trigger Apple Taptic Engine tick!
                     // Induce sudden high-precision scale pulse (simulating a solid mechanic physical tick)
                     scaleVal = 1.08;
                     setTimeout(() => {
@@ -404,6 +441,7 @@
                 if (currentTranslate >= maxDragDistance * 0.80) {
                     answerCall();
                 } else {
+                    triggerHaptic(); // Fallback bounce haptic
                     // Reset slider container to idle state smoothly
                     sliderHandle.classList.add('transition-transform');
                     sliderHandle.classList.add('animate-nudge');
@@ -427,6 +465,7 @@
 
         function answerCall() {
             isCallActive = true;
+            triggerHaptic();
 
             callScreen.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
             
@@ -439,6 +478,7 @@
 
         function hangUpCall() {
             isCallActive = false;
+            triggerHaptic();
 
             // Transition interfaces back smoothly
             agendaScreen.classList.remove('opacity-100');
@@ -458,6 +498,7 @@
         }
 
         function handleSecondaryAction(act) {
+            triggerHaptic();
             showToast(`${act} simulation activated.`);
         }
 
