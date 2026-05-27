@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>iPhone Call Simulator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Kantumruy Pro for premium, high-fidelity Khmer text rendering -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        // Official Apple system font stack for authentic iOS look & feel
+                        sans: [
+                            '-apple-system', 
+                            'BlinkMacSystemFont', 
+                            '"SF Pro Text"', 
+                            '"SF Pro Display"', 
+                            '"SF Compact Text"', 
+                            'Helvetica Neue', 
+                            'Helvetica', 
+                            'Arial', 
+                            'sans-serif'
+                        ],
+                        khmer: ['Kantumruy Pro', 'sans-serif'],
+                    },
+                    animation: {
+                        'shimmer': 'shimmer 2.2s infinite linear',
+                        'nudge': 'nudge 2.5s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { backgroundPosition: '-150% 0' },
+                            '100%': { backgroundPosition: '150% 0' },
+                        },
+                        nudge: {
+                            '0%, 100%': { transform: 'translateX(0px)' },
+                            '30%': { transform: 'translateX(8px)' },
+                            '45%': { transform: 'translateX(0px)' },
+                            '60%': { transform: 'translateX(4px)' },
+                            '70%': { transform: 'translateX(0px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Web Manifest for PWA capabilities -->
+    <link rel="manifest" id="pwa-manifest">
+    <!-- Meta tags for iOS App styling -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="iCall Sim">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG">
+
+    <style>
+        /* Modern Glass Sheet for Drawer Panel */
+        .glass-sheet {
+            background: rgba(20, 20, 20, 0.65);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* iOS 26 Liquid Slider Track */
+        .ios-slider-track {
+            background: rgba(30, 30, 30, 0.4);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 0.5px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 4px 30px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        }
+
+        /* iOS text shimmer sweep animation */
+        .shimmer-text {
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0.35) 100%);
+            background-size: 240px 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 2.5s infinite linear;
+        }
+
+        /* Keep background sharp and avoid pull-down bounce on iOS devices */
+        html, body {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-sans antialiased h-screen w-screen flex flex-col justify-between overflow-hidden">
+
+    <!-- Background Wallpaper: Remained sharp, crystal clear, unblurred -->
+    <div id="wallpaper-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-100" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
+    
+    <!-- Subtle linear vignette for high contrast visibility without softening the center image details -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/55 z-10 pointer-events-none"></div>
+
+    <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
+    <div id="call-screen" class="relative z-20 flex flex-col justify-between h-full w-full pt-20 pb-16 px-6 transition-all duration-500">
+        
+        <!-- Top Section: Caller Identity -->
+        <div class="flex flex-col items-center text-center mt-6 select-none">
+            <!-- Render Khmer font elegantly with native typography weights -->
+            <h1 id="caller-name" class="font-khmer text-[42px] font-normal tracking-wide text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">ខ្នងព្រះអង្គ</h1>
+            <p id="caller-label" class="text-[17px] text-white/80 font-normal tracking-wide mt-1.5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">mobile</p>
+        </div>
+
+        <!-- Middle/Bottom Section: Actions & Slide to Answer -->
+        <div class="flex flex-col items-center w-full max-w-sm mx-auto space-y-12 mb-4">
+            
+            <!-- Quick Options: Remind Me & Message (Clean iOS lockscreen design, no bulky glass borders) -->
+            <div class="grid grid-cols-2 gap-24 text-center w-full px-12">
+                <!-- Remind Me Button -->
+                <button onclick="handleSecondaryAction('Remind Me')" class="flex flex-col items-center justify-center space-y-2 group active:opacity-60 transition-opacity">
+                    <div class="w-10 h-10 flex items-center justify-center">
+                        <!-- Clock SF Symbol Replica -->
+                        <svg class="w-6 h-6 text-white drop-shadow-md" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <span class="text-[12px] font-normal text-white drop-shadow-md">Remind Me</span>
+                </button>
+
+                <!-- Message Button -->
+                <button onclick="handleSecondaryAction('Message')" class="flex flex-col items-center justify-center space-y-2 group active:opacity-60 transition-opacity">
+                    <div class="w-10 h-10 flex items-center justify-center">
+                        <!-- Message SF Symbol Replica -->
+                        <svg class="w-6 h-6 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.14 2 11.25c0 2.87 1.45 5.44 3.75 7.12-.13.38-.47 1.41-1.46 2.45-.12.13-.13.33-.03.47.08.11.21.17.34.17.15 0 3.1-.19 5.37-1.8 1.15.34 2.39.54 3.67.54 5.52 0 10-4.14 10-9.25S17.52 2 12 2z" />
+                        </svg>
+                    </div>
+                    <span class="text-[12px] font-normal text-white drop-shadow-md">Message</span>
+                </button>
+            </div>
+
+            <!-- Swipe to Answer Track Container -->
+            <div class="w-full px-2">
+                <!-- Authentic Rounded Slider Track -->
+                <div id="slider-track" class="relative h-[74px] w-full ios-slider-track rounded-full flex items-center p-1.5 select-none overflow-hidden">
+                    
+                    <!-- Shimmering Slide to Answer Text -->
+                    <div id="slider-text" class="absolute inset-0 flex items-center justify-center pointer-events-none pl-12 select-none">
+                        <span class="shimmer-text text-[15px] font-normal tracking-[0.03em]">slide to answer</span>
+                    </div>
+
+                    <!-- Slide Handle (Crisp, premium iOS solid white handle containing green phone receiver) -->
+                    <div id="slider-handle" class="absolute left-1.5 w-[62px] h-[62px] bg-white rounded-full flex items-center justify-center shadow-[0_3px_12px_rgba(0,0,0,0.35)] cursor-grab active:cursor-grabbing z-30 transition-transform duration-75 nudge-anim">
+                        <!-- Standard Green Call Receiver rotated exactly 45deg pointing right/upwards -->
+                        <svg class="w-7 h-7 text-[#34C759] rotate-[45deg] filter drop-shadow-sm" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1a11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.58c0-.56-.45-1.04-1-1.04z"/>
+                        </svg>
+                    </div>
+
+                    <!-- Liquid Left Track Progress Fill -->
+                    <div id="slider-fill" class="absolute left-0 top-0 bottom-0 bg-white/10 rounded-l-full pointer-events-none" style="width: 2rem;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BLANK ACTIVE CALL INTERFACE (Screen-off Proximity Mockup) -->
+    <div id="blank-screen" class="fixed inset-0 bg-black z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between items-center p-12">
+        <!-- Connected Details -->
+        <div class="flex flex-col items-center text-center mt-16 transition-all duration-500 transform translate-y-4" id="active-call-details">
+            <h2 id="active-caller-name" class="font-khmer text-[38px] font-normal text-white drop-shadow">ខ្នងព្រះអង្គ</h2>
+            <div id="call-timer" class="text-[17px] font-light tracking-widest text-slate-300 mt-2">00:00</div>
+        </div>
+
+        <!-- Proximity Tap notice simulating modern dynamic lock screen -->
+        <div id="proximity-reminder" class="text-center text-slate-600 text-[11px] tracking-wider uppercase flex flex-col items-center space-y-4 max-w-xs transition-opacity duration-500">
+            <div class="w-8 h-8 rounded-full border border-slate-800 flex items-center justify-center animate-pulse-slow">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#34C759]"></span>
+            </div>
+            <p class="leading-relaxed">Connected. Tap screen to display controls and end simulation.</p>
+        </div>
+
+        <!-- Red End Call Button -->
+        <button id="end-call-btn" class="w-[72px] h-[72px] rounded-full bg-[#FF3B30] flex items-center justify-center shadow-[0_6px_24px_rgba(255,59,48,0.4)] transform active:scale-90 transition duration-150 border border-white/10">
+            <!-- Downward rotated phone receiver (rotated exactly 135deg) -->
+            <svg class="w-8 h-8 text-white rotate-[135deg]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.58c0-.56-.45-1.04-1-1.04z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Transparent Settings Trigger -->
+    <button id="config-btn" class="fixed top-6 right-6 z-40 bg-black/25 hover:bg-black/40 active:scale-95 text-white p-3.5 rounded-full shadow-lg backdrop-blur-md border border-white/10 transition duration-150">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </svg>
+    </button>
+
+    <!-- Side Configurations Drawer Panel -->
+    <div id="config-drawer" class="fixed inset-y-0 right-0 w-80 glass-sheet z-50 shadow-2xl translate-x-full transition-transform duration-300 ease-out flex flex-col text-white">
+        <!-- Drawer Header -->
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black/20">
+            <h3 class="text-sm font-semibold tracking-wider uppercase text-white/90">Call Settings</h3>
+            <button id="close-drawer-btn" class="text-xs bg-white/10 hover:bg-white/15 border border-white/10 px-3.5 py-1.5 rounded-full transition font-semibold">Done</button>
+        </div>
+
+        <!-- Drawer Body Content -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+            <!-- Caller Name Setting -->
+            <div class="space-y-2">
+                <label class="text-[10px] text-white/50 uppercase tracking-widest font-bold">Caller Display Name</label>
+                <input type="text" id="config-name-input" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-3.5 text-white font-khmer focus:outline-none focus:border-[#34C759] focus:bg-white/10 transition" value="ខ្នងព្រះអង្គ">
+            </div>
+
+            <!-- Caller Subtitle Label Setting -->
+            <div class="space-y-2">
+                <label class="text-[10px] text-white/50 uppercase tracking-widest font-bold">Status Label</label>
+                <input type="text" id="config-label-input" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-3.5 text-white focus:outline-none focus:border-[#34C759] focus:bg-white/10 transition" value="mobile">
+            </div>
+
+            <!-- Audio Synthesizer Type -->
+            <div class="space-y-2">
+                <label class="text-[10px] text-white/50 uppercase tracking-widest font-bold">Ringtone Synthesizer</label>
+                <select id="config-audio" class="w-full bg-zinc-900 border border-white/10 rounded-xl py-2.5 px-3.5 text-white focus:outline-none focus:border-[#34C759] transition">
+                    <option value="marimba">Synthesized Marimba</option>
+                    <option value="chime">Classic Chime Ring</option>
+                    <option value="none">Silent / Vibra Only</option>
+                </select>
+            </div>
+
+            <!-- Haptic Vibrate Selector -->
+            <div class="flex items-center justify-between py-4 border-t border-b border-white/10">
+                <span class="text-xs font-semibold tracking-wide text-white/80">Haptic Vibration</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="config-haptics" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#34C759]"></div>
+                </label>
+            </div>
+
+            <!-- Instructions -->
+            <div class="pt-2 text-[11px] text-white/40 space-y-3 leading-relaxed">
+                <p>💡 To experience complete full-screen immersion without search bars, tap your browser menu and choose <strong>"Add to Home Screen"</strong> to install as a native offline PWA.</p>
+                <button id="fullscreen-btn" class="w-full bg-white/10 hover:bg-white/15 border border-white/10 text-white text-xs font-semibold py-2.5 px-4 rounded-xl transition mt-2">
+                    Request Fullscreen View
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Micro Dynamic Toast Indicator -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-black/60 border border-white/15 text-white text-xs py-2.5 px-5 rounded-full opacity-0 pointer-events-none transition-all duration-300 z-50 backdrop-blur-xl"></div>
+
+    <script>
+        /* Interactive State Management */
+        let isDragging = false;
+        let startX = 0;
+        let currentTranslate = 0;
+        let maxDragDistance = 0;
+        let isCallActive = false;
+        let audioContext = null;
+        let ringtoneInterval = null;
+        let callTimerInterval = null;
+        let secondsElapsed = 0;
+        let isProximityHidden = true;
+
+        /* DOM Bindings */
+        const sliderTrack = document.getElementById('slider-track');
+        const sliderHandle = document.getElementById('slider-handle');
+        const sliderText = document.getElementById('slider-text');
+        const sliderFill = document.getElementById('slider-fill');
+        const callScreen = document.getElementById('call-screen');
+        const blankScreen = document.getElementById('blank-screen');
+        const activeCallerName = document.getElementById('active-caller-name');
+        const callTimer = document.getElementById('call-timer');
+        const endCallBtn = document.getElementById('end-call-btn');
+        const configBtn = document.getElementById('config-btn');
+        const configDrawer = document.getElementById('config-drawer');
+        const closeDrawerBtn = document.getElementById('close-drawer-btn');
+        const configNameInput = document.getElementById('config-name-input');
+        const configLabelInput = document.getElementById('config-label-input');
+        const callerNameEl = document.getElementById('caller-name');
+        const callerLabelEl = document.getElementById('caller-label');
+        const toast = document.getElementById('toast');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const activeCallDetails = document.getElementById('active-call-details');
+        const proximityReminder = document.getElementById('proximity-reminder');
+
+        /* Dynamic PWA Manifest & Service Worker Generation */
+        function initPWA() {
+            const manifestObj = {
+                name: "iPhone Call Mockup Simulator",
+                short_name: "iOS Call",
+                start_url: ".",
+                display: "standalone",
+                background_color: "#000000",
+                theme_color: "#000000",
+                icons: [
+                    {
+                        src: "https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG",
+                        sizes: "512x512",
+                        type: "image/jpeg"
+                    }
+                ]
+            };
+            const manifestStr = JSON.stringify(manifestObj);
+            const blob = new Blob([manifestStr], { type: 'application/json' });
+            const manifestURL = URL.createObjectURL(blob);
+            document.getElementById('pwa-manifest').setAttribute('href', manifestURL);
+
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    const CACHE_NAME = 'ios-call-cache-v27';
+                    const ASSETS = [
+                        './',
+                        'https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG',
+                        'https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600&display=swap'
+                    ];
+                    self.addEventListener('install', (e) => {
+                        e.waitUntil(
+                            caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+                        );
+                    });
+                    self.addEventListener('fetch', (e) => {
+                        e.respondWith(
+                            caches.match(e.request).then((res) => res || fetch(e.request))
+                        );
+                    });
+                `;
+                const swBlob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(swBlob);
+                navigator.serviceWorker.register(swUrl)
+                    .then(() => console.log("PWA Service Worker offline sync configured."))
+                    .catch((err) => console.warn("SW registration failed: ", err));
+            }
+        }
+
+        /* Web Audio Synthesizer Engines (iOS ringtone reproduction) */
+        function playChimeTone() {
+            if (!audioContext) return;
+            try {
+                const now = audioContext.currentTime;
+                let osc1 = audioContext.createOscillator();
+                let gain1 = audioContext.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(880, now);
+                gain1.gain.setValueAtTime(0.12, now);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+                osc1.connect(gain1);
+                gain1.connect(audioContext.destination);
+                osc1.start(now);
+                osc1.stop(now + 1.4);
+
+                let osc2 = audioContext.createOscillator();
+                let gain2 = audioContext.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(440, now + 0.25);
+                gain2.gain.setValueAtTime(0.08, now + 0.25);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.6);
+                osc2.connect(gain2);
+                gain2.connect(audioContext.destination);
+                osc2.start(now + 0.25);
+                osc2.stop(now + 1.6);
+            } catch (error) {
+                console.error("Audio Synthesis Exception: ", error);
+            }
+        }
+
+        function playMarimbaTone() {
+            if (!audioContext) return;
+            try {
+                const now = audioContext.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, index) => {
+                    const start = now + (index * 0.12);
+                    const osc = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, start);
+                    gainNode.gain.setValueAtTime(0.15, start);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
+                    
+                    osc.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    osc.start(start);
+                    osc.stop(start + 0.4);
+                });
+            } catch (error) {
+                console.error("Audio Synthesis Exception: ", error);
+            }
+        }
+
+        function startRingtone() {
+            stopRingtone();
+            const selectedTone = document.getElementById('config-audio').value;
+            if (selectedTone === 'none') return;
+
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            const playStyle = selectedTone === 'chime' ? playChimeTone : playMarimbaTone;
+            playStyle(); 
+            ringtoneInterval = setInterval(playStyle, 2500);
+
+            // Responsive Vibrator Engine
+            const doVibe = document.getElementById('config-haptics').checked;
+            if (doVibe && navigator.vibrate) {
+                navigator.vibrate([400, 200, 400, 200, 1000]);
+            }
+        }
+
+        function stopRingtone() {
+            if (ringtoneInterval) {
+                clearInterval(ringtoneInterval);
+                ringtoneInterval = null;
+            }
+            if (navigator.vibrate) {
+                navigator.vibrate(0);
+            }
+        }
+
+        function calculateLimits() {
+            maxDragDistance = sliderTrack.clientWidth - sliderHandle.clientWidth - 12;
+        }
+
+        function initDragEvents() {
+            const dragStart = (e) => {
+                if (isCallActive) return;
+                isDragging = true;
+                
+                // Disable nudge animation on user drag
+                sliderHandle.classList.remove('nudge-anim');
+                sliderHandle.classList.remove('transition-transform');
+                
+                startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            };
+
+            const drag = (e) => {
+                if (!isDragging) return;
+                const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const offset = clientX - startX;
+                
+                currentTranslate = Math.max(0, Math.min(offset, maxDragDistance));
+                
+                sliderHandle.style.transform = `translateX(${currentTranslate}px)`;
+                sliderFill.style.width = `${currentTranslate + 32}px`;
+                
+                // Fade out text relative to drag translation progress
+                const textOpacity = 1 - (currentTranslate / (maxDragDistance * 0.7));
+                sliderText.style.opacity = Math.max(0, textOpacity);
+            };
+
+            const dragEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                // Swipe validation threshold set to 85%
+                if (currentTranslate >= maxDragDistance * 0.85) {
+                    answerCall();
+                } else {
+                    // Reset slide gracefully
+                    sliderHandle.classList.add('transition-transform');
+                    sliderHandle.classList.add('nudge-anim');
+                    sliderHandle.style.transform = 'translateX(0px)';
+                    sliderFill.style.width = '2rem';
+                    sliderText.style.opacity = '1';
+                    currentTranslate = 0;
+                }
+            };
+
+            // Touch event registrations
+            sliderHandle.addEventListener('touchstart', dragStart, { passive: true });
+            window.addEventListener('touchmove', drag, { passive: false });
+            window.addEventListener('touchend', dragEnd);
+
+            // Desktop Mouse mouse fallback standardizations
+            sliderHandle.addEventListener('mousedown', dragStart);
+            window.addEventListener('mousemove', drag);
+            window.addEventListener('mouseup', dragEnd);
+        }
+
+        function answerCall() {
+            isCallActive = true;
+            stopRingtone();
+
+            callScreen.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+            
+            // Pop the blank screen (acting initially as Proximity dark state)
+            activeCallerName.innerText = configNameInput.value;
+            blankScreen.classList.remove('pointer-events-none');
+            blankScreen.classList.add('opacity-100');
+
+            // Hide calling controls for true blank/black proximity screen off replica on start
+            isProximityHidden = true;
+            activeCallDetails.classList.add('opacity-0', 'pointer-events-none');
+            proximityReminder.classList.add('opacity-0', 'pointer-events-none');
+            endCallBtn.classList.add('opacity-0', 'pointer-events-none');
+
+            // Brief delay then show instructions gently
+            setTimeout(() => {
+                if (isProximityHidden) {
+                    proximityReminder.classList.remove('opacity-0');
+                    proximityReminder.classList.add('opacity-100');
+                }
+            }, 1000);
+
+            // Success beep synthesized locally
+            if (audioContext) {
+                const now = audioContext.currentTime;
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.frequency.setValueAtTime(580, now);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            }
+
+            // Start clock
+            secondsElapsed = 0;
+            updateTimerDisplay();
+            callTimerInterval = setInterval(() => {
+                secondsElapsed++;
+                updateTimerDisplay();
+            }, 1000);
+
+            showToast("Call Answering Simulated.");
+        }
+
+        /* Toggle screen visibility (simulating holding phone to ear vs looking at it) */
+        blankScreen.addEventListener('click', (e) => {
+            // Only trigger if we aren't clicking the actual red end call button directly
+            if (e.target.closest('#end-call-btn')) return;
+            
+            if (isProximityHidden) {
+                isProximityHidden = false;
+                activeCallDetails.classList.remove('opacity-0', 'pointer-events-none');
+                endCallBtn.classList.remove('opacity-0', 'pointer-events-none');
+                proximityReminder.classList.add('opacity-0');
+            } else {
+                isProximityHidden = true;
+                activeCallDetails.classList.add('opacity-0', 'pointer-events-none');
+                endCallBtn.classList.add('opacity-0', 'pointer-events-none');
+                proximityReminder.classList.remove('opacity-0');
+            }
+        });
+
+        function updateTimerDisplay() {
+            const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+            const secs = String(secondsElapsed % 60).padStart(2, '0');
+            callTimer.innerText = `${mins}:${secs}`;
+        }
+
+        function hangUpCall() {
+            isCallActive = false;
+            clearInterval(callTimerInterval);
+
+            // Revert screen state
+            blankScreen.classList.remove('opacity-100');
+            blankScreen.classList.add('pointer-events-none');
+            
+            callScreen.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+
+            // Reset Slide Handle controls smoothly
+            sliderHandle.classList.add('transition-transform');
+            sliderHandle.classList.add('nudge-anim');
+            sliderHandle.style.transform = 'translateX(0px)';
+            sliderFill.style.width = '2rem';
+            sliderText.style.opacity = '1';
+            currentTranslate = 0;
+
+            showToast("Call Disconnected.");
+
+            // Self re-trigger ringing state in 3 seconds for easy loop simulation testing
+            setTimeout(() => {
+                if (!isCallActive) {
+                    startRingtone();
+                }
+            }, 3000);
+        }
+
+        function toggleDrawer() {
+            const isOpen = configDrawer.classList.contains('translate-x-0');
+            if (isOpen) {
+                configDrawer.classList.remove('translate-x-0');
+                configDrawer.classList.add('translate-x-full');
+                
+                // Apply update changes
+                callerNameEl.innerText = configNameInput.value;
+                callerLabelEl.innerText = configLabelInput.value;
+                
+                startRingtone();
+            } else {
+                configDrawer.classList.remove('translate-x-full');
+                configDrawer.classList.add('translate-x-0');
+            }
+        }
+
+        function handleSecondaryAction(act) {
+            showToast(`${act} simulation activated.`);
+        }
+
+        function showToast(text) {
+            toast.innerText = text;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 2000);
+        }
+
+        function requestFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {
+                    showToast("Fully install PWA for native fullscreen viewport.");
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        /* App initialization triggers on window load */
+        window.onload = function() {
+            initPWA();
+            calculateLimits();
+            initDragEvents();
+
+            window.addEventListener('resize', calculateLimits);
+
+            configBtn.addEventListener('click', toggleDrawer);
+            closeDrawerBtn.addEventListener('click', toggleDrawer);
+            endCallBtn.addEventListener('click', hangUpCall);
+            fullscreenBtn.addEventListener('click', requestFullscreen);
+
+            // Audio contexts safety unlock handler for iOS webkit engines
+            window.addEventListener('click', function unlockAudioContext() {
+                startRingtone();
+                window.removeEventListener('click', unlockAudioContext);
+            }, { once: true });
+        };
+    </script>
+</body>
+</html>
