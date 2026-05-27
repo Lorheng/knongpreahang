@@ -110,16 +110,18 @@
             }
         }
 
-        /* Custom Scrollbar for Agenda Details */
+        /* Highly Optimized Smooth Momentum Scroll Container with Webkit Support */
+        .agenda-scroll {
+            -webkit-overflow-scrolling: touch !important;
+            scroll-behavior: smooth;
+            touch-action: pan-y !important;
+            /* Completely hide native/custom scrollbars to solve the "ugly scroll sliders" issue */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+
         .agenda-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-        .agenda-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .agenda-scroll::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 99px;
+            display: none; /* Chrome, Safari, Opera */
         }
 
         /* Header collapse logic for the Agenda Screen */
@@ -208,20 +210,28 @@
     </div>
 
     <!-- EVENT AGENDA SCREEN INTERFACE (Appears upon answering the call) -->
-    <div id="agenda-screen" class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between p-6 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)] overflow-hidden">
+    <!-- Reduced outer screen margin/padding to p-4 for perfect fit -->
+    <div id="agenda-screen" class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between p-4 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)] overflow-hidden">
         
         <!-- Highly Blurred Green Mountain Background -->
         <div class="absolute inset-0 bg-cover bg-center filter blur-[24px] scale-110 opacity-70 z-0" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
         <div class="absolute inset-0 bg-black/60 z-0 pointer-events-none"></div>
 
-        <!-- Agenda Header (Slides out of sight smoothly on scroll down) -->
-        <div id="agenda-header" class="w-full text-center mt-4 select-none border-b border-white/10 pb-4 z-10 font-khmer transition-all duration-500 ease-in-out max-h-[300px]">
-            <span class="text-xs font-semibold tracking-widest text-[#34C759] uppercase">កម្មវិធីដំណើរការកម្សាន្ត</span>
+        <!-- Agenda Header with Inline Back Button (Slides out of sight smoothly on scroll down) -->
+        <div id="agenda-header" class="relative w-full text-center mt-4 select-none border-b border-white/10 pb-4 z-10 font-khmer transition-all duration-500 ease-in-out max-h-[300px]">
+            <!-- Floating Glassmorphic Back Button aligned inline with Header top elements -->
+            <button onclick="hangUpCall()" class="absolute left-0 top-1.5 z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center active:scale-90 transition-all duration-150 shadow-md">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </button>
+            
+            <span class="text-xs font-semibold tracking-widest text-[#34C759] uppercase block pt-3">កម្មវិធីដំណើរការកម្សាន្ត</span>
             <h2 class="text-[26px] font-bold text-white mt-1">ភ្នំខ្នងព្រះអង្គ-ខ្នងសប្បាយ</h2>
             <p class="text-sm text-white/70 mt-1">រយៈពេល៖ ៤យប់ ៥ថ្ងៃ (05 - 09 June 2026)</p>
         </div>
 
-        <!-- Agenda Body Scroll Container -->
+        <!-- Agenda Body Scroll Container (Enabled with buttery scroll physics) -->
         <div id="agenda-scroll-container" class="flex-1 overflow-y-auto agenda-scroll my-4 px-1 space-y-4 touch-pan-y z-10 font-khmer">
             
             <!-- Trip Quick Metrics Header -->
@@ -236,7 +246,7 @@
                 </div>
             </div>
 
-            <!-- Horizontal Tab Bar (Enhancement #1) -->
+            <!-- Horizontal Tab Bar (Scroll slider is hidden visually) -->
             <div class="flex items-center justify-between gap-1.5 overflow-x-auto py-1 select-none agenda-scroll">
                 <button onclick="setActiveDay(1)" id="tab-day-1" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ១</button>
                 <button onclick="setActiveDay(2)" id="tab-day-2" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ២</button>
@@ -245,12 +255,9 @@
                 <button onclick="setActiveDay(5)" id="tab-day-5" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ៥</button>
             </div>
 
-            <!-- Main Timeline Stream Container (Enhancement #3) -->
-            <div class="relative pl-4 pr-1 py-2 select-none">
+            <!-- Main Timeline Stream Container (Removed left padding/timeline line to expand box to full size) -->
+            <div class="relative px-1 py-2 select-none">
                 
-                <!-- Continuous vertical timeline connector line -->
-                <div class="absolute left-7 top-6 bottom-6 w-0.5 border-l border-dashed border-[#34C759]/40 z-0"></div>
-
                 <!-- Day 1 List Container -->
                 <div id="content-day-1" class="space-y-4 hidden active-day-view">
                     
@@ -354,7 +361,7 @@
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">8:00 AM • 🥾 ឡើងភ្នំខ្នងព្រះអង្គ</span>
-                            <p class="text-sm text-white/90 leading-snug">做ដំណើររន្តឡើងទៅកាន់ ភ្នំខ្នងព្រះអង្គ (ចម្ងាយ 8km) ។</p>
+                            <p class="text-sm text-white/90 leading-snug">ធ្វើដំណើររន្តឡើងទៅកាន់ ភ្នំខ្នងព្រះអង្គ (ចម្ងាយ 8km) ។</p>
                         </div>
                     </div>
 
@@ -656,16 +663,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Disconnect/Reset Call button -->
-        <div class="flex flex-col items-center justify-center space-y-4 mb-2 z-10">
-            <button id="end-call-btn" class="w-full max-w-xs h-[58px] rounded-full bg-white/10 hover:bg-white/15 border border-white/20 flex items-center justify-center space-x-3 shadow-lg transform active:scale-[0.98] transition duration-150">
-                <svg class="w-5 h-5 text-red-500 fill-current rotate-[135deg]" viewBox="0 0 24 24">
-                    <path d="M20 15.5c-1.2-0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
-                </svg>
-                <span class="text-sm font-semibold tracking-wide text-white font-khmer">បិទការសន្ទនា (Disconnect)</span>
-            </button>
-        </div>
     </div>
 
     <!-- MOCK NATIVE iOS ACTION SHEETS FOR FUN HIKING DIALOGS -->
@@ -715,7 +712,6 @@
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-black/70 border border-white/15 text-white text-xs py-2.5 px-5 rounded-full opacity-0 pointer-events-none transition-all duration-300 z-50 backdrop-blur-xl"></div>
 
     <script>
-        /* Interactive State Management */
         let isDragging = false;
         let startX = 0;
         let currentTranslate = 0;
@@ -739,7 +735,6 @@
         let agendaScreen = null;
         let agendaHeader = null;
         let scrollContainer = null;
-        let endCallBtn = null;
         let toast = null;
 
         // Overlay & sheet element declarations
@@ -814,8 +809,8 @@
 
         function initPWA() {
             const manifestObj = {
-                name: "iPhone Call Mockup Simulator",
-                short_name: "iOS Call",
+                name: "Knong Preah Ang Calling",
+                short_name: "Knong Preah Ang",
                 start_url: ".",
                 display: "standalone",
                 background_color: "#000000",
@@ -985,7 +980,6 @@
             showToast("បានបិទការសន្ទនា (Disconnected)");
         }
 
-        /* iOS Bottom Action Sheets Controller */
         function openActionSheet(type) {
             initAudioOnInteraction();
             if (type === 'message') {
@@ -1040,7 +1034,6 @@
             }, 1800);
         }
 
-        /* Tabs Enhancement Engine */
         function setActiveDay(dayNumber) {
             activeDay = dayNumber;
             
@@ -1059,7 +1052,6 @@
             }
         }
 
-        /* Interactive Checklist Tracker Engine (Local storage persistence support) */
         function initChecklist() {
             const stored = localStorage.getItem('knongpreahang_checked_items');
             if (stored) {
@@ -1123,7 +1115,6 @@
             localStorage.setItem('knongpreahang_checked_items', JSON.stringify(checkedItems));
         }
 
-        /* App bootstrap on content load */
         window.onload = function() {
             // Bind DOM elements safely before executing calculations or functions
             sliderTrack = document.getElementById('slider-track');
@@ -1134,7 +1125,6 @@
             agendaScreen = document.getElementById('agenda-screen');
             agendaHeader = document.getElementById('agenda-header');
             scrollContainer = document.getElementById('agenda-scroll-container');
-            endCallBtn = document.getElementById('end-call-btn');
             toast = document.getElementById('toast');
 
             // Action Sheets DOM assignments
@@ -1155,7 +1145,6 @@
             initChecklist();
 
             window.addEventListener('resize', calculateLimits);
-            endCallBtn.addEventListener('click', hangUpCall);
 
             // Audio Auto-Play Unlock handlers for modern touch devices
             window.addEventListener('touchstart', initAudioOnInteraction, { once: true });
@@ -1165,8 +1154,14 @@
             if (scrollContainer && agendaHeader) {
                 scrollContainer.addEventListener('scroll', () => {
                     const scrollTop = scrollContainer.scrollTop;
+                    const scrollHeight = scrollContainer.scrollHeight;
+                    const clientHeight = scrollContainer.clientHeight;
+                    const maxScroll = scrollHeight - clientHeight;
                     
-                    if (scrollTop > lastScrollTop && scrollTop > 40) {
+                    // Force collapse when near the bottom to prevent iOS rubber-band bounces from forcing reappearances
+                    if (scrollTop >= maxScroll - 20) {
+                        agendaHeader.classList.add('header-collapsed');
+                    } else if (scrollTop > lastScrollTop && scrollTop > 40) {
                         // Scrolling down: collapse/hide header
                         agendaHeader.classList.add('header-collapsed');
                     } else if (scrollTop < lastScrollTop) {
