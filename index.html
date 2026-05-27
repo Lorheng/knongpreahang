@@ -33,7 +33,6 @@
                     },
                     animation: {
                         'nudge': 'nudge 3.5s ease-in-out infinite',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         nudge: {
@@ -58,6 +57,20 @@
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG">
 
     <style>
+        /* Force true edge-to-edge layout across notches, safe area insets & viewport heights */
+        html, body {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
         /* Modern Glass Sheet for Agenda Cards */
         .glass-card {
             background: rgba(255, 255, 255, 0.08);
@@ -97,17 +110,6 @@
             }
         }
 
-        /* Keep background sharp and avoid pull-down bounce on iOS devices */
-        html, body {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: none;
-        }
-
         /* Custom Scrollbar for Agenda Details */
         .agenda-scroll::-webkit-scrollbar {
             width: 4px;
@@ -121,16 +123,17 @@
         }
     </style>
 </head>
-<body class="bg-black text-white font-sans antialiased h-screen w-screen flex flex-col justify-between overflow-hidden">
+<body class="text-white font-sans antialiased flex flex-col justify-between overflow-hidden">
 
-    <!-- Background Wallpaper: Remained sharp, crystal clear, unblurred -->
-    <div id="wallpaper-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-100" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
+    <!-- Background Wallpaper: Remained sharp, crystal clear, scaled slightly to avoid white/dark gaps when swiping -->
+    <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
     
     <!-- Subtle linear vignette for high contrast visibility without softening the center image details -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/60 z-10 pointer-events-none"></div>
+    <div class="fixed inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/60 z-10 pointer-events-none"></div>
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
-    <div id="call-screen" class="relative z-20 flex flex-col justify-between h-full w-full pt-20 pb-16 px-6 transition-all duration-500">
+    <!-- Safe Area Insets ensure buttons and names clear Apple's dynamic island / notch and home indicator -->
+    <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full pt-[calc(env(safe-area-inset-top)+20px)] pb-[calc(env(safe-area-inset-bottom)+30px)] px-6 transition-all duration-500">
         
         <!-- Top Section: Caller Identity -->
         <div class="flex flex-col items-center text-center mt-6 select-none">
@@ -193,10 +196,10 @@
     </div>
 
     <!-- EVENT AGENDA SCREEN INTERFACE (Appears upon answering the call) -->
-    <div id="agenda-screen" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between p-6 pb-8">
+    <div id="agenda-screen" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between p-6 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)]">
         
         <!-- Agenda Header -->
-        <div class="w-full text-center mt-8 select-none border-b border-white/10 pb-4">
+        <div class="w-full text-center mt-4 select-none border-b border-white/10 pb-4">
             <span class="text-xs font-semibold tracking-widest text-[#34C759] uppercase">Event Invitation Accepted</span>
             <h2 class="font-khmer text-2xl font-bold text-white mt-1">ខ្នងព្រះអង្គ Trekking Guide</h2>
             <p class="text-xs text-white/50 mt-1">Official Trip Expedition Agenda</p>
@@ -264,11 +267,11 @@
         </div>
 
         <!-- Red Reset / End Call Button to return and test again -->
-        <div class="flex flex-col items-center justify-center space-y-4">
+        <div class="flex flex-col items-center justify-center space-y-4 mb-2">
             <button id="end-call-btn" class="w-full max-w-xs h-[58px] rounded-full bg-white/10 hover:bg-white/15 border border-white/20 flex items-center justify-center space-x-3 shadow-lg transform active:scale-[0.98] transition duration-150">
                 <!-- Red phone hanging up receiver icon -->
                 <svg class="w-5 h-5 text-red-500 fill-current rotate-[135deg]" viewBox="0 0 24 24">
-                    <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
+                    <path d="M20 15.5c-1.2-0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
                 </svg>
                 <span class="text-sm font-semibold tracking-wide text-white">Disconnect Call</span>
             </button>
@@ -286,8 +289,7 @@
         let currentTranslate = 0;
         let maxDragDistance = 0;
         let isCallActive = false;
-        let audioContext = null;
-        let ringtoneInterval = null;
+        let lastTickStep = 0;
 
         /* DOM Bindings */
         const sliderTrack = document.getElementById('slider-track');
@@ -323,7 +325,7 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE_NAME = 'ios-call-cache-v32';
+                    const CACHE_NAME = 'ios-call-cache-v33';
                     const ASSETS = [
                         './',
                         'https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG',
@@ -342,61 +344,7 @@
                 `;
                 const swBlob = new Blob([swCode], { type: 'application/javascript' });
                 const swUrl = URL.createObjectURL(swBlob);
-                navigator.serviceWorker.register(swUrl)
-                    .then(() => console.log("PWA Service Worker offline sync configured."))
-                    .catch((err) => console.warn("SW registration failed: ", err));
-            }
-        }
-
-        /* Web Audio Synthesizer: Authentic Marimba Tone Ringtone */
-        function playMarimbaTone() {
-            if (!audioContext) return;
-            try {
-                const now = audioContext.currentTime;
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((freq, index) => {
-                    const start = now + (index * 0.12);
-                    const osc = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, start);
-                    gainNode.gain.setValueAtTime(0.15, start);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
-                    
-                    osc.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    osc.start(start);
-                    osc.stop(start + 0.4);
-                });
-            } catch (error) {
-                console.error("Audio Synthesis Exception: ", error);
-            }
-        }
-
-        function startRingtone() {
-            stopRingtone();
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-
-            playMarimbaTone(); 
-            ringtoneInterval = setInterval(playMarimbaTone, 2500);
-
-            // Responsive Vibrator Engine
-            if (navigator.vibrate) {
-                navigator.vibrate([400, 200, 400, 200, 1000]);
-            }
-        }
-
-        function stopRingtone() {
-            if (ringtoneInterval) {
-                clearInterval(ringtoneInterval);
-                ringtoneInterval = null;
-            }
-            if (navigator.vibrate) {
-                navigator.vibrate(0);
+                navigator.serviceWorker.register(swUrl).catch((err) => console.warn("SW registration bypassed: ", err));
             }
         }
 
@@ -409,15 +357,12 @@
                 if (isCallActive) return;
                 isDragging = true;
                 
-                // Disable nudge animation on user drag
+                // Disable automated nudge animation on active drag
                 sliderHandle.classList.remove('animate-nudge');
                 sliderHandle.classList.remove('transition-transform');
                 
                 startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-                
-                if (!audioContext) {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                }
+                lastTickStep = 0;
             };
 
             const drag = (e) => {
@@ -427,10 +372,26 @@
                 
                 currentTranslate = Math.max(0, Math.min(offset, maxDragDistance));
                 
-                sliderHandle.style.transform = `translateX(${currentTranslate}px)`;
+                // Dynamic tactile tick feedback simulation
+                const progress = currentTranslate / maxDragDistance;
+                const currentTickStep = Math.floor(progress * 5); // 5 tactile tick marks
+                
+                let scaleVal = 1;
+                if (currentTickStep !== lastTickStep) {
+                    lastTickStep = currentTickStep;
+                    // Induce sudden high-precision scale pulse (simulating a solid mechanic physical tick)
+                    scaleVal = 1.08;
+                    setTimeout(() => {
+                        if (isDragging) {
+                            sliderHandle.style.transform = `translateX(${currentTranslate}px) scale(1)`;
+                        }
+                    }, 50);
+                }
+
+                sliderHandle.style.transform = `translateX(${currentTranslate}px) scale(${scaleVal})`;
                 sliderFill.style.width = `${currentTranslate + 36}px`;
                 
-                // Fade out text relative to drag translation progress
+                // Fade out sliding instruction relative to progress
                 const textOpacity = 1 - (currentTranslate / (maxDragDistance * 0.7));
                 sliderText.style.opacity = Math.max(0, textOpacity);
             };
@@ -439,26 +400,26 @@
                 if (!isDragging) return;
                 isDragging = false;
                 
-                // Swipe validation threshold set to 80% due to bigger dimensions
+                // Swipe validation threshold set at 80%
                 if (currentTranslate >= maxDragDistance * 0.80) {
                     answerCall();
                 } else {
-                    // Reset slide gracefully
+                    // Reset slider container to idle state smoothly
                     sliderHandle.classList.add('transition-transform');
                     sliderHandle.classList.add('animate-nudge');
-                    sliderHandle.style.transform = 'translateX(0px)';
+                    sliderHandle.style.transform = 'translateX(0px) scale(1)';
                     sliderFill.style.width = '2.5rem';
                     sliderText.style.opacity = '1';
                     currentTranslate = 0;
                 }
             };
 
-            // Touch event registrations
+            // Touch device events
             sliderHandle.addEventListener('touchstart', dragStart, { passive: true });
             window.addEventListener('touchmove', drag, { passive: false });
             window.addEventListener('touchend', dragEnd);
 
-            // Desktop Mouse mouse fallback standardizations
+            // Desktop Mouse fallbacks
             sliderHandle.addEventListener('mousedown', dragStart);
             window.addEventListener('mousemove', drag);
             window.addEventListener('mouseup', dragEnd);
@@ -466,27 +427,12 @@
 
         function answerCall() {
             isCallActive = true;
-            stopRingtone();
 
             callScreen.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
             
-            // Pop the Agenda Screen
+            // Activate the agenda view screen
             agendaScreen.classList.remove('pointer-events-none');
             agendaScreen.classList.add('opacity-100');
-
-            // Success beep synthesized locally
-            if (audioContext) {
-                const now = audioContext.currentTime;
-                const osc = audioContext.createOscillator();
-                const gain = audioContext.createGain();
-                osc.frequency.setValueAtTime(580, now);
-                gain.gain.setValueAtTime(0.08, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-                osc.connect(gain);
-                gain.connect(audioContext.destination);
-                osc.start(now);
-                osc.stop(now + 0.2);
-            }
 
             showToast("Agenda Loaded.");
         }
@@ -494,28 +440,21 @@
         function hangUpCall() {
             isCallActive = false;
 
-            // Revert screen state back
+            // Transition interfaces back smoothly
             agendaScreen.classList.remove('opacity-100');
             agendaScreen.classList.add('pointer-events-none');
             
             callScreen.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
 
-            // Reset Slide Handle controls smoothly
+            // Re-activate nudge properties
             sliderHandle.classList.add('transition-transform');
             sliderHandle.classList.add('animate-nudge');
-            sliderHandle.style.transform = 'translateX(0px)';
+            sliderHandle.style.transform = 'translateX(0px) scale(1)';
             sliderFill.style.width = '2.5rem';
             sliderText.style.opacity = '1';
             currentTranslate = 0;
 
-            showToast("Call Reset.");
-
-            // Self re-trigger ringing state in 3 seconds for easy loop testing
-            setTimeout(() => {
-                if (!isCallActive) {
-                    startRingtone();
-                }
-            }, 3000);
+            showToast("Call Disconnected.");
         }
 
         function handleSecondaryAction(act) {
@@ -529,10 +468,10 @@
             setTimeout(() => {
                 toast.classList.remove('opacity-100');
                 toast.classList.add('opacity-0');
-            }, 2000);
+            }, 1800);
         }
 
-        /* App initialization triggers on window load */
+        /* App bootstrap on content load */
         window.onload = function() {
             initPWA();
             calculateLimits();
@@ -540,12 +479,6 @@
 
             window.addEventListener('resize', calculateLimits);
             endCallBtn.addEventListener('click', hangUpCall);
-
-            // Audio contexts safety unlock handler for iOS webkit engines
-            window.addEventListener('click', function unlockAudioContext() {
-                startRingtone();
-                window.removeEventListener('click', unlockAudioContext);
-            }, { once: true });
         };
     </script>
 </body>
