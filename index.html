@@ -300,9 +300,8 @@
         let maxDragDistance = 0;
         let isCallActive = false;
 
-        /* Synthesized Web Audio Loop Variables */
+        /* Synthesized Web Audio Variables */
         let audioCtx = null;
-        let ringtoneInterval = null;
 
         /* Global DOM Declarations */
         let sliderTrack = null;
@@ -324,55 +323,6 @@
             }
             if (audioCtx && audioCtx.state === 'suspended') {
                 audioCtx.resume();
-            }
-            startRingtone();
-        }
-
-        function startRingtone() {
-            if (!audioCtx || ringtoneInterval || isCallActive) return;
-
-            const playNote = (frequency, startTime, duration) => {
-                const osc = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(frequency, startTime);
-
-                // Quick elegant marimba-style bell attack/decay envelope
-                gainNode.gain.setValueAtTime(0, startTime);
-                gainNode.gain.linearRampToValueAtTime(0.35, startTime + 0.015);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                osc.start(startTime);
-                osc.stop(startTime + duration);
-            };
-
-            const playPattern = () => {
-                if (!audioCtx || isCallActive) return;
-                const now = audioCtx.currentTime;
-
-                // Authentic soft iOS bell melodic sequence
-                playNote(523.25, now, 0.4);       // C5
-                playNote(659.25, now + 0.15, 0.4);  // E5
-                playNote(783.99, now + 0.3, 0.4);   // G5
-                playNote(880.00, now + 0.45, 0.5);  // A5
-                playNote(1046.50, now + 0.6, 0.6);  // C6
-                playNote(880.00, now + 0.85, 0.4);  // A5
-            };
-
-            playPattern();
-            // Elegant loop pattern
-            ringtoneInterval = setInterval(playPattern, 2200);
-        }
-
-        function stopRingtone() {
-            // Keep AudioContext active so we can play the connecting/disconnecting chimes
-            if (ringtoneInterval) {
-                clearInterval(ringtoneInterval);
-                ringtoneInterval = null;
             }
         }
 
@@ -479,7 +429,7 @@
                 if (isCallActive) return;
                 isDragging = true;
                 
-                // Active Audio Engine instantly on first touch
+                // Unlock the device audio framework instantly on user drag action
                 initAudioOnInteraction();
 
                 // Disable automated nudge animation on active drag
@@ -535,7 +485,9 @@
 
         function answerCall() {
             isCallActive = true;
-            stopRingtone();
+            
+            // Connect sounds play exclusively now
+            initAudioOnInteraction();
             playConnectSound();
 
             callScreen.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
@@ -549,7 +501,9 @@
 
         function hangUpCall() {
             isCallActive = false;
-            stopRingtone();
+            
+            // Play disconnect feedback
+            initAudioOnInteraction();
             playDisconnectSound();
 
             // Transition interfaces back smoothly
@@ -567,13 +521,6 @@
             currentTranslate = 0;
 
             showToast("Call Disconnected.");
-
-            // Soft-re-trigger of the loop after hanging up so they can demo it again
-            setTimeout(() => {
-                if (!isCallActive) {
-                    startRingtone();
-                }
-            }, 1500);
         }
 
         function handleSecondaryAction(act) {
