@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>iPhone Call Simulator</title>
-    
+    <title>Knong Preah Ang Calling</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -54,7 +53,7 @@
     <!-- Meta tags for iOS App styling -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="iCall Sim">
+    <meta name="apple-mobile-web-app-title" content="Khning Call">
     <link class="rounded-full" rel="apple-touch-icon" href="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG">
 
     <style>
@@ -63,8 +62,7 @@
             overflow: hidden;
             position: fixed;
             width: 100%;
-            height: 100%;
-            height: -webkit-fill-available;
+            height: 100dvh;
             margin: 0;
             padding: 0;
             background-color: #000;
@@ -73,19 +71,11 @@
             touch-action: none;
         }
 
-        /* Safely position contents relative to iPhone notches and Dynamic Island */
-        .ios-safe-top {
-            padding-top: calc(env(safe-area-inset-top, 0px) + 24px);
-        }
-        .ios-safe-bottom {
-            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 32px);
-        }
-
         /* Modern Glass Sheet for Agenda Cards */
         .glass-card {
             background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
@@ -135,19 +125,17 @@
 </head>
 <body class="text-white font-sans antialiased flex flex-col justify-between overflow-hidden">
 
-    <!-- Background Wallpaper: Remained sharp, crystal clear, scaled slightly to avoid white/dark gaps when swiping -->
-    <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG'); height: 100%; height: -webkit-fill-available;"></div>
+    <!-- Background Wallpaper: Remained sharp, crystal clear, scaled slightly to avoid gaps -->
+    <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
     
-    <!-- Reduced dark vignette gradient to let the natural colors and light of the mountain show clearly -->
-    <div class="fixed inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/30 z-10 pointer-events-none"></div>
+    <!-- Subtle linear vignette for high contrast visibility -->
+    <div class="fixed inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/40 z-10 pointer-events-none"></div>
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
-    <!-- Safe Area Insets ensure buttons and names clear Apple's dynamic island / notch and home indicator -->
-    <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full ios-safe-top ios-safe-bottom px-6 transition-all duration-500">
+    <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full pt-[calc(env(safe-area-inset-top)+20px)] pb-[calc(env(safe-area-inset-bottom)+30px)] px-6 transition-all duration-500">
         
-        <!-- Top Section: Caller Identity -->
-        <div class="flex flex-col items-center text-center mt-6 select-none">
-            <!-- Khmer title redesigned to be significantly bolder, bigger, and premium -->
+        <!-- Top Section: Caller Identity (Dropped down elegantly from notch) -->
+        <div class="flex flex-col items-center text-center mt-20 select-none">
             <h1 id="caller-name" class="font-khmer text-[52px] font-bold tracking-wide text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] leading-tight">ខ្នងព្រះអង្គ</h1>
             <p id="caller-label" class="text-[20px] text-white/90 font-medium tracking-wide mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">Calling</p>
         </div>
@@ -155,12 +143,11 @@
         <!-- Middle/Bottom Section: Actions & Slide to Answer -->
         <div class="flex flex-col items-center w-full max-w-sm mx-auto space-y-12 mb-4">
             
-            <!-- Quick Options: Remind Me & Message (Enlarged and optimized touch sizes) -->
+            <!-- Quick Options: Remind Me & Message -->
             <div class="grid grid-cols-2 gap-24 text-center w-full px-12">
                 <!-- Remind Me Button -->
                 <button onclick="handleSecondaryAction('Remind Me')" class="flex flex-col items-center justify-center space-y-2 group active:opacity-60 transition-opacity">
                     <div class="w-12 h-12 flex items-center justify-center">
-                        <!-- Clock SF Symbol Replica (Enlarged) -->
                         <svg class="w-7 h-7 text-white drop-shadow-md" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -171,7 +158,6 @@
                 <!-- Message Button -->
                 <button onclick="handleSecondaryAction('Message')" class="flex flex-col items-center justify-center space-y-2 group active:opacity-60 transition-opacity">
                     <div class="w-12 h-12 flex items-center justify-center">
-                        <!-- Message SF Symbol Replica (Enlarged) -->
                         <svg class="w-7 h-7 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.14 2 11.25c0 2.87 1.45 5.44 3.75 7.12-.13.38-.47 1.41-1.46 2.45-.12.13-.13.33-.03.47.08.11.21.17.34.17.15 0 3.1-.19 5.37-1.8 1.15.34 2.39.54 3.67.54 5.52 0 10-4.14 10-9.25S17.52 2 12 2z" />
                         </svg>
@@ -180,25 +166,20 @@
                 </button>
             </div>
 
-            <!-- Swipe to Answer Section (Enlarged slider elements) -->
+            <!-- Swipe to Answer Section -->
             <div class="w-full px-2">
-                <!-- Enlarged Authentic Rounded Slider Track -->
                 <div id="slider-track" class="relative h-[88px] w-full ios-slider-track rounded-full flex items-center p-2 select-none overflow-hidden">
                     
-                    <!-- Shimmering Slide to Answer Text -->
                     <div id="slider-text" class="absolute inset-0 flex items-center justify-center pointer-events-none pl-14 select-none">
                         <span class="shimmer-text text-[17px] font-medium tracking-[0.03em]">slide to answer</span>
                     </div>
 
-                    <!-- Slide Handle (Bigger, premium iOS handle with scaled-up green phone icon) -->
                     <div id="slider-handle" class="absolute left-2 w-[72px] h-[72px] bg-white rounded-full flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.4)] cursor-grab active:cursor-grabbing z-30 transition-transform duration-75 nudge-anim animate-nudge">
-                        <!-- Standard Green Call Receiver (Enlarged SF Symbols phone.fill) -->
                         <svg class="w-8 h-8 text-[#34C759] fill-current" viewBox="0 0 24 24">
                             <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
                         </svg>
                     </div>
 
-                    <!-- Liquid Left Track Progress Fill -->
                     <div id="slider-fill" class="absolute left-0 top-0 bottom-0 bg-white/10 rounded-l-full pointer-events-none" style="width: 2.5rem;"></div>
                 </div>
             </div>
@@ -206,86 +187,146 @@
     </div>
 
     <!-- EVENT AGENDA SCREEN INTERFACE (Appears upon answering the call) -->
-    <div id="agenda-screen" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between p-6 ios-safe-bottom ios-safe-top">
+    <div id="agenda-screen" class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-all duration-700 flex flex-col justify-between p-6 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)] overflow-hidden">
         
+        <!-- Highly Blurred Green Mountain Background -->
+        <div class="absolute inset-0 bg-cover bg-center filter blur-[24px] scale-110 opacity-70 z-0" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
+        <div class="absolute inset-0 bg-black/60 z-0 pointer-events-none"></div>
+
         <!-- Agenda Header -->
-        <div class="w-full text-center mt-4 select-none border-b border-white/10 pb-4">
-            <span class="text-xs font-semibold tracking-widest text-[#34C759] uppercase">Event Invitation Accepted</span>
-            <h2 class="font-khmer text-2xl font-bold text-white mt-1">ខ្នងព្រះអង្គ Trekking Guide</h2>
-            <p class="text-xs text-white/50 mt-1">Official Trip Expedition Agenda</p>
+        <div class="w-full text-center mt-4 select-none border-b border-white/10 pb-4 z-10 font-khmer">
+            <span class="text-xs font-semibold tracking-widest text-[#34C759] uppercase">កម្មវិធីដំណើរការកម្សាន្ត</span>
+            <h2 class="text-[26px] font-bold text-white mt-1">ភ្នំខ្នងព្រះអង្គ-ខ្នងសប្បាយ</h2>
+            <p class="text-sm text-white/70 mt-1">រយៈពេល៖ ៤យប់ ៥ថ្ងៃ</p>
         </div>
 
         <!-- Agenda Body Scroll Container -->
-        <div class="flex-1 overflow-y-auto agenda-scroll my-6 px-1 space-y-4 touch-pan-y" style="max-height: calc(100vh - 280px);">
+        <div class="flex-1 overflow-y-auto agenda-scroll my-4 px-1 space-y-4 touch-pan-y z-10 font-khmer">
             
-            <!-- Quick Info Row -->
-            <div class="grid grid-cols-2 gap-3">
+            <!-- Trip Quick Metrics Header -->
+            <div class="grid grid-cols-2 gap-3 select-none">
                 <div class="glass-card rounded-2xl p-3.5 text-center">
-                    <span class="block text-[10px] text-white/40 uppercase tracking-widest font-bold">Altitude</span>
-                    <span class="text-lg font-bold text-white mt-1 block">1,301m</span>
+                    <span class="block text-[11px] text-white/50 uppercase tracking-widest">កាលបរិច្ឆេទ</span>
+                    <span class="text-base font-bold text-[#34C759] mt-0.5 block">05/06/2026</span>
                 </div>
                 <div class="glass-card rounded-2xl p-3.5 text-center">
-                    <span class="block text-[10px] text-white/40 uppercase tracking-widest font-bold">Duration</span>
-                    <span class="text-lg font-bold text-white mt-1 block">3 Days, 2 Nights</span>
+                    <span class="block text-[11px] text-white/50 uppercase tracking-widest">គោលដៅ</span>
+                    <span class="text-base font-bold text-[#34C759] mt-0.5 block">ខ្នងព្រះអង្គ & សប្បាយ</span>
                 </div>
             </div>
 
-            <!-- Agenda Item 1 -->
-            <div class="glass-card rounded-2xl p-4 flex gap-4 items-start">
-                <div class="bg-emerald-500/10 text-[#34C759] rounded-xl px-2.5 py-1 text-center font-bold text-xs min-w-[70px]">
-                    DAY 01
+            <!-- Day 1 Card -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                    <span class="bg-[#34C759]/20 text-[#34C759] font-bold text-xs px-3 py-1 rounded-full">ថ្ងៃទី ១ (05/06/2026)</span>
                 </div>
-                <div class="flex-1 space-y-1">
-                    <h4 class="text-sm font-semibold text-white">Departure & Basecamp Ascent</h4>
-                    <p class="text-xs text-white/60 leading-relaxed">Meet at dawn in Phnom Penh. Scenic drive to the basecamp. Initiate the initial 5km mountain ridge climb to reach campsite boundaries before sundown.</p>
-                </div>
-            </div>
-
-            <!-- Agenda Item 2 -->
-            <div class="glass-card rounded-2xl p-4 flex gap-4 items-start">
-                <div class="bg-emerald-500/10 text-[#34C759] rounded-xl px-2.5 py-1 text-center font-bold text-xs min-w-[70px]">
-                    DAY 02
-                </div>
-                <div class="flex-1 space-y-1">
-                    <h4 class="text-sm font-semibold text-white">Peak Discovery & Stargazing</h4>
-                    <p class="text-xs text-white/60 leading-relaxed">Sunrise photoshoot on the plateau grasslands. Trek towards Knong Preah Ang summit stone monument. Evening setup for stargazing and open-air campfire.</p>
-                </div>
-            </div>
-
-            <!-- Agenda Item 3 -->
-            <div class="glass-card rounded-2xl p-4 flex gap-4 items-start">
-                <div class="bg-emerald-500/10 text-[#34C759] rounded-xl px-2.5 py-1 text-center font-bold text-xs min-w-[70px]">
-                    DAY 03
-                </div>
-                <div class="flex-1 space-y-1">
-                    <h4 class="text-sm font-semibold text-white">Eco Initiative & Descent</h4>
-                    <p class="text-xs text-white/60 leading-relaxed">Participate in mountain waste cleaning and local forest conservation talks. Safe descent hike back to the base transport, returning back home.</p>
-                </div>
-            </div>
-
-            <!-- Important Preparation Notes -->
-            <div class="glass-card rounded-2xl p-4 bg-yellow-500/5 border-yellow-500/20">
-                <h5 class="text-xs font-semibold text-yellow-500 flex items-center gap-1.5 uppercase tracking-wide">
-                    ⚠️ Essential Gear Recommendations
-                </h5>
-                <ul class="text-[11px] text-white/60 list-disc list-inside mt-2 space-y-1">
-                    <li>Proper trekking shoes with strong friction support.</li>
-                    <li>Windbreaker and thermal layers (temperatures drop significantly).</li>
-                    <li>Fully charged portable power banks for continuous communication.</li>
+                <ul class="space-y-2 text-sm text-white/95 pl-1">
+                    <li><strong class="text-[#34C759]">5:00 AM :</strong> ជួបជុំឡើងឡាននៅមុខពេទ្យកុមារជាតិ ។</li>
+                    <li><strong class="text-[#34C759]">7:00 AM :</strong> ញ៉ាំអាហារពេលព្រឹក នៅកំពង់ឆ្នាំង ។</li>
+                    <li><strong class="text-[#34C759]">10:00 AM :</strong> ទៅដល់សហគមន៍ម៉ុយរ៉ឺ(ផ្ទះមេភូមិ) រួចរៀបចំអីវ៉ាន់ ជិះម៉ូតូទៅជើងភ្នំ (20km) ។</li>
+                    <li><strong class="text-[#34C759]">12:00 AM :</strong> ទៅដល់ស្ទឹងស្លែង សម្រាកញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) រួចបន្តដំណើរទៅខ្នង5km ដល់ដំណាក់ស្ទឹងទឹកក្រហម ។</li>
+                    <li><strong class="text-[#34C759]">4:00 PM :</strong> ដើរដល់ដំណាក់ស្ទឹងទឹកក្រហម រៀបចំបោះតង់, ងូតទឹក... ។</li>
+                    <li><strong class="text-[#34C759]">6:00 PM :</strong> ជួបជុំញ៉ាំអាហារពេលល្ងាច និងជជែកគ្នាលេងកម្សាន្ត... ។</li>
+                    <li><strong class="text-[#34C759]">9:00 PM :</strong> សម្រាកចូលគេង រៀងៗខ្លួន ។</li>
                 </ul>
+            </div>
+
+            <!-- Day 2 Card -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                    <span class="bg-[#34C759]/20 text-[#34C759] font-bold text-xs px-3 py-1 rounded-full">ថ្ងៃទី ២ (06/06/2026)</span>
+                </div>
+                <ul class="space-y-2 text-sm text-white/95 pl-1">
+                    <li><strong class="text-[#34C759]">6:00 AM :</strong> ក្រោកពីគេង រៀបចំខ្លួន ញ៉ាំកាហ្វេ,... អាហារពេលព្រឹក និងវិចខ្ចប់ ។</li>
+                    <li><strong class="text-[#34C759]">8:00 AM :</strong> ធ្វើដំណើររន្តទៅខ្នងព្រះអង្គ (8km) ។</li>
+                    <li><strong class="text-[#34C759]">12:00 AM :</strong> ញ៉ាំបាយថ្ងៃត្រង់ តាមផ្លូវ (បាយខ្ចប់) ។</li>
+                    <li><strong class="text-[#34C759]">3:00 PM :</strong> ដើរដល់ដំរំ ភ្នំខ្នងព្រះអង្គ រៀបចំអីវ៉ាន់បោះតង់, ងូតទឹក, ទស្សនាថ្ងៃរៀបលិច ។</li>
+                    <li><strong class="text-[#34C759]">6:00 PM :</strong> ជួបជុំញ៉ាំបាយល្ងាច, ជជែកគ្នាលេង ។</li>
+                    <li><strong class="text-[#34C759]">9:00 PM :</strong> សម្រាកចូលគេង តាមតង់រៀងៗខ្លួន ។</li>
+                </ul>
+            </div>
+
+            <!-- Day 3 Card -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                    <span class="bg-[#34C759]/20 text-[#34C759] font-bold text-xs px-3 py-1 rounded-full">ថ្ងៃទី ៣ (07/06/2026)</span>
+                </div>
+                <ul class="space-y-2 text-sm text-white/95 pl-1">
+                    <li><strong class="text-[#34C759]">5:30 AM :</strong> ក្រោកពីគេង រៀបចំខ្លួន ទៅមើលថ្ងៃរះអមដោយ ជ្រលងព្រៃភ្នំដ៏ស្រស់ស្អាត ។</li>
+                    <li><strong class="text-[#34C759]">7:00 AM :</strong> ញ៉ាំអាហារពេលព្រឹក រួច រៀបចំអីវ៉ាន់ពីជុំរំ ទៅខ្នងសប្បាយ (បន្ត 12km) ។</li>
+                    <li><strong class="text-[#34C759]">12:00 AM :</strong> ញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) នៅព្រៃអណ្តា, ព្រះបាទជាន់ជណ្តើរ... ។</li>
+                    <li><strong class="text-[#34C759]">3:00 PM :</strong> ដើរដល់ភ្នំខ្នងសប្បាយ រៀបចំអីវ៉ាន់បោះជុំរំ, ងូតទឹក, ដើរថតកម្សាន្ត... ។</li>
+                    <li><strong class="text-[#34C759]">6:00 PM :</strong> ជួបជុំញ៉ាំបាយល្ងាច ជជែកគ្នាលេង ។</li>
+                    <li><strong class="text-[#34C759]">9:00 PM :</strong> សម្រាកចូលគេង រៀងៗខ្លួន ។</li>
+                </ul>
+            </div>
+
+            <!-- Day 4 Card -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                    <span class="bg-[#34C759]/20 text-[#34C759] font-bold text-xs px-3 py-1 rounded-full">ថ្ងៃទី ៤ (08/06/2026)</span>
+                </div>
+                <ul class="space-y-2 text-sm text-white/95 pl-1">
+                    <li><strong class="text-[#34C759]">5:00 AM :</strong> ក្រោកពីគេង រៀបចំខ្លួន ញ៉ាំកាហ្វេ,... ទស្សនា ថ្ងៃរៀបរះលើ ភ្នំខ្នងសប្បាយ ។</li>
+                    <li><strong class="text-[#34C759]">7:30 AM :</strong> ញ៉ាំអាហារពេលព្រឹក និងវិចខ្ចប់ ។</li>
+                    <li><strong class="text-[#34C759]">9:00 AM :</strong> ដើរត្រឡប់ទៅ ភ្នំខ្នងព្រះអង្គវិញ ។</li>
+                    <li><strong class="text-[#34C759]">12:00 AM :</strong> ញ៉ាំបាយថ្ងៃត្រង់ នៅវាលស្មៅធំជាងគេ ។</li>
+                    <li><strong class="text-[#34C759]">3:00 PM :</strong> ដើរដល់ជុំរំ ភ្នំខ្នងព្រះអង្គ រៀបចំអីវ៉ាន់បោះតង់, ងូតទឹក, ទស្សនាថ្ងៃរៀបលិច ។</li>
+                    <li><strong class="text-[#34C759]">6:00 PM :</strong> ជួបជុំញ៉ាំបាយល្ងាច, ជជែកគ្នាលេង ។</li>
+                    <li><strong class="text-[#34C759]">9:00 PM :</strong> សម្រាកចូលគេង តាមតង់រៀងៗខ្លួន ។</li>
+                </ul>
+            </div>
+
+            <!-- Day 5 Card -->
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                    <span class="bg-[#34C759]/20 text-[#34C759] font-bold text-xs px-3 py-1 rounded-full">ថ្ងៃទី ៥ (09/06/2026)</span>
+                </div>
+                <ul class="space-y-2 text-sm text-white/95 pl-1">
+                    <li><strong class="text-[#34C759]">5:30 AM :</strong> ក្រោកពីគេងរៀបចំខ្លួន ទៅមើលថ្ងៃរះ ។</li>
+                    <li><strong class="text-[#34C759]">7:00 AM :</strong> ញ៉ាំអាហារពេលព្រឹក រួច រៀបចំអីវ៉ាន់ពីជុំរំ ត្រឡប់ទៅសហគមន៍វិញ ។</li>
+                    <li><strong class="text-[#34C759]">12:00 AM :</strong> ញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) តាមផ្លូវ ។</li>
+                    <li><strong class="text-[#34C759]">1:00 PM :</strong> ចុះដល់ជើងភ្នំ សម្រាកបន្តិច រួចជិះម៉ូតូបន្តទៅ ផ្ទះសហគមន៍ (មេភូមិ) ។</li>
+                    <li><strong class="text-[#34C759]">3:00 PM :</strong> ទៅដល់ផ្ទះមេភូមិ (ទុកឡាន) រៀបចំអីវ៉ាន់, ងូតទឹក ទៅភ្នំពេញវិញ ។</li>
+                    <li><strong class="text-[#34C759]">6:00 PM :</strong> ញ៉ាំអាហារពេលល្ងាច នៅពោធិ៍សាត់ ។</li>
+                    <li><strong class="text-[#34C759]">10:00 PM :</strong> ធ្វើដំណើរត្រឡប់ដល់ភ្នំពេញវិញ ។</li>
+                </ul>
+            </div>
+
+            <!-- Destinations List -->
+            <div class="glass-card rounded-2xl p-4 border-l-4 border-emerald-500 space-y-2">
+                <h5 class="text-sm font-bold text-emerald-400 flex items-center gap-1.5 uppercase tracking-wide">
+                    📍 គោលដៅត្រូវទស្សនា និងថតរូបលេងកម្សាន្ត
+                </h5>
+                <div class="grid grid-cols-2 gap-2 text-xs text-white/90 pt-1">
+                    <div class="flex items-center gap-1">🏔️ ភ្នំខ្នងព្រះអង្គ</div>
+                    <div class="flex items-center gap-1">🌲 ភ្នំខ្នងសប្បាយ</div>
+                    <div class="flex items-center gap-1">🌌 ព្រៃ​ Avatar</div>
+                    <div class="flex items-center gap-1">👣 ព្រះបាទជាន់ផ្អៀង</div>
+                    <div class="flex items-center gap-1">🍲 វាលផ្កាប់ឆ្នាំង</div>
+                    <div class="flex items-center gap-1">🪵 ពើងពិដាន</div>
+                </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div class="glass-card rounded-2xl p-4 bg-yellow-500/5 border-yellow-500/25">
+                <h5 class="text-xs font-bold text-yellow-500 flex items-center gap-1.5 uppercase tracking-wide">
+                    ⚠️ បញ្ជាក់ (Important Notes)
+                </h5>
+                <p class="text-xs text-white/80 leading-relaxed mt-1.5">
+                    ពេលវេលាកម្មវិធី អាចហ្នឹងមានការប្រែប្រួលបត់បែនតាមកាលៈទេសៈ (កម្លាំង, អាកាសធាតុ,...) ។
+                </p>
             </div>
         </div>
 
-        <!-- Red Reset / End Call Button to return and test again -->
-        <div class="flex flex-col items-center justify-center space-y-4 mb-2">
+        <!-- Disconnect/Reset Call button -->
+        <div class="flex flex-col items-center justify-center space-y-4 mb-2 z-10">
             <button id="end-call-btn" class="w-full max-w-xs h-[58px] rounded-full bg-white/10 hover:bg-white/15 border border-white/20 flex items-center justify-center space-x-3 shadow-lg transform active:scale-[0.98] transition duration-150">
-                <!-- Red phone hanging up receiver icon -->
                 <svg class="w-5 h-5 text-red-500 fill-current rotate-[135deg]" viewBox="0 0 24 24">
                     <path d="M20 15.5c-1.2-0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
                 </svg>
-                <span class="text-sm font-semibold tracking-wide text-white">Disconnect Call</span>
+                <span class="text-sm font-semibold tracking-wide text-white font-khmer">បិទការសន្ទនា (Disconnect)</span>
             </button>
-            <p class="text-[10px] text-white/30 text-center">Tap to disconnect and reset simulator call status</p>
         </div>
     </div>
 
@@ -326,6 +367,7 @@
             }
         }
 
+        // Play an authentic Apple-style double chime when call connects
         function playConnectSound() {
             if (!audioCtx) return;
             const now = audioCtx.currentTime;
@@ -344,11 +386,12 @@
                 osc.stop(time + dur);
             };
             
-            // Soft rising connected double-tone feedback
-            playTone(659.25, now, 0.18);       // E5
-            playTone(880.00, now + 0.08, 0.28); // A5
+            // Rising chime pair (E5 to A5)
+            playTone(659.25, now, 0.18);
+            playTone(880.00, now + 0.08, 0.28);
         }
 
+        // Play an authentic Apple-style disconnect chime
         function playDisconnectSound() {
             if (!audioCtx) return;
             const now = audioCtx.currentTime;
@@ -367,9 +410,9 @@
                 osc.stop(time + dur);
             };
             
-            // Soft descending hanging up feedback
-            playTone(523.25, now, 0.18);       // C5
-            playTone(392.00, now + 0.10, 0.28); // G4
+            // Descending chime pair (C5 to G4)
+            playTone(523.25, now, 0.18);
+            playTone(392.00, now + 0.10, 0.28);
         }
 
         function initPWA() {
@@ -496,7 +539,7 @@
             agendaScreen.classList.remove('pointer-events-none');
             agendaScreen.classList.add('opacity-100');
 
-            showToast("Agenda Loaded.");
+            showToast("បានទទួលការហៅចូល (Call Answered)");
         }
 
         function hangUpCall() {
@@ -520,7 +563,7 @@
             sliderText.style.opacity = '1';
             currentTranslate = 0;
 
-            showToast("Call Disconnected.");
+            showToast("បានបិទការសន្ទនា (Disconnected)");
         }
 
         function handleSecondaryAction(act) {
