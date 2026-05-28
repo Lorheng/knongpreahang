@@ -71,17 +71,15 @@
             touch-action: none;
         }
 
-        /* */
-        /* Modern Premium White Frosted Glass Card for incredible contrast in Light Mode */
+        /* Modern Solar-Contrast Deep Obsidian Glass Card for high sunlight legibility */
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(15, 15, 15, 0.75);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
-        /* iOS Liquid Slider Track on Call Screen */
+        /* iOS Liquid Slider Track */
         .ios-slider-track {
             background: rgba(30, 30, 30, 0.35);
             backdrop-filter: blur(25px);
@@ -112,7 +110,6 @@
             }
         }
 
-        /* */
         /* Highly Optimized Smooth Momentum Scroll Container with Webkit Support */
         .agenda-scroll {
             -webkit-overflow-scrolling: touch !important;
@@ -133,22 +130,6 @@
         .fill-transition-spring {
             transition: width 0.55s cubic-bezier(0.2, 1.45, 0.35, 1) !important;
         }
-
-        /* Elegant Checklist CSS Transitions */
-        .agenda-card {
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .agenda-card.is-checked {
-            opacity: 0.65;
-            background: rgba(255, 255, 255, 0.6);
-        }
-        .agenda-card.is-checked .chk-btn {
-            border-color: #34C759 !important;
-            background-color: #34C759 !important;
-        }
-        .agenda-card.is-checked .chk-inner {
-            background-color: #ffffff !important;
-        }
     </style>
 </head>
 <body class="text-white font-sans antialiased flex flex-col justify-between overflow-hidden">
@@ -161,6 +142,7 @@
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
     <!-- Safe Area Insets ensure buttons and names clear Apple's dynamic island / notch and home indicator -->
+    <!-- MAIN INCOMING CALL UI -->
     <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full pt-[calc(env(safe-area-inset-top)+20px)] pb-[calc(env(safe-area-inset-bottom)+30px)] px-6 transition-all duration-500">
         
         <!-- Top Section: Caller Identity (Dropped down elegantly from notch) -->
@@ -215,37 +197,38 @@
         </div>
     </div>
 
-    <!-- -->
-    <!-- EVENT AGENDA SCREEN INTERFACE (Appears upon answering the call in Light Mode) -->
-    <div id="agenda-screen" class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-all duration-700 p-4 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)] overflow-hidden text-gray-900">
+    <!-- EVENT AGENDA SCREEN INTERFACE (Appears upon answering the call) -->
+    <!-- Reduced outer screen margin/padding to p-4 for perfect fit -->
+    <div id="agenda-screen" class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-all duration-700 p-4 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)] overflow-hidden">
         
-        <!-- Slightly Blurred Green Mountain Background -->
+        <!-- Slightly Blurred Green Mountain Background to make it more recognizable -->
         <div class="absolute inset-0 bg-cover bg-center filter blur-[3px] scale-110 opacity-85 z-0" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
-        <div class="absolute inset-0 bg-white/45 z-0 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-black/60 z-0 pointer-events-none"></div>
 
         <!-- Agenda Body Scroll Container (Enabled with buttery scroll physics) -->
+        <!-- Added pb-28 bottom spacing block to allow content to fully scroll above the floating footer disconnect pill -->
         <div id="agenda-scroll-container" class="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+16px)] bottom-0 overflow-y-auto agenda-scroll px-1 space-y-4 touch-pan-y z-10 font-khmer pb-28">
             
-            <!-- Agenda Header (Static inside the scrollable view) -->
-            <div id="agenda-header" class="w-full text-center select-none border-b border-black/10 pb-4 font-khmer mb-4">
-                <span class="text-xs font-semibold tracking-widest text-[#1e7a33] uppercase block pt-3">កម្មវិធីដំណើរការកម្សាន្ត</span>
-                <h2 class="text-[26px] font-bold text-gray-900 mt-1">ភ្នំខ្នងព្រះអង្គ-ខ្នងសប្បាយ</h2>
-                <p class="text-sm text-gray-600 mt-1">រយៈពេល៖ ៤យប់ ៥ថ្ងៃ (05 - 09 June 2026)</p>
+            <!-- Agenda Header (Slides up out of sight naturally with regular content now) -->
+            <div id="agenda-header" class="w-full text-center select-none border-b border-white/10 pb-4 font-khmer mb-4">
+                <span class="text-xs font-semibold tracking-widest text-[#34C759] uppercase block pt-3">កម្មវិធីដំណើរការកម្សាន្ត</span>
+                <h2 class="text-[26px] font-bold text-white mt-1">ភ្នំខ្នងព្រះអង្គ-ខ្នងសប្បាយ</h2>
+                <p class="text-sm text-white/70 mt-1">រយៈពេល៖ ៤យប់ ៥ថ្ងៃ (05 - 09 June 2026)</p>
             </div>
 
             <!-- Trip Quick Metrics Header -->
             <div class="grid grid-cols-2 gap-3 select-none">
                 <div class="glass-card rounded-2xl p-3.5 text-center flex flex-col justify-center">
-                    <span class="block text-[11px] text-gray-500 uppercase tracking-widest">កាលបរិច្ឆេទ</span>
-                    <span class="text-base font-bold text-[#1e7a33] mt-0.5 block">05-09 June 2026</span>
+                    <span class="block text-[11px] text-white/50 uppercase tracking-widest">កាលបរិច្ឆេទ</span>
+                    <span class="text-base font-bold text-[#34C759] mt-0.5 block">05-09 June 2026</span>
                 </div>
                 <div class="glass-card rounded-2xl p-3.5 text-center flex flex-col justify-center">
-                    <span class="block text-[11px] text-gray-500 uppercase tracking-widest">កម្ពស់</span>
-                    <span class="text-base font-bold text-[#1e7a33] mt-0.5 block">1,301 m</span>
+                    <span class="block text-[11px] text-white/50 uppercase tracking-widest">កម្ពស់</span>
+                    <span class="text-base font-bold text-[#34C759] mt-0.5 block">1,301 m</span>
                 </div>
             </div>
 
-            <!-- Horizontal Tab Bar for 5 Days (Scroll slider is hidden visually) -->
+            <!-- Horizontal Tab Bar (Scroll slider is hidden visually) -->
             <div class="flex items-center justify-between gap-1.5 overflow-x-auto py-1 select-none agenda-scroll">
                 <button onclick="setActiveDay(1)" id="tab-day-1" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ១</button>
                 <button onclick="setActiveDay(2)" id="tab-day-2" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ២</button>
@@ -254,397 +237,392 @@
                 <button onclick="setActiveDay(5)" id="tab-day-5" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ៥</button>
             </div>
 
-            <!-- -->
-            <!-- Main Timeline Stream Container -->
+            <!-- Main Timeline Stream Container (Removed left padding/timeline line to expand box to full size) -->
             <div class="relative px-1 py-2 select-none">
                 
                 <!-- Day 1 List Container -->
                 <div id="content-day-1" class="space-y-4 hidden active-day-view">
                     
                     <!-- Day 1 Card 1 -->
-                    <div id="item-d1-1" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d1-1')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d1-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d1-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">5:00 AM • 🚙 ជួបជុំឡើងឡាន</span>
-                            <p class="text-sm text-gray-800 leading-snug">ជួបជុំឡើងឡាននៅមុខពេទ្យកុមារជាតិ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">5:00 AM • 🚙 ជួបជុំឡើងឡាន</span>
+                            <p class="text-sm text-white/90 leading-snug">ជួបជុំឡើងឡាននៅមុខពេទ្យកុមារជាតិ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 1 Card 2 -->
-                    <div id="item-d1-2" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d1-2')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d1-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d1-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">7:00 AM • 🍽️ អាហារពេលព្រឹក</span>
-                            <p class="text-sm text-gray-800 leading-snug">ញ៉ាំអាហារពេលព្រឹក នៅកំពង់ឆ្នាំង ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">7:00 AM • 🍽️ អាហារពេលព្រឹក</span>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំអាហារពេលព្រឹក នៅកំពង់ឆ្នាំង ។</p>
                         </div>
                     </div>
 
                     <!-- Day 1 Card 3 -->
-                    <div id="item-d1-3" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d1-3')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d1-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d1-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">10:00 AM • 🏡 សហគមន៍ម៉ុយរ៉ឺ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ទៅដល់សហគមន៍ម៉ុយរ៉ឺ (ផ្ទះមេភូមិ) រួចរៀបចំអីវ៉ាន់ ជិះម៉ូតូទៅជើងភ្នំ (20km) ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">10:00 AM • 🏡 សហគមន៍ម៉ុយរ៉ឺ</span>
+                            <p class="text-sm text-white/90 leading-snug">ទៅដល់សហគមន៍ម៉ុយរ៉ឺ (ផ្ទះមេភូមិ) រួចរៀបចំអីវ៉ាន់ ជិះម៉ូតូទៅជើងភ្នំ (20km) ។</p>
                         </div>
                     </div>
 
                     <!-- Day 1 Card 4 -->
-                    <div id="item-d1-4" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d1-4')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d1-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d1-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
-                            <p class="text-sm text-gray-800 leading-snug">ទៅដល់ស្ទឹងស្លែង សម្រាកញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) រួចបន្តដំណើរទៅខ្នង 5km ដល់ដំណាក់ស្ទឹងទឹកក្រហម ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
+                            <p class="text-sm text-white/90 leading-snug">ទៅដល់ស្ទឹងស្លែង សម្រាកញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) រួចបន្តដំណើរទៅខ្នង 5km ដល់ដំណាក់ស្ទឹងទឹកក្រហម ។</p>
                         </div>
                     </div>
 
                     <!-- Day 1 Card 5 -->
-                    <div id="item-d1-5" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d1-5')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d1-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d1-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">4:00 PM • ⛺ ដល់ស្ទឹងទឹកក្រហម</span>
-                            <p class="text-sm text-gray-800 leading-snug">ដើរដល់ដំណាក់ស្ទឹងទឹកក្រហម រៀបចំបោះតង់ ងូតទឹកកម្សាន្ត ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">4:00 PM • ⛺ ដល់ស្ទឹងទឹកក្រហម</span>
+                            <p class="text-sm text-white/90 leading-snug">ដើរដល់ដំណាក់ស្ទឹងទឹកក្រហម រៀបចំបោះតង់ ងូតទឹកកម្សាន្ត ។</p>
                         </div>
                     </div>
 
                     <!-- Day 1 Card 6 -->
-                    <div id="item-d1-6" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d1-6')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d1-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d1-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">6:00 PM • 🔥 ញ៉ាំអាហារពេលល្ងាច</span>
-                            <p class="text-sm text-gray-800 leading-snug">ជួបជុំញ៉ាំអាហារពេលល្ងាច និងជជែកគ្នាលេងកម្សាន្តជុំគ្នា ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🔥 ញ៉ាំអាហារពេលល្ងាច</span>
+                            <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំអាហារពេលល្ងាច និងជជែកគ្នាលេងកម្សាន្តជុំគ្នា ។</p>
                         </div>
                     </div>
 
                     <!-- Day 1 Card 7 -->
-                    <div id="item-d1-7" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d1-7')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d1-7" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d1-7')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">9:00 PM • 😴 សម្រាកចូលគេង</span>
-                            <p class="text-sm text-gray-800 leading-snug">សម្រាកចូលគេង តាមតង់រៀងៗខ្លួន ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">9:00 PM • 😴 សម្រាកចូលគេង</span>
+                            <p class="text-sm text-white/90 leading-snug">សម្រាកចូលគេង តាមតង់រៀងៗខ្លួន ។</p>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- -->
                 <!-- Day 2 List Container -->
                 <div id="content-day-2" class="space-y-4 hidden active-day-view">
                     
                     <!-- Day 2 Card 1 -->
-                    <div id="item-d2-1" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d2-1')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d2-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d2-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">6:00 AM • ☕ ក្រោកពីគេង</span>
-                            <p class="text-sm text-gray-800 leading-snug">ក្រោកពីគេង រៀបចំខ្លួន ញ៉ាំកាហ្វេ អាហារពេលព្រឹក និងវិចខ្ចប់ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 AM • ☕ ក្រោកពីគេង</span>
+                            <p class="text-sm text-white/90 leading-snug">ក្រោកពីគេង រៀបចំខ្លួន ញ៉ាំកាហ្វេ អាហារពេលព្រឹក និងវិចខ្ចប់ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 2 Card 2 -->
-                    <div id="item-d2-2" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d2-2')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d2-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d2-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">8:00 AM • 🥾 ឡើងភ្នំខ្នងព្រះអង្គ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ធ្វើដំណើររន្តឡើងទៅកាន់ ភ្នំខ្នងព្រះអង្គ (ចម្ងាយ 8km) ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">8:00 AM • 🥾 ឡើងភ្នំខ្នងព្រះអង្គ</span>
+                            <p class="text-sm text-white/90 leading-snug">ធ្វើដំណើររន្តឡើងទៅកាន់ ភ្នំខ្នងព្រះអង្គ (ចម្ងាយ 8km) ។</p>
                         </div>
                     </div>
 
                     <!-- Day 2 Card 3 -->
-                    <div id="item-d2-3" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d2-3')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d2-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d2-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
-                            <p class="text-sm text-gray-800 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ តាមផ្លូវ (បាយខ្ចប់) ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ តាមផ្លូវ (បាយខ្ចប់) ។</p>
                         </div>
                     </div>
 
                     <!-- Day 2 Card 4 -->
-                    <div id="item-d2-4" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d2-4')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d2-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d2-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">3:00 PM • ⛺ ដល់ជំរំខ្នងព្រះអង្គ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ដើរដល់ជំរំ ភ្នំខ្នងព្រះអង្គ រៀបចំអីវ៉ាន់បោះតង់, ងូតទឹក, ទស្សនាថ្ងៃរៀបលិច ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">3:00 PM • ⛺ ដល់ជំរំខ្នងព្រះអង្គ</span>
+                            <p class="text-sm text-white/90 leading-snug">ដើរដល់ជំរំ ភ្នំខ្នងព្រះអង្គ រៀបចំអីវ៉ាន់បោះតង់, ងូតទឹក, ទស្សនាថ្ងៃរៀបលិច ។</p>
                         </div>
                     </div>
 
                     <!-- Day 2 Card 5 -->
-                    <div id="item-d2-5" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d2-5')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d2-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d2-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">6:00 PM • 🍲 ញ៉ាំបាយល្ងាច</span>
-                            <p class="text-sm text-gray-800 leading-snug">ជួបជុំញ៉ាំបាយល្ងាច និងជជែកគ្នាលេងកម្សាន្តយ៉ាងសប្បាយ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍲 ញ៉ាំបាយល្ងាច</span>
+                            <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំបាយល្ងាច និងជជែកគ្នាលេងកម្សាន្តយ៉ាងសប្បាយ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 2 Card 6 -->
-                    <div id="item-d2-6" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d2-6')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d2-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d2-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">9:00 PM • 😴 សម្រាកចូលគេង</span>
-                            <p class="text-sm text-gray-800 leading-snug">សម្រាកចូលគេង តាមតង់រៀងៗខ្លួន ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">9:00 PM • 😴 សម្រាកចូលគេង</span>
+                            <p class="text-sm text-white/90 leading-snug">សម្រាកចូលគេង តាមតង់រៀងៗខ្លួន ។</p>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- -->
                 <!-- Day 3 List Container -->
                 <div id="content-day-3" class="space-y-4 hidden active-day-view">
                     
                     <!-- Day 3 Card 1 -->
-                    <div id="item-d3-1" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d3-1')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d3-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d3-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">5:30 AM • 🌅 មើលថ្ងៃរះ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ក្រោកពីគេង រៀបចំខ្លួន ទៅមើលថ្ងៃរះអមដោយ ជ្រលងព្រៃភ្នំដ៏ស្រស់ស្អាត ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">5:30 AM • 🌅 មើលថ្ងៃរះ</span>
+                            <p class="text-sm text-white/90 leading-snug">ក្រោកពីគេង រៀបចំខ្លួន ទៅមើលថ្ងៃរះអមដោយ ជ្រលងព្រៃភ្នំដ៏ស្រស់ស្អាត ។</p>
                         </div>
                     </div>
 
                     <!-- Day 3 Card 2 -->
-                    <div id="item-d3-2" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d3-2')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d3-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d3-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">7:00 AM • 🍳 ញ៉ាំអាហារពេលព្រឹក</span>
-                            <p class="text-sm text-gray-800 leading-snug">ញ៉ាំអាហារពេលព្រឹក រួច រៀបចំអីវ៉ាន់ពីជុំរំ ទៅខ្នងសប្បាយ (បន្ត 12km) ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">7:00 AM • 🍳 ញ៉ាំអាហារពេលព្រឹក</span>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំអាហារពេលព្រឹក រួច រៀបចំអីវ៉ាន់ពីជុំរំ ទៅខ្នងសប្បាយ (បន្ត 12km) ។</p>
                         </div>
                     </div>
 
                     <!-- Day 3 Card 3 -->
-                    <div id="item-d3-3" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d3-3')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d3-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d3-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
-                            <p class="text-sm text-gray-800 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) នៅព្រៃអណ្តា, ព្រះបាទជាន់ជណ្តើរ... ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) នៅព្រៃអណ្តា, ព្រះបាទជាន់ជណ្តើរ... ។</p>
                         </div>
                     </div>
 
                     <!-- Day 3 Card 4 -->
-                    <div id="item-d3-4" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d3-4')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d3-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d3-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">3:00 PM • ⛰️ ដល់ភ្នំខ្នងសប្បាយ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ដើរដល់ភ្នំខ្នងសប្បាយ រៀបចំអីវ៉ាន់បោះជុំរំ, ងូតទឹក, ដើរថតកម្សាន្ត... ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">3:00 PM • ⛰️ ដល់ភ្នំខ្នងសប្បាយ</span>
+                            <p class="text-sm text-white/90 leading-snug">ដើរដល់ភ្នំខ្នងសប្បាយ រៀបចំអីវ៉ាន់បោះជុំរំ, ងូតទឹក, ដើរថតកម្សាន្ត... ។</p>
                         </div>
                     </div>
 
                     <!-- Day 3 Card 5 -->
-                    <div id="item-d3-5" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d3-5')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d3-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d3-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">6:00 PM • 🍲 ញ៉ាំបាយល្ងាច</span>
-                            <p class="text-sm text-gray-800 leading-snug">ជួបជុំញ៉ាំបាយល្ងាច ជជែកគ្នាលេងកម្សាន្ត ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍲 ញ៉ាំបាយល្ងាច</span>
+                            <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំបាយល្ងាច ជជែកគ្នាលេងកម្សាន្ត ។</p>
                         </div>
                     </div>
 
                     <!-- Day 3 Card 6 -->
-                    <div id="item-d3-6" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d3-6')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d3-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d3-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">9:00 PM • 😴 សម្រាកចូលគេង</span>
-                            <p class="text-sm text-gray-800 leading-snug">សម្រាកចូលគេង រៀងៗខ្លួន តាមតង់រៀងៗខ្លួន ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">9:00 PM • 😴 សម្រាកចូលគេង</span>
+                            <p class="text-sm text-white/90 leading-snug">សម្រាកចូលគេង រៀងៗខ្លួន តាមតង់រៀងៗខ្លួន ។</p>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- -->
                 <!-- Day 4 List Container -->
                 <div id="content-day-4" class="space-y-4 hidden active-day-view">
                     
                     <!-- Day 4 Card 1 -->
-                    <div id="item-d4-1" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d4-1')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d4-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d4-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">5:00 AM • ☕ ថ្ងៃរះលើខ្នងសប្បាយ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ក្រោកពីគេង រៀបចំខ្លួន ញ៉ាំកាហ្វេ,... ទស្សនា ថ្ងៃរៀបរះលើ ភ្នំខ្នងសប្បាយ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">5:00 AM • ☕ ថ្ងៃរះលើខ្នងសប្បាយ</span>
+                            <p class="text-sm text-white/90 leading-snug">ក្រោកពីគេង រៀបចំខ្លួន ញ៉ាំកាហ្វេ,... ទស្សនា ថ្ងៃរៀបរះលើ ភ្នំខ្នងសប្បាយ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 4 Card 2 -->
-                    <div id="item-d4-2" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d4-2')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d4-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d4-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">7:30 AM • 🍳 ញ៉ាំអាហារពេលព្រឹក</span>
-                            <p class="text-sm text-gray-800 leading-snug">ញ៉ាំអាហារពេលព្រឹក និងវិចខ្ចប់អីវ៉ាន់ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">7:30 AM • 🍳 ញ៉ាំអាហារពេលព្រឹក</span>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំអាហារពេលព្រឹក និងវិចខ្ចប់អីវ៉ាន់ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 4 Card 3 -->
-                    <div id="item-d4-3" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d4-3')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d4-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d4-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">9:00 AM • 🥾 ត្រឡប់ទៅខ្នងព្រះអង្គ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ដើរត្រឡប់ទៅកាន់ ភ្នំខ្នងព្រះអង្គវិញ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">9:00 AM • 🥾 ត្រឡប់ទៅខ្នងព្រះអង្គ</span>
+                            <p class="text-sm text-white/90 leading-snug">ដើរត្រឡប់ទៅកាន់ ភ្នំខ្នងព្រះអង្គវិញ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 4 Card 4 -->
-                    <div id="item-d4-4" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d4-4')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d4-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d4-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
-                            <p class="text-sm text-gray-800 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ នៅតំបន់វាលស្មៅធំជាងគេ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ នៅតំបន់វាលស្មៅធំជាងគេ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 4 Card 5 -->
-                    <div id="item-d4-5" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d4-5')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d4-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d4-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">3:00 PM • ⛺ ដល់ជំរំខ្នងព្រះអង្គ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ដើរដល់ជុំរំ ភ្នំខ្នងព្រះអង្គ រៀបចំអីវ៉ាន់បោះតង់, ងូតទឹក, ទស្សនាថ្ងៃរៀបលិច ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">3:00 PM • ⛺ ដល់ជំរំខ្នងព្រះអង្គ</span>
+                            <p class="text-sm text-white/90 leading-snug">ដើរដល់ជុំរំ ភ្នំខ្នងព្រះអង្គ រៀបចំអីវ៉ាន់បោះតង់, ងូតទឹក, ទស្សនាថ្ងៃរៀបលិច ។</p>
                         </div>
                     </div>
 
                     <!-- Day 4 Card 6 -->
-                    <div id="item-d4-6" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d4-6')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d4-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d4-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">6:00 PM • 🍲 ញ៉ាំបាយល្ងាច</span>
-                            <p class="text-sm text-gray-800 leading-snug">ជួបជុំញ៉ាំបាយល្ងាច, ជជែកគ្នាលេងកម្សាន្ត ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍲 ញ៉ាំបាយល្ងាច</span>
+                            <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំបាយល្ងាច, ជជែកគ្នាលេងកម្សាន្ត ។</p>
                         </div>
                     </div>
 
                     <!-- Day 4 Card 7 -->
-                    <div id="item-d4-7" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d4-7')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d4-7" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d4-7')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">9:00 PM • 😴 សម្រាកចូលគេង</span>
-                            <p class="text-sm text-gray-800 leading-snug">សម្រាកចូលគេង តាមតង់រៀងៗខ្លួន ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">9:00 PM • 😴 សម្រាកចូលគេង</span>
+                            <p class="text-sm text-white/90 leading-snug">សម្រាកចូលគេង តាមតង់រៀងៗខ្លួន ។</p>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- -->
                 <!-- Day 5 List Container -->
                 <div id="content-day-5" class="space-y-4 hidden active-day-view">
                     
                     <!-- Day 5 Card 1 -->
-                    <div id="item-d5-1" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d5-1')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d5-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d5-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">5:30 AM • 🌅 ក្រោកមើលថ្ងៃរះ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ក្រោកពីគេងរៀបចំខ្លួន ទៅមើលថ្ងៃរះដ៏ស្រស់បំព្រង ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">5:30 AM • 🌅 ក្រោកមើលថ្ងៃរះ</span>
+                            <p class="text-sm text-white/90 leading-snug">ក្រោកពីគេងរៀបចំខ្លួន ទៅមើលថ្ងៃរះដ៏ស្រស់បំព្រង ។</p>
                         </div>
                     </div>
 
                     <!-- Day 5 Card 2 -->
-                    <div id="item-d5-2" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d5-2')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d5-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d5-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">7:00 AM • 🍳 ញ៉ាំអាហារពេលព្រឹក</span>
-                            <p class="text-sm text-gray-800 leading-snug">ញ៉ាំអាហារពេលព្រឹក រួច រៀបចំអីវ៉ាន់ពីជុំរំ ត្រឡប់ទៅសហគមន៍វិញ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">7:00 AM • 🍳 ញ៉ាំអាហារពេលព្រឹក</span>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំអាហារពេលព្រឹក រួច រៀបចំអីវ៉ាន់ពីជុំរំ ត្រឡប់ទៅសហគមន៍វិញ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 5 Card 3 -->
-                    <div id="item-d5-3" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d5-3')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d5-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d5-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
-                            <p class="text-sm text-gray-800 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) សម្រាកតាមដងផ្លូវ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) សម្រាកតាមដងផ្លូវ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 5 Card 4 -->
-                    <div id="item-d5-4" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d5-4')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d5-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d5-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">1:00 PM • 🏍️ ចុះដល់ជើងភ្នំ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ចុះដល់ជើងភ្នំ សម្រាកបន្តិច រួចជិះម៉ូតូបន្តទៅ ផ្ទះសហគមន៍ (មេភូមិ) ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">1:00 PM • 🏍️ ចុះដល់ជើងភ្នំ</span>
+                            <p class="text-sm text-white/90 leading-snug">ចុះដល់ជើងភ្នំ សម្រាកបន្តិច រួចជិះម៉ូតូបន្តទៅ ផ្ទះសហគមន៍ (មេភូមិ) ។</p>
                         </div>
                     </div>
 
                     <!-- Day 5 Card 5 -->
-                    <div id="item-d5-5" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d5-5')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d5-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d5-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">3:00 PM • 🏡 ដល់ផ្ទះមេភូមិ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ទៅដល់ផ្ទះមេភូមិ (ទុកឡាន) រៀបចំអីវ៉ាន់, ងូតទឹកជម្រះកាយ រួចធ្វើដំណើរត្រឡប់ទៅភ្នំពេញវិញ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">3:00 PM • 🏡 ដល់ផ្ទះមេភូមិ</span>
+                            <p class="text-sm text-white/90 leading-snug">ទៅដល់ផ្ទះមេភូមិ (ទុកឡាន) រៀបចំអីវ៉ាន់, ងូតទឹកជម្រះកាយ រួចធ្វើដំណើរត្រឡប់ទៅភ្នំពេញវិញ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 5 Card 6 -->
-                    <div id="item-d5-6" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d5-6')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d5-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d5-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">6:00 PM • 🍽️ ញ៉ាំបាយល្ងាចនៅពោធិ៍សាត់</span>
-                            <p class="text-sm text-gray-800 leading-snug">សម្រាកញ៉ាំអាហារពេលល្ងាច នៅខេត្តពោធិ៍សាត់ ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍽️ ញ៉ាំបាយល្ងាចនៅពោធិ៍សាត់</span>
+                            <p class="text-sm text-white/90 leading-snug">សម្រាកញ៉ាំអាហារពេលល្ងាច នៅខេត្តពោធិ៍សាត់ ។</p>
                         </div>
                     </div>
 
                     <!-- Day 5 Card 7 -->
-                    <div id="item-d5-7" class="glass-card agenda-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
-                        <button onclick="toggleItem('d5-7')" class="chk-btn w-6 h-6 rounded-full border-2 border-black/15 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
+                    <div id="item-d5-7" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
+                        <button onclick="toggleItem('d5-7')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#1e7a33] tracking-wider">10:00 PM • 🏢 ដល់ភ្នំពេញវិញ</span>
-                            <p class="text-sm text-gray-800 leading-snug">ធ្វើដំណើរត្រឡប់ដល់ភ្នំពេញវិញដោយសុវត្ថិភាព ។</p>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">10:00 PM • 🏢 ដល់ភ្នំពេញវិញ</span>
+                            <p class="text-sm text-white/90 leading-snug">ធ្វើដំណើរត្រឡប់ដល់ភ្នំពេញវិញដោយសុវត្ថិភាព ។</p>
                         </div>
                     </div>
 
@@ -652,13 +630,12 @@
 
             </div>
 
-            <!-- -->
             <!-- Destinations List -->
             <div class="glass-card rounded-2xl p-4 border-l-4 border-emerald-500 space-y-2 select-none">
-                <h5 class="text-sm font-bold text-emerald-700 flex items-center gap-1.5 uppercase tracking-wide">
+                <h5 class="text-sm font-bold text-emerald-400 flex items-center gap-1.5 uppercase tracking-wide">
                     📍 គោលដៅត្រូវទស្សនា និងថតរូបលេងកម្សាន្ត
                 </h5>
-                <div class="grid grid-cols-2 gap-2 text-xs text-gray-800 pt-1">
+                <div class="grid grid-cols-2 gap-2 text-xs text-white/90 pt-1">
                     <div class="flex items-center gap-1">🏔️ ភ្នំខ្នងព្រះអង្គ</div>
                     <div class="flex items-center gap-1">🌲 ភ្នំខ្នងសប្បាយ</div>
                     <div class="flex items-center gap-1">🌌 ព្រៃ​ Avatar</div>
@@ -670,15 +647,15 @@
         </div>
 
         <!-- Floating Action Disconnect Button -->
-        <button onclick="hangUpCall()" class="absolute bottom-[calc(env(safe-area-inset-bottom)+16px)] left-1/2 -translate-x-1/2 w-[120px] h-[36px] rounded-full bg-[#C63F3F]/85 hover:bg-[#B23333] border border-red-500/10 backdrop-blur-md flex items-center justify-center space-x-2 shadow-md active:scale-[0.98] transition-all duration-150 z-30">
+        <!-- Placed as a direct child of the screen overlay, anchored to bottom center, floating cleanly on top -->
+        <button onclick="hangUpCall()" class="absolute bottom-[calc(env(safe-area-inset-bottom)+16px)] left-1/2 -translate-x-1/2 w-[120px] h-[36px] rounded-full bg-[#C63F3F]/75 hover:bg-[#B23333] border border-red-500/10 backdrop-blur-md flex items-center justify-center space-x-2 shadow-sm active:scale-[0.98] transition-all duration-150 z-30">
             <svg class="w-3.5 h-3.5 text-white/90 fill-current rotate-[135deg]" viewBox="0 0 24 24">
                 <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
             </svg>
-            <span class="text-[11px] font-medium tracking-wide text-white/90 font-sans">Disconnect</span>
+            <span class="text-[11px] font-medium tracking-wide text-white/80 font-sans">Disconnect</span>
         </button>
     </div>
 
-    <!-- -->
     <!-- MOCK NATIVE iOS ACTION SHEETS FOR FUN HIKING DIALOGS -->
     <!-- 1. Message Sheet -->
     <div id="message-overlay" class="fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 hidden pointer-events-auto" onclick="closeActionSheet('message')"></div>
@@ -709,7 +686,6 @@
         <button onclick="closeActionSheet('remind')" class="w-full text-center py-4 mt-2.5 bg-white/10 text-white rounded-2xl font-semibold active:opacity-75 transition-opacity">Cancel</button>
     </div>
 
-    <!-- -->
     <!-- HIGH FIDELITY FLOATING iOS NOTIFICATION BANNER -->
     <div id="ios-notification" class="fixed top-4 left-4 right-4 max-w-sm mx-auto bg-[#161617]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-3 z-50 flex gap-3 shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform -translate-y-40 transition-transform duration-500 ease-out pointer-events-none">
         <img class="w-10 h-10 rounded-xl object-cover self-start border border-white/15" src="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG" alt="Notification icon">
@@ -726,7 +702,6 @@
     <!-- Micro Toast Indicator -->
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-black/70 border border-white/15 text-white text-xs py-2.5 px-5 rounded-full opacity-0 pointer-events-none transition-all duration-300 z-50 backdrop-blur-xl"></div>
 
-    <!-- -->
     <script>
         let isDragging = false;
         let startX = 0;
@@ -734,6 +709,7 @@
         let maxDragDistance = 0;
         let isCallActive = false;
         let activeDay = 1;
+        let lastScrollTop = 0;
         
         // Checklist storage array
         let checkedItems = [];
@@ -748,6 +724,8 @@
         let sliderFill = null;
         let callScreen = null;
         let agendaScreen = null;
+        let agendaHeader = null;
+        let scrollContainer = null;
         let toast = null;
 
         // Overlay & sheet element declarations
@@ -872,7 +850,6 @@
             }
         }
 
-        /* */
         function initDragEvents() {
             const dragStart = (e) => {
                 if (isCallActive) return;
@@ -951,7 +928,6 @@
             window.addEventListener('mouseup', dragEnd);
         }
 
-        /* */
         function answerCall() {
             isCallActive = true;
             
@@ -978,6 +954,9 @@
             // Transition interfaces back smoothly
             agendaScreen.classList.add('pointer-events-none');
             agendaScreen.classList.remove('opacity-100');
+            
+            // Instantly restore the header to fully visible state on next load
+            agendaHeader.classList.remove('header-collapsed');
             
             callScreen.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
 
@@ -1009,7 +988,7 @@
                 messageSheet.classList.add('translate-y-full');
             } else if (type === 'remind') {
                 remindOverlay.classList.add('hidden');
-                remindSheet.classList.add('translate-y-full');
+                remindSheet.classList.remove('translate-y-full');
             }
         }
 
@@ -1018,7 +997,7 @@
             closeActionSheet('message');
             closeActionSheet('remind');
 
-            // Set content inside high-fidelity notification banner
+            // Set content inside high-fidelity notification bar
             notifType.innerText = typeLabel === 'Message' ? 'SMS MESSAGE' : 'HIKER REMINDER ALERTS';
             notifType.className = `text-[11px] font-semibold mt-0.5 uppercase tracking-wider ${typeLabel === 'Message' ? 'text-emerald-400' : 'text-amber-400'}`;
             notifText.innerText = responseText;
@@ -1046,22 +1025,19 @@
             }, 1800);
         }
 
-        /* */
         function setActiveDay(dayNumber) {
             activeDay = dayNumber;
             
-            // Reset tab styles dynamically configured for crisp Light Mode
+            // Reset tab styles
             for (let i = 1; i <= 5; i++) {
                 const tab = document.getElementById(`tab-day-${i}`);
                 const content = document.getElementById(`content-day-${i}`);
                 
                 if (i === dayNumber) {
-                    // Selected tab: High contrast premium active green
-                    tab.className = "flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300 bg-[#34C759] text-white shadow-md shadow-[#34C759]/25";
+                    tab.className = "flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300 bg-[#34C759] text-white shadow-md shadow-[#34C759]/20";
                     content.classList.remove('hidden');
                 } else {
-                    // Deselected tab: Frosted subtle gray-on-white panel
-                    tab.className = "flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300 bg-black/5 border border-black/5 text-gray-700 hover:bg-black/10";
+                    tab.className = "flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300 bg-white/5 border border-white/10 text-white/60";
                     content.classList.add('hidden');
                 }
             }
@@ -1077,29 +1053,53 @@
                 }
             }
             
-            // Loop through all checkable elements in DOM and set visual classes
+            // Loop through all checkable elements in DOM and set visual states
             const allItems = document.querySelectorAll('[id^="item-"]');
             allItems.forEach(el => {
                 const id = el.id.replace('item-', '');
+                const button = el.querySelector('button');
+                const chkInner = el.querySelector('.chk-inner');
+                
                 if (checkedItems.includes(id)) {
-                    el.classList.add('is-checked');
+                    // Item is completed
+                    el.style.opacity = '0.45';
+                    button.classList.remove('border-white/20');
+                    button.classList.add('border-[#34C759]', 'bg-[#34C759]');
+                    chkInner.classList.remove('bg-transparent');
+                    chkInner.classList.add('bg-white');
                 } else {
-                    el.classList.remove('is-checked');
+                    // Item is outstanding
+                    el.style.opacity = '1';
+                    button.classList.remove('border-[#34C759]', 'bg-[#34C759]');
+                    button.classList.add('border-white/20');
+                    chkInner.classList.remove('bg-white');
+                    chkInner.classList.add('bg-transparent');
                 }
             });
         }
 
         function toggleItem(id) {
             const el = document.getElementById(`item-${id}`);
+            const button = el.querySelector('button');
+            const chkInner = el.querySelector('.chk-inner');
+            
             const index = checkedItems.indexOf(id);
             if (index > -1) {
                 // Unchecking item
                 checkedItems.splice(index, 1);
-                el.classList.remove('is-checked');
+                el.style.opacity = '1';
+                button.classList.remove('border-[#34C759]', 'bg-[#34C759]');
+                button.classList.add('border-white/20');
+                chkInner.classList.remove('bg-white');
+                chkInner.classList.add('bg-transparent');
             } else {
                 // Checking item
                 checkedItems.push(id);
-                el.classList.add('is-checked');
+                el.style.opacity = '0.45';
+                button.classList.remove('border-white/20');
+                button.classList.add('border-[#34C759]', 'bg-[#34C759]');
+                chkInner.classList.remove('bg-transparent');
+                chkInner.classList.add('bg-white');
             }
             
             // Save state to local browser space
@@ -1114,6 +1114,8 @@
             sliderFill = document.getElementById('slider-fill');
             callScreen = document.getElementById('call-screen');
             agendaScreen = document.getElementById('agenda-screen');
+            agendaHeader = document.getElementById('agenda-header');
+            scrollContainer = document.getElementById('agenda-scroll-container');
             toast = document.getElementById('toast');
 
             // Action Sheets DOM assignments
