@@ -142,7 +142,6 @@
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
     <!-- Safe Area Insets ensure buttons and names clear Apple's dynamic island / notch and home indicator -->
-    <!-- MAIN INCOMING CALL UI -->
     <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full pt-[calc(env(safe-area-inset-top)+20px)] pb-[calc(env(safe-area-inset-bottom)+30px)] px-6 transition-all duration-500">
         
         <!-- Top Section: Caller Identity (Dropped down elegantly from notch) -->
@@ -686,8 +685,8 @@
         <button onclick="closeActionSheet('remind')" class="w-full text-center py-4 mt-2.5 bg-white/10 text-white rounded-2xl font-semibold active:opacity-75 transition-opacity">Cancel</button>
     </div>
 
-    <!-- HIGH FIDELITY FLOATING iOS NOTIFICATION BANNER -->
-    <div id="ios-notification" class="fixed top-4 left-4 right-4 max-w-sm mx-auto bg-[#161617]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-3 z-50 flex gap-3 shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform -translate-y-40 transition-transform duration-500 ease-out pointer-events-none">
+    <!-- HIGH FIDELITY FLOATING iOS NOTIFICATION BANNER (Dropped down elegantly for physical notches/Dynamic Islands) -->
+    <div id="ios-notification" class="fixed top-12 left-4 right-4 max-w-sm mx-auto bg-[#161617]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-3 z-50 flex gap-3 shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform -translate-y-40 transition-transform duration-500 ease-out pointer-events-none">
         <img class="w-10 h-10 rounded-xl object-cover self-start border border-white/15" src="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG" alt="Notification icon">
         <div class="flex-1 flex flex-col min-w-0">
             <div class="flex justify-between items-center w-full">
@@ -988,12 +987,12 @@
                 messageSheet.classList.add('translate-y-full');
             } else if (type === 'remind') {
                 remindOverlay.classList.add('hidden');
-                remindSheet.classList.remove('translate-y-full');
+                remindSheet.classList.add('translate-y-full'); // FIXED CRITICAL STACKING TYPO HERE
             }
         }
 
         function triggerNotification(typeLabel, responseText) {
-            // Close active panels
+            // Close active panels safely
             closeActionSheet('message');
             closeActionSheet('remind');
 
