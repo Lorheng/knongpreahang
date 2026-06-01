@@ -23,44 +23,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        // Official Apple system font stack for authentic iOS look & feel
-                        sans: [
-                            '-apple-system', 
-                            'BlinkMacSystemFont', 
-                            '"SF Pro Text"', 
-                            '"SF Pro Display"', 
-                            '"SF Compact Text"', 
-                            'Helvetica Neue', 
-                            'Helvetica', 
-                            'Arial', 
-                            'sans-serif'
-                        ],
-                        khmer: ['Kantumruy Pro', 'sans-serif'],
-                    },
-                    animation: {
-                        'nudge': 'nudge 2s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        nudge: {
-                            '0%, 80%, 100%': { transform: 'translateX(0px)' },
-                            '10%': { transform: 'translateX(16px)' },
-                            '20%': { transform: 'translateX(0px)' },
-                            '28%': { transform: 'translateX(8px)' },
-                            '36%': { transform: 'translateX(0px)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Web Manifest for PWA capabilities -->
-    <link rel="manifest" id="pwa-manifest">
+    <!-- Web Manifest for PWA capabilities (Changed from dynamic id-blob to physical relative file) -->
+    <link rel="manifest" href="./manifest.json">
     <!-- Meta tags for iOS App styling -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -142,6 +106,41 @@
             transition: width 0.35s cubic-bezier(0.2, 1.45, 0.35, 1) !important;
         }
     </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: [
+                            '-apple-system', 
+                            'BlinkMacSystemFont', 
+                            '"SF Pro Text"', 
+                            '"SF Pro Display"', 
+                            '"SF Compact Text"', 
+                            'Helvetica Neue', 
+                            'Helvetica', 
+                            'Arial', 
+                            'sans-serif'
+                        ],
+                        khmer: ['Kantumruy Pro', 'sans-serif'],
+                    },
+                    animation: {
+                        'nudge': 'nudge 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        nudge: {
+                            '0%, 80%, 100%': { transform: 'translateX(0px)' },
+                            '10%': { transform: 'translateX(16px)' },
+                            '20%': { transform: 'translateX(0px)' },
+                            '28%': { transform: 'translateX(8px)' },
+                            '36%': { transform: 'translateX(0px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="text-white font-sans antialiased flex flex-col justify-between overflow-hidden">
 
@@ -353,7 +352,7 @@
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">8:00 AM • 🥾 ឡើងភ្នំខ្នងព្រះអង្គ</span>
-                            <p class="text-sm text-white/90 leading-snug">ធ្វើដំណើររន្តឡើងទៅកាន់ ភ្នំខ្នងព្រះអង្គ (ចម្ងាយ 8km) ។</p>
+                            <p class="text-sm text-white/90 leading-snug">做ដំណើររន្តឡើងទៅកាន់ ភ្នំខ្នងព្រះអង្គ (ចម្ងាយ 8km) ។</p>
                         </div>
                     </div>
 
@@ -747,110 +746,98 @@
         let notifType = null;
         let notifText = null;
 
+        // Swapped the browser dynamic blob code with this native physical PWA register helper
+        function initPWA() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(() => console.log("Physical service worker registered successfully!"))
+                    .catch((err) => console.warn("PWA Service Worker registration failed: ", err));
+            }
+        }
+
+        // Initialize Audio Context ONLY after explicit user touch to satisfy iOS browser policies
         function initAudioOnInteraction() {
             if (!audioCtx) {
-                try {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                } catch (e) {
-                    console.warn("Web Audio Context initialization failed: ", e);
-                }
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
             if (audioCtx && audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
         }
 
-        // Play an authentic Apple-style double chime when call connects
         function playConnectSound() {
             if (!audioCtx) return;
-            const now = audioCtx.currentTime;
-            
-            const playTone = (freq, time, dur) => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, time);
-                gain.gain.setValueAtTime(0, time);
-                gain.gain.linearRampToValueAtTime(0.25, time + 0.02);
-                gain.gain.exponentialRampToValueAtTime(0.001, time + dur);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(time);
-                osc.stop(time + dur);
-            };
-            
-            // Rising chime pair (E5 to A5)
-            playTone(659.25, now, 0.18);
-            playTone(880.00, now + 0.08, 0.28);
+            try {
+                // Rising Double Beep Chime
+                const now = audioCtx.currentTime;
+                
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(650, now);
+                osc1.frequency.exponentialRampToValueAtTime(750, now + 0.12);
+                
+                gain1.gain.setValueAtTime(0.12, now);
+                gain1.gain.linearRampToValueAtTime(0, now + 0.15);
+                
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.15);
+
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(800, now + 0.1);
+                osc2.frequency.exponentialRampToValueAtTime(950, now + 0.22);
+                
+                gain2.gain.setValueAtTime(0.12, now + 0.1);
+                gain2.gain.linearRampToValueAtTime(0, now + 0.25);
+                
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.start(now + 0.1);
+                osc2.stop(now + 0.25);
+            } catch (e) {
+                console.error("Synthesizer connection chime failed: ", e);
+            }
         }
 
-        // Play an authentic Apple-style disconnect chime
         function playDisconnectSound() {
             if (!audioCtx) return;
-            const now = audioCtx.currentTime;
-            
-            const playTone = (freq, time, dur) => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, time);
-                gain.gain.setValueAtTime(0, time);
-                gain.gain.linearRampToValueAtTime(0.25, time + 0.02);
-                gain.gain.exponentialRampToValueAtTime(0.001, time + dur);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(time);
-                osc.stop(time + dur);
-            };
-            
-            // Descending chime pair (C5 to G4)
-            playTone(523.25, now, 0.18);
-            playTone(392.00, now + 0.10, 0.28);
-        }
+            try {
+                // Descending Double Beep Chime
+                const now = audioCtx.currentTime;
+                
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(700, now);
+                osc1.frequency.exponentialRampToValueAtTime(550, now + 0.12);
+                
+                gain1.gain.setValueAtTime(0.12, now);
+                gain1.gain.linearRampToValueAtTime(0, now + 0.15);
+                
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.15);
 
-        function initPWA() {
-            const manifestObj = {
-                name: "Knong Preah Ang Calling",
-                short_name: "Knong Preah Ang",
-                start_url: ".",
-                display: "standalone",
-                background_color: "#000000",
-                theme_color: "#000000",
-                icons: [
-                    {
-                        src: "https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG",
-                        sizes: "512x512",
-                        type: "image/jpeg"
-                    }
-                ]
-            };
-            const manifestStr = JSON.stringify(manifestObj);
-            const blob = new Blob([manifestStr], { type: 'application/json' });
-            const manifestURL = URL.createObjectURL(blob);
-            document.getElementById('pwa-manifest').setAttribute('href', manifestURL);
-
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                    const CACHE_NAME = 'ios-call-cache-v34';
-                    const ASSETS = [
-                        './',
-                        'https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG',
-                        'https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap'
-                    ];
-                    self.addEventListener('install', (e) => {
-                        e.waitUntil(
-                            caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-                        );
-                    });
-                    self.addEventListener('fetch', (e) => {
-                        e.respondWith(
-                            caches.match(e.request).then((res) => res || fetch(e.request))
-                        );
-                    });
-                `;
-                const swBlob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(swBlob);
-                navigator.serviceWorker.register(swUrl).catch((err) => console.warn("SW registration bypassed: ", err));
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(500, now + 0.1);
+                osc2.frequency.exponentialRampToValueAtTime(350, now + 0.25);
+                
+                gain2.gain.setValueAtTime(0.12, now + 0.1);
+                gain2.gain.linearRampToValueAtTime(0, now + 0.25);
+                
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.start(now + 0.1);
+                osc2.stop(now + 0.25);
+            } catch (e) {
+                console.error("Synthesizer disconnect chime failed: ", e);
             }
         }
 
