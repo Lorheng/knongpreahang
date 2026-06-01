@@ -618,18 +618,32 @@
             </div>
         </div>
 
-        <!-- Floating Action Disconnect Button -->
-        <button onclick="hangUpCall()" class="absolute bottom-[calc(env(safe-area-inset-bottom)+16px)] left-1/2 -translate-x-1/2 w-[120px] h-[36px] rounded-full bg-[#C63F3F]/75 hover:bg-[#B23333] border border-red-500/10 backdrop-blur-md flex items-center justify-center space-x-2 shadow-sm active:scale-[0.98] transition-all duration-150 z-30">
-            <svg class="w-3.5 h-3.5 text-white/90 fill-current rotate-[135deg]" viewBox="0 0 24 24">
-                <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
-            </svg>
-            <span class="text-[11px] font-medium tracking-wide text-white/80 font-sans">Disconnect</span>
-        </button>
+        <!-- Floating Dual Action Control Deck -->
+        <div class="absolute bottom-[calc(env(safe-area-inset-bottom)+16px)] left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 w-full max-w-xs z-30 select-none">
+            <!-- Offline Mode Setup Trigger Pill -->
+            <button onclick="openActionSheet('offline')" class="flex-1 h-[38px] rounded-full bg-white/10 hover:bg-white/15 border border-white/15 backdrop-blur-md flex items-center justify-center space-x-1.5 shadow-sm active:scale-[0.98] transition-all duration-150 focus:outline-none">
+                <!-- Highly polished, native iOS smartphone outline + download arrow SVG -->
+                <svg class="w-3.5 h-3.5 text-white/90" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="6" y="2" width="12" height="20" rx="3" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 7v8M9 12l3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M11 19h2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="text-[11px] font-semibold tracking-wide text-white/90 font-sans">Offline Setup</span>
+            </button>
+            
+            <!-- Floating Action Disconnect Button -->
+            <button onclick="hangUpCall()" class="w-[120px] h-[38px] rounded-full bg-[#C63F3F]/85 hover:bg-[#B23333] border border-red-500/10 backdrop-blur-md flex items-center justify-center space-x-1.5 shadow-sm active:scale-[0.98] transition-all duration-150 focus:outline-none">
+                <svg class="w-3.5 h-3.5 text-white/90 fill-current rotate-[135deg]" viewBox="0 0 24 24">
+                    <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
+                </svg>
+                <span class="text-[11px] font-semibold tracking-wide text-white/90 font-sans">Disconnect</span>
+            </button>
+        </div>
     </div>
 
-    <!-- MOCK NATIVE iOS ACTION SHEETS FOR FUN HIKING DIALOGS -->
+    <!-- MOCK NATIVE iOS ACTION SHEETS -->
     <!-- 1. Message Sheet -->
-    <div id="message-overlay" class="fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 hidden pointer-events-auto" onclick="closeActionSheet('message')"></div>
+    <div id="message-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 hidden pointer-events-auto" onclick="closeActionSheet('message')"></div>
     <div id="message-sheet" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 transform translate-y-full transition-transform duration-300 ease-out bg-[#1c1c1e]/95 backdrop-blur-2xl rounded-t-3xl p-4 pb-[calc(env(safe-area-inset-bottom)+16px)] select-none">
         <div class="text-center pb-3 border-b border-white/10">
             <p class="text-xs font-semibold text-white/40 tracking-wider">SEND SILLY MESSAGE REPLY</p>
@@ -644,7 +658,7 @@
     </div>
 
     <!-- 2. Remind Me Sheet -->
-    <div id="remind-overlay" class="fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 hidden pointer-events-auto" onclick="closeActionSheet('remind')"></div>
+    <div id="remind-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 hidden pointer-events-auto" onclick="closeActionSheet('remind')"></div>
     <div id="remind-sheet" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 transform translate-y-full transition-transform duration-300 ease-out bg-[#1c1c1e]/95 backdrop-blur-2xl rounded-t-3xl p-4 pb-[calc(env(safe-area-inset-bottom)+16px)] select-none">
         <div class="text-center pb-3 border-b border-white/10">
             <p class="text-xs font-semibold text-white/40 tracking-wider">SET HIKER REMINDER ALERTS</p>
@@ -657,8 +671,47 @@
         <button onclick="closeActionSheet('remind')" class="w-full text-center py-4 mt-2.5 bg-white/10 text-white rounded-2xl font-semibold active:opacity-75 transition-opacity">Cancel</button>
     </div>
 
+    <!-- 3. Offline Mode Instructions Popup Dialog Modal (High-Fidelity Overlay Block) -->
+    <!-- Clicking on this heavily darkened, blurred backdrop closes the popup instantly -->
+    <div id="offline-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-md z-40 transition-opacity duration-300 opacity-0 hidden pointer-events-auto cursor-pointer" onclick="closeActionSheet('offline')"></div>
+    <div id="offline-sheet" class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none hidden transition-all duration-300 scale-95 opacity-0" onclick="closeActionSheet('offline')">
+        <!-- event.stopPropagation() stops the click from inside the container card from closing the popup -->
+        <div class="bg-[#1c1c1e]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-5 max-w-sm w-full shadow-2xl pointer-events-auto select-none font-khmer" onclick="event.stopPropagation()">
+            <div class="text-center pb-3 border-b border-white/10">
+                <p class="text-xs font-semibold text-white/40 tracking-wider font-sans">OFFLINE APP CONFIGURATION</p>
+            </div>
+            
+            <!-- Segmented Control Platform Tabs Toggle selector deck -->
+            <div class="flex p-1 bg-black/40 rounded-xl my-4 border border-white/5">
+                <button onclick="setOfflinePlatform('ios')" id="btn-platform-ios" class="flex-1 py-2 rounded-lg text-center text-sm font-semibold transition-all">iPhone (Safari)</button>
+                <button onclick="setOfflinePlatform('android')" id="btn-platform-android" class="flex-1 py-2 rounded-lg text-center text-sm font-semibold transition-all">Android (Chrome)</button>
+            </div>
+
+            <!-- Platform Instructions Cards Frame view container -->
+            <div class="min-h-[140px] text-white/90 text-sm px-1 py-1 font-normal leading-relaxed">
+                <!-- iPhone Panel Layout View -->
+                <div id="guide-ios" class="space-y-2 hidden">
+                    <div class="flex gap-2"><span class="text-[#34C759] font-bold">1.</span> <span>បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធីរុករក <b>Safari</b>។</span></div>
+                    <div class="flex gap-2"><span class="text-[#34C759] font-bold">2.</span> <span>ចុចលើប៊ូតុង <b>Share</b> (រូបសញ្ញាព្រួញឡើងលើ) នៅរបារខាងក្រោម។</span></div>
+                    <div class="flex gap-2"><span class="text-[#34C759] font-bold">3.</span> <span>អូសចុះក្រោម រួចជ្រើសរើសយក <b>Add to Home Screen</b>។</span></div>
+                    <div class="flex gap-2"><span class="text-[#34C759] font-bold">4.</span> <span>រួចជាស្រេច! ឥឡូវអ្នកអាចបិទអ៊ីនធឺណិត (Airplane Mode) ហើយបើកវាប្រើប្រាស់បានធម្មតា។</span></div>
+                </div>
+
+                <!-- Android Panel Layout View -->
+                <div id="guide-android" class="space-y-2 hidden">
+                    <div class="flex gap-2"><span class="text-[#34C759] font-bold">1.</span> <span>បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធីរុករក <b>Google Chrome</b>។</span></div>
+                    <div class="flex gap-2"><span class="text-[#34C759] font-bold">2.</span> <span>ចុចលើសញ្ញាចុចបី <b>(More Options)</b> នៅជ្រុងខាងលើស្តាំ។</span></div>
+                    <div class="flex gap-2"><span class="text-[#34C759] font-bold">3.</span> <span>ជ្រើសរើសយកពាក្យថា <b>Install App</b> ឬ <b>Add to Home Screen</b>។</span></div>
+                    <div class="flex gap-2"><span class="text-[#34C759] font-bold">4.</span> <span>រួចរាល់! ប្រព័ន្ធនឹងទាញយកទិន្នន័យដើម្បីប្រើប្រាស់ក្រៅបណ្តាញអ៊ីនធឺណិត។</span></div>
+                </div>
+            </div>
+
+            <button onclick="closeActionSheet('offline')" class="w-full text-center py-3.5 mt-4 bg-white/10 hover:bg-white/15 text-white rounded-xl font-semibold active:opacity-75 transition-opacity">Close Guide</button>
+        </div>
+    </div>
+
     <!-- HIGH FIDELITY FLOATING iOS NOTIFICATION BANNER -->
-    <div id="ios-notification" class="fixed top-12 left-4 right-4 max-w-sm mx-auto bg-[#161617]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-3 z-50 flex gap-3 shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform -translate-y-40 transition-transform duration-500 ease-out pointer-events-none">
+    <div id="ios-notification" class="fixed top-12 left-4 right-4 max-w-sm mx-auto bg-[#161617]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-3 z-[100] flex gap-3 shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform -translate-y-40 transition-transform duration-500 ease-out pointer-events-none">
         <img class="w-10 h-10 rounded-xl object-cover self-start border border-white/15" src="./IMG_6657.JPG" alt="Notification icon">
         <div class="flex-1 flex flex-col min-w-0">
             <div class="flex justify-between items-center w-full">
@@ -698,6 +751,8 @@
         let messageSheet = null;
         let remindOverlay = null;
         let remindSheet = null;
+        let offlineOverlay = null;
+        let offlineSheet = null;
         let iosNotif = null;
         let notifType = null;
         let notifText = null;
@@ -914,6 +969,18 @@
             } else if (type === 'remind') {
                 remindOverlay.classList.remove('hidden');
                 remindSheet.classList.remove('translate-y-full');
+            } else if (type === 'offline') {
+                offlineOverlay.classList.remove('hidden');
+                offlineSheet.classList.remove('hidden');
+                // Force layout reflow before triggering smooth transitions
+                offlineOverlay.offsetHeight;
+                offlineSheet.offsetHeight;
+                
+                offlineOverlay.classList.remove('opacity-0');
+                offlineOverlay.classList.add('opacity-100');
+                
+                offlineSheet.classList.remove('scale-95', 'opacity-0', 'pointer-events-none');
+                offlineSheet.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
             }
         }
 
@@ -924,6 +991,36 @@
             } else if (type === 'remind') {
                 remindOverlay.classList.add('hidden');
                 remindSheet.classList.add('translate-y-full');
+            } else if (type === 'offline') {
+                offlineOverlay.classList.remove('opacity-100');
+                offlineOverlay.classList.add('opacity-0');
+                
+                offlineSheet.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
+                offlineSheet.classList.add('scale-95', 'opacity-0', 'pointer-events-none');
+                
+                setTimeout(() => {
+                    offlineOverlay.classList.add('hidden');
+                    offlineSheet.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function setOfflinePlatform(platform) {
+            const btnIos = document.getElementById('btn-platform-ios');
+            const btnAndroid = document.getElementById('btn-platform-android');
+            const guideIos = document.getElementById('guide-ios');
+            const guideAndroid = document.getElementById('guide-android');
+
+            if (platform === 'ios') {
+                btnIos.className = "flex-1 py-2 rounded-lg text-center text-sm font-semibold bg-[#34C759] text-white shadow-sm";
+                btnAndroid.className = "flex-1 py-2 rounded-lg text-center text-sm font-semibold text-white/60 hover:text-white";
+                guideIos.classList.remove('hidden');
+                guideAndroid.classList.add('hidden');
+            } else {
+                btnIos.className = "flex-1 py-2 rounded-lg text-center text-sm font-semibold text-white/60 hover:text-white";
+                btnAndroid.className = "flex-1 py-2 rounded-lg text-center text-sm font-semibold bg-[#34C759] text-white shadow-sm";
+                guideIos.classList.add('hidden');
+                guideAndroid.classList.remove('hidden');
             }
         }
 
@@ -1045,6 +1142,8 @@
             messageSheet = document.getElementById('message-sheet');
             remindOverlay = document.getElementById('remind-overlay');
             remindSheet = document.getElementById('remind-sheet');
+            offlineOverlay = document.getElementById('offline-overlay');
+            offlineSheet = document.getElementById('offline-sheet');
             iosNotif = document.getElementById('ios-notification');
             notifType = document.getElementById('notif-type');
             notifText = document.getElementById('notif-text');
@@ -1054,6 +1153,7 @@
             initDragEvents();
             
             setActiveDay(1);
+            setOfflinePlatform('ios');
             initChecklist();
 
             window.addEventListener('resize', calculateLimits);
