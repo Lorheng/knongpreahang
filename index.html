@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Knong Preah Ang Calling</title>
+    
+    <!-- Telegram Link Preview Meta Tags -->
+    <meta property="og:title" content="ខ្នងព្រះអង្គ" />
+    <meta property="og:description" content="Knong Preah Ang is Calling You! Pick up?" />
+    <meta property="og:image" content="https://kohsantepheapdaily.com.kh/wp-content/uploads/2024/07/32e306abbd03809c70f67eb0ba1760f5-780x585.jpg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ខ្នងព្រះអង្គ" />
+    <meta name="twitter:description" content="Knong Preah Ang is Calling You! Pick up?" />
+    <meta name="twitter:image" content="https://kohsantepheapdaily.com.kh/wp-content/uploads/2024/07/32e306abbd03809c70f67eb0ba1760f5-780x585.jpg" />
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -102,7 +113,7 @@
         }
 
         @keyframes shine {
-            0% {
+            0 {
                 background-position: 150% 0;
             }
             100% {
@@ -424,7 +435,7 @@
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
-                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) នៅព្រៃអណ្តា, ព្រះបាទជាន់ជណ្តើរ... ។</p>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ (បាយខ្ចប់) នៅព្រៃ Avatar, ព្រះបាទជាន់ផ្អៀង... ។</p>
                         </div>
                     </div>
 
@@ -506,7 +517,7 @@
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">12:00 PM • 🍱 ញ៉ាំបាយថ្ងៃត្រង់</span>
-                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ នៅតំបន់វាលស្មៅធំជាងគេ ។</p>
+                            <p class="text-sm text-white/90 leading-snug">ញ៉ាំបាយថ្ងៃត្រង់ នៅវាលផ្កាប់ឆ្នាំង ។</p>
                         </div>
                     </div>
 
@@ -959,7 +970,7 @@
             
             callScreen.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
 
-            // Re-activate nudge properties
+            // Re-apply automated nudge animation once the spring settles
             sliderHandle.classList.add('transition-transform');
             sliderHandle.classList.add('animate-nudge');
             sliderHandle.style.transform = 'translateX(0px)';
@@ -987,7 +998,7 @@
                 messageSheet.classList.add('translate-y-full');
             } else if (type === 'remind') {
                 remindOverlay.classList.add('hidden');
-                remindSheet.classList.add('translate-y-full'); // FIXED CRITICAL STACKING TYPO HERE
+                remindSheet.classList.add('translate-y-full');
             }
         }
 
