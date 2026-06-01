@@ -313,7 +313,7 @@
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🔥 ញ៉ាំអាហារពេលល្ងាច</span>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍽️ ញ៉ាំអាហារពេលល្ងាច</span>
                             <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំអាហារពេលល្ងាច និងជជែកគ្នាលេងកម្សាន្តជុំគ្នា ។</p>
                         </div>
                     </div>
@@ -746,9 +746,10 @@
         let notifType = null;
         let notifText = null;
 
-        // Swapped the browser dynamic blob code with this native physical PWA register helper
+        // **CRITICAL FIX: REGISTER THE PHYSICAL SERVICE WORKER**
         function initPWA() {
             if ('serviceWorker' in navigator) {
+                // Registering './sw.js' directly relative to the server root
                 navigator.serviceWorker.register('./sw.js')
                     .then(() => console.log("Physical service worker registered successfully!"))
                     .catch((err) => console.warn("PWA Service Worker registration failed: ", err));
