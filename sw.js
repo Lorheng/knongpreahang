@@ -1,4 +1,4 @@
-const CACHE_NAME = 'preahang-vercel-offline-v5';
+const CACHE_NAME = 'preahang-vercel-offline-v2';
 
 // Assets to cache relative to your Vercel root domain
 const ASSETS_TO_CACHE = [
