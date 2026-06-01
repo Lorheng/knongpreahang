@@ -603,7 +603,7 @@
             </div>
 
             <!-- Destinations List -->
-            <div class="glass-card rounded-2xl p-4 border-l-4 border-emerald-500 space-y-2 select-none">
+            <div class="glass-card rounded-2xl p-4 border-l-4 border-emerald-500 space-y-2 select-none font-khmer">
                 <h5 class="text-sm font-bold text-emerald-400 flex items-center gap-1.5 uppercase tracking-wide">
                     📍 គោលដៅត្រូវទស្សនា និងថតរូបលេងកម្សាន្ត
                 </h5>
@@ -618,13 +618,26 @@
             </div>
         </div>
 
-        <!-- Floating Action Disconnect Button -->
-        <button onclick="hangUpCall()" class="absolute bottom-[calc(env(safe-area-inset-bottom)+16px)] left-1/2 -translate-x-1/2 w-[120px] h-[36px] rounded-full bg-[#C63F3F]/75 hover:bg-[#B23333] border border-red-500/10 backdrop-blur-md flex items-center justify-center space-x-2 shadow-sm active:scale-[0.98] transition-all duration-150 z-30">
-            <svg class="w-3.5 h-3.5 text-white/90 fill-current rotate-[135deg]" viewBox="0 0 24 24">
-                <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
-            </svg>
-            <span class="text-[11px] font-medium tracking-wide text-white/80 font-sans">Disconnect</span>
-        </button>
+        <!-- Floating Action Button Footer: Contains both "Offline Mode" and "Disconnect" side-by-side -->
+        <div class="absolute bottom-[calc(env(safe-area-inset-bottom)+16px)] left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 z-30 w-auto max-w-[95%] select-none font-khmer">
+            
+            <!-- Offline Mode Instruction Trigger Button -->
+            <button onclick="openOfflineSheet()" class="h-[38px] px-4 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 backdrop-blur-md flex items-center justify-center space-x-1.5 shadow-md active:scale-[0.96] transition-all duration-150 whitespace-nowrap">
+                <svg class="w-4 h-4 text-[#34C759]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                   <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2" />
+                </svg>
+                <span class="text-[12px] font-semibold text-white/90">Offline Mode</span>
+            </button>
+
+            <!-- Floating Action Disconnect Button -->
+            <button onclick="hangUpCall()" class="h-[38px] px-4 rounded-full bg-[#C63F3F]/75 hover:bg-[#B23333] border border-red-500/10 backdrop-blur-md flex items-center justify-center space-x-1.5 shadow-md active:scale-[0.96] transition-all duration-150 whitespace-nowrap">
+                <svg class="w-3.5 h-3.5 text-white/90 fill-current rotate-[135deg]" viewBox="0 0 24 24">
+                    <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
+                </svg>
+                <span class="text-[12px] font-semibold text-white/90 font-sans">Disconnect</span>
+            </button>
+        </div>
     </div>
 
     <!-- MOCK NATIVE iOS ACTION SHEETS FOR FUN HIKING DIALOGS -->
@@ -655,6 +668,111 @@
             <button onclick="triggerNotification('Reminder', 'Too late to turn back now. Keep climbing, you can do it! 🧗')" class="w-full text-center py-4 text-[#30D158] active:bg-white/5 transition-colors">Keep climbing! No regrets 🧗</button>
         </div>
         <button onclick="closeActionSheet('remind')" class="w-full text-center py-4 mt-2.5 bg-white/10 text-white rounded-2xl font-semibold active:opacity-75 transition-opacity">Cancel</button>
+    </div>
+
+    <!-- 3. Offline Mode Instructions Sheet -->
+    <div id="offline-overlay" class="fixed inset-0 bg-black/60 z-[60] transition-opacity duration-300 hidden pointer-events-auto" onclick="closeOfflineSheet()"></div>
+    <div id="offline-sheet" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-[70] transform translate-y-full transition-transform duration-400 ease-out bg-[#121214]/98 border-t border-white/10 backdrop-blur-3xl rounded-t-[28px] p-5 pb-[calc(env(safe-area-inset-bottom)+18px)] select-none font-khmer">
+        
+        <!-- Pull bar decoration -->
+        <div class="w-12 h-1 bg-white/20 rounded-full mx-auto mb-4"></div>
+        
+        <div class="text-center pb-3.5 border-b border-white/10">
+            <h3 class="text-lg font-bold text-white">របៀបប្រើ Offline Mode</h3>
+            <p class="text-xs text-white/50 mt-1">ដើម្បីប្រើរដោយគ្មានអ៊ីនធឺណិត​​​ សូមធើតាមកាណែរនាំខាងក្រោម</p>
+        </div>
+
+        <!-- Platform Tabs Navigation -->
+        <div class="flex gap-2 p-1 bg-white/5 rounded-xl mt-4 border border-white/5">
+            <button id="offline-tab-ios" onclick="setOfflinePlatform('ios')" class="flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 bg-white/10 text-white shadow-sm">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.69-1.12 1.84-.98 2.94.1 0 .2.01.3.01.97 0 2.05-.59 2.51-1.34z"/>
+                </svg>
+                iOS (Safari)
+            </button>
+            <button id="offline-tab-android" onclick="setOfflinePlatform('android')" class="flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 text-white/50 hover:text-white">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.523 15.3l1.816 3.146a.5.5 0 0 1-.178.683h-.002a.5.5 0 0 1-.682-.178l-1.83-3.17a8.956 8.956 0 0 1-9.294 0l-1.83 3.17a.5.5 0 0 1-.68.18.5.5 0 0 1-.18-.68l1.816-3.146A9.012 9.012 0 0 1 2.1 8.544h19.8a9.01 9.01 0 0 1-4.377 6.756M7 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2m10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-5 3.5c-1.38 0-2.5-.35-2.5-1h5c0 .65-1.12 1-2.5 1"/>
+                </svg>
+                Android (Chrome)
+            </button>
+        </div>
+
+        <!-- Scrollable Instruction Body -->
+        <div class="mt-4 max-h-[280px] overflow-y-auto pr-1 space-y-4 agenda-scroll">
+            
+            <!-- iOS Safari Steps -->
+            <div id="offline-content-ios" class="space-y-3.5">
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p class="text-[13px] text-white/90 leading-relaxed">
+                        បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី Safari។
+                    </p>
+                </div>
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p class="text-[13px] text-white/90 leading-relaxed flex items-center gap-1.5 flex-wrap">
+                        ចុចលើប៊ូតុង Share (រូបសញ្ញាព្រួញឡើងលើ) នៅរបារខាងក្រោម។
+                    </p>
+                </div>
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p class="text-[13px] text-white/90 leading-relaxed">
+                        អូសចុះក្រោម រួចជ្រើសរើសយក Add to Home Screen។
+                    </p>
+                </div>
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                    <p class="text-[13px] text-white/90 leading-relaxed">
+                        ចុចបើក App នេះម្តងទៀតនៅ Home Screen ជាមួយ internet! រងចាំ 15s
+                    </p>
+                </div>
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
+                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">
+                        ឥឡូវអ្នកអាចបិទអុីនធឺណិត (Airplane Mode) ដើម្បី Test បាន។
+                    </p>
+                </div>
+            </div>
+
+            <!-- Android Chrome Steps -->
+            <div id="offline-content-android" class="space-y-3.5 hidden">
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p class="text-[13px] text-white/90 leading-relaxed">
+                        បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី Google Chrome។
+                    </p>
+                </div>
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p class="text-[13px] text-white/90 leading-relaxed flex items-center gap-1.5 flex-wrap">
+                        ចុចលើសញ្ញាចុចបី (More Options) នៅជ្រុងខាងលើស្តាំ។
+                    </p>
+                </div>
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p class="text-[13px] text-white/90 leading-relaxed">
+                        ជ្រើសរើសយកពាក្យថា Install App ឬ Add to Home Screen។
+                    </p>
+                </div>
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                    <p class="text-[13px] text-white/90 leading-relaxed">
+                        ចុចបើក App នេះម្តងទៀតនៅ Home Screen ជាមួយ internet! រងចាំ 15s
+                    </p>
+                </div>
+                <div class="flex gap-3 items-start">
+                    <span class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
+                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">
+                        ឥឡូវអ្នកអាចបិទអុីនធឺណិត (Airplane Mode) ដើម្បី Test បាន។
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Close Button -->
+        <button onclick="closeOfflineSheet()" class="w-full text-center py-3.5 mt-4 bg-white/10 hover:bg-white/15 text-white rounded-2xl font-semibold active:opacity-75 transition-colors">យល់ព្រម (Close)</button>
     </div>
 
     <!-- HIGH FIDELITY FLOATING iOS NOTIFICATION BANNER -->
@@ -701,6 +819,14 @@
         let iosNotif = null;
         let notifType = null;
         let notifText = null;
+
+        // Offline components DOM mapping
+        let offlineOverlay = null;
+        let offlineSheet = null;
+        let tabIos = null;
+        let tabAndroid = null;
+        let contentIos = null;
+        let contentAndroid = null;
 
         // Secure relative Registration for Vercel
         function initPWA() {
@@ -927,6 +1053,36 @@
             }
         }
 
+        function openOfflineSheet() {
+            initAudioOnInteraction();
+            if (offlineOverlay && offlineSheet) {
+                offlineOverlay.classList.remove('hidden');
+                offlineSheet.classList.remove('translate-y-full');
+            }
+        }
+
+        function closeOfflineSheet() {
+            if (offlineOverlay && offlineSheet) {
+                offlineOverlay.classList.add('hidden');
+                offlineSheet.classList.add('translate-y-full');
+            }
+        }
+
+        function setOfflinePlatform(platform) {
+            initAudioOnInteraction();
+            if (platform === 'ios') {
+                tabIos.className = "flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 bg-white/10 text-white shadow-sm";
+                tabAndroid.className = "flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 text-white/50 hover:text-white";
+                contentIos.classList.remove('hidden');
+                contentAndroid.classList.add('hidden');
+            } else {
+                tabAndroid.className = "flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 bg-white/10 text-white shadow-sm";
+                tabIos.className = "flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 text-white/50 hover:text-white";
+                contentAndroid.classList.remove('hidden');
+                contentIos.classList.add('hidden');
+            }
+        }
+
         function triggerNotification(typeLabel, responseText) {
             closeActionSheet('message');
             closeActionSheet('remind');
@@ -1048,6 +1204,14 @@
             iosNotif = document.getElementById('ios-notification');
             notifType = document.getElementById('notif-type');
             notifText = document.getElementById('notif-text');
+
+            // Offline DOM mapping
+            offlineOverlay = document.getElementById('offline-overlay');
+            offlineSheet = document.getElementById('offline-sheet');
+            tabIos = document.getElementById('offline-tab-ios');
+            tabAndroid = document.getElementById('offline-tab-android');
+            contentIos = document.getElementById('offline-content-ios');
+            contentAndroid = document.getElementById('offline-content-android');
 
             initPWA();
             calculateLimits();
