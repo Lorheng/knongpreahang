@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Knong Preah Ang Calling</title>
     
-    <!-- Telegram Link Preview Meta Tags -->
+    <!-- Telegram Link Preview Meta Tags (Using relative images to completely mask username) -->
     <meta property="og:title" content="ខ្នងព្រះអង្គ" />
     <meta property="og:description" content="Knong Preah Ang is Calling You! Pick up?" />
-    <meta property="og:image" content="https://kohsantepheapdaily.com.kh/wp-content/uploads/2024/07/32e306abbd03809c70f67eb0ba1760f5-780x585.jpg" />
+    <meta property="og:image" content="./IMG_6657.JPG" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ខ្នងព្រះអង្គ" />
     <meta name="twitter:description" content="Knong Preah Ang is Calling You! Pick up?" />
-    <meta name="twitter:image" content="https://kohsantepheapdaily.com.kh/wp-content/uploads/2024/07/32e306abbd03809c70f67eb0ba1760f5-780x585.jpg" />
+    <meta name="twitter:image" content="./IMG_6657.JPG" />
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,13 +23,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Web Manifest for PWA capabilities (Changed from dynamic id-blob to physical relative file) -->
+    <!-- Web Manifest for PWA capabilities -->
     <link rel="manifest" href="./manifest.json">
     <!-- Meta tags for iOS App styling -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Khning Call">
-    <link class="rounded-full" rel="apple-touch-icon" href="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG">
+    <link class="rounded-full" rel="apple-touch-icon" href="./IMG_6657.JPG">
 
     <style>
         /* Force true edge-to-edge layout across notches, safe area insets & viewport heights */
@@ -90,7 +90,6 @@
             -webkit-overflow-scrolling: touch !important;
             scroll-behavior: smooth;
             touch-action: pan-y !important;
-            /* Completely hide native/custom scrollbars to solve the "ugly scroll sliders" issue */
             scrollbar-width: none; /* Firefox */
             -ms-overflow-style: none; /* IE/Edge */
         }
@@ -144,17 +143,16 @@
 </head>
 <body class="text-white font-sans antialiased flex flex-col justify-between overflow-hidden">
 
-    <!-- Background Wallpaper: Remained sharp, crystal clear, scaled slightly to avoid gaps -->
-    <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
+    <!-- Background Wallpaper: Clean local path, completely hiding username -->
+    <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('./IMG_6657.JPG');"></div>
     
     <!-- Subtle linear vignette for high contrast visibility -->
     <div class="fixed inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/40 z-10 pointer-events-none"></div>
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
-    <!-- Safe Area Insets ensure buttons and names clear Apple's dynamic island / notch and home indicator -->
     <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full pt-[calc(env(safe-area-inset-top)+20px)] pb-[calc(env(safe-area-inset-bottom)+30px)] px-6 transition-all duration-500">
         
-        <!-- Top Section: Caller Identity (Dropped down elegantly from notch) -->
+        <!-- Top Section: Caller Identity -->
         <div class="flex flex-col items-center text-center mt-20 select-none">
             <h1 id="caller-name" class="font-khmer text-[52px] font-bold tracking-wide text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] leading-tight">ខ្នងព្រះអង្គ</h1>
             <p id="caller-label" class="text-[20px] text-white/90 font-medium tracking-wide mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">Calling</p>
@@ -207,18 +205,16 @@
     </div>
 
     <!-- EVENT AGENDA SCREEN INTERFACE (Appears upon answering the call) -->
-    <!-- Reduced outer screen margin/padding to p-4 for perfect fit -->
     <div id="agenda-screen" class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-all duration-700 p-4 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)] overflow-hidden">
         
-        <!-- Slightly Blurred Green Mountain Background to make it more recognizable -->
-        <div class="absolute inset-0 bg-cover bg-center filter blur-[3px] scale-110 opacity-85 z-0" style="background-image: url('https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG');"></div>
+        <!-- Slightly Blurred Green Mountain Background -->
+        <div class="absolute inset-0 bg-cover bg-center filter blur-[3px] scale-110 opacity-85 z-0" style="background-image: url('./IMG_6657.JPG');"></div>
         <div class="absolute inset-0 bg-black/60 z-0 pointer-events-none"></div>
 
-        <!-- Agenda Body Scroll Container (Enabled with buttery scroll physics) -->
-        <!-- Added pb-28 bottom spacing block to allow content to fully scroll above the floating footer disconnect pill -->
+        <!-- Agenda Body Scroll Container -->
         <div id="agenda-scroll-container" class="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+16px)] bottom-0 overflow-y-auto agenda-scroll px-1 space-y-4 touch-pan-y z-10 font-khmer pb-28">
             
-            <!-- Agenda Header (Slides up out of sight naturally with regular content now) -->
+            <!-- Agenda Header -->
             <div id="agenda-header" class="w-full text-center select-none border-b border-white/10 pb-4 font-khmer mb-4">
                 <span class="text-xs font-semibold tracking-widest text-[#34C759] uppercase block pt-3">កម្មវិធីដំណើរការកម្សាន្ត</span>
                 <h2 class="text-[26px] font-bold text-white mt-1">ភ្នំខ្នងព្រះអង្គ-ខ្នងសប្បាយ</h2>
@@ -237,7 +233,7 @@
                 </div>
             </div>
 
-            <!-- Horizontal Tab Bar (Scroll slider is hidden visually) -->
+            <!-- Horizontal Tab Bar -->
             <div class="flex items-center justify-between gap-1.5 overflow-x-auto py-1 select-none agenda-scroll">
                 <button onclick="setActiveDay(1)" id="tab-day-1" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ១</button>
                 <button onclick="setActiveDay(2)" id="tab-day-2" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ២</button>
@@ -246,13 +242,12 @@
                 <button onclick="setActiveDay(5)" id="tab-day-5" class="flex-1 py-2.5 px-3.5 text-sm font-semibold rounded-xl text-center whitespace-nowrap transition-all duration-300">ថ្ងៃទី ៥</button>
             </div>
 
-            <!-- Main Timeline Stream Container (Removed left padding/timeline line to expand box to full size) -->
+            <!-- Main Timeline Stream Container -->
             <div class="relative px-1 py-2 select-none">
                 
                 <!-- Day 1 List Container -->
                 <div id="content-day-1" class="space-y-4 hidden active-day-view">
                     
-                    <!-- Day 1 Card 1 -->
                     <div id="item-d1-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d1-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -263,7 +258,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 1 Card 2 -->
                     <div id="item-d1-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d1-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -274,7 +268,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 1 Card 3 -->
                     <div id="item-d1-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d1-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -285,7 +278,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 1 Card 4 -->
                     <div id="item-d1-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d1-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -296,7 +288,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 1 Card 5 -->
                     <div id="item-d1-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d1-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -307,7 +298,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 1 Card 6 -->
                     <div id="item-d1-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d1-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -318,7 +308,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 1 Card 7 -->
                     <div id="item-d1-7" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d1-7')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -334,7 +323,6 @@
                 <!-- Day 2 List Container -->
                 <div id="content-day-2" class="space-y-4 hidden active-day-view">
                     
-                    <!-- Day 2 Card 1 -->
                     <div id="item-d2-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d2-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -345,18 +333,16 @@
                         </div>
                     </div>
 
-                    <!-- Day 2 Card 2 -->
                     <div id="item-d2-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d2-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">8:00 AM • 🥾 ឡើងភ្នំខ្នងព្រះអង្គ</span>
-                            <p class="text-sm text-white/90 leading-snug">做ដំណើររន្តឡើងទៅកាន់ ភ្នំខ្នងព្រះអង្គ (ចម្ងាយ 8km) ។</p>
+                            <p class="text-sm text-white/90 leading-snug">ធ្វើដំណើរឡើងទៅកាន់ ភ្នំខ្នងព្រះអង្គ (ចម្ងាយ 8km) ។</p>
                         </div>
                     </div>
 
-                    <!-- Day 2 Card 3 -->
                     <div id="item-d2-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d2-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -367,7 +353,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 2 Card 4 -->
                     <div id="item-d2-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d2-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -378,7 +363,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 2 Card 5 -->
                     <div id="item-d2-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d2-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -389,7 +373,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 2 Card 6 -->
                     <div id="item-d2-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d2-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -405,7 +388,6 @@
                 <!-- Day 3 List Container -->
                 <div id="content-day-3" class="space-y-4 hidden active-day-view">
                     
-                    <!-- Day 3 Card 1 -->
                     <div id="item-d3-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d3-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -416,7 +398,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 3 Card 2 -->
                     <div id="item-d3-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d3-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -427,7 +408,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 3 Card 3 -->
                     <div id="item-d3-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d3-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -438,7 +418,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 3 Card 4 -->
                     <div id="item-d3-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d3-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -449,7 +428,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 3 Card 5 -->
                     <div id="item-d3-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d3-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -460,7 +438,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 3 Card 6 -->
                     <div id="item-d3-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d3-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -476,7 +453,6 @@
                 <!-- Day 4 List Container -->
                 <div id="content-day-4" class="space-y-4 hidden active-day-view">
                     
-                    <!-- Day 4 Card 1 -->
                     <div id="item-d4-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d4-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -487,7 +463,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 4 Card 2 -->
                     <div id="item-d4-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d4-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -498,7 +473,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 4 Card 3 -->
                     <div id="item-d4-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d4-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -509,7 +483,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 4 Card 4 -->
                     <div id="item-d4-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d4-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -520,7 +493,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 4 Card 5 -->
                     <div id="item-d4-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d4-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -531,7 +503,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 4 Card 6 -->
                     <div id="item-d4-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d4-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -542,7 +513,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 4 Card 7 -->
                     <div id="item-d4-7" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d4-7')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -558,7 +528,6 @@
                 <!-- Day 5 List Container -->
                 <div id="content-day-5" class="space-y-4 hidden active-day-view">
                     
-                    <!-- Day 5 Card 1 -->
                     <div id="item-d5-1" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d5-1')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -569,7 +538,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 5 Card 2 -->
                     <div id="item-d5-2" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d5-2')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -580,7 +548,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 5 Card 3 -->
                     <div id="item-d5-3" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d5-3')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -591,7 +558,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 5 Card 4 -->
                     <div id="item-d5-4" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d5-4')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -602,7 +568,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 5 Card 5 -->
                     <div id="item-d5-5" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d5-5')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -613,7 +578,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 5 Card 6 -->
                     <div id="item-d5-6" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d5-6')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -624,7 +588,6 @@
                         </div>
                     </div>
 
-                    <!-- Day 5 Card 7 -->
                     <div id="item-d5-7" class="glass-card rounded-2xl p-4 flex gap-4 items-start relative z-10 transition-all duration-300">
                         <button onclick="toggleItem('d5-7')" class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center focus:outline-none transition-colors duration-200 mt-1">
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
@@ -656,7 +619,6 @@
         </div>
 
         <!-- Floating Action Disconnect Button -->
-        <!-- Placed as a direct child of the screen overlay, anchored to bottom center, floating cleanly on top -->
         <button onclick="hangUpCall()" class="absolute bottom-[calc(env(safe-area-inset-bottom)+16px)] left-1/2 -translate-x-1/2 w-[120px] h-[36px] rounded-full bg-[#C63F3F]/75 hover:bg-[#B23333] border border-red-500/10 backdrop-blur-md flex items-center justify-center space-x-2 shadow-sm active:scale-[0.98] transition-all duration-150 z-30">
             <svg class="w-3.5 h-3.5 text-white/90 fill-current rotate-[135deg]" viewBox="0 0 24 24">
                 <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
@@ -695,9 +657,9 @@
         <button onclick="closeActionSheet('remind')" class="w-full text-center py-4 mt-2.5 bg-white/10 text-white rounded-2xl font-semibold active:opacity-75 transition-opacity">Cancel</button>
     </div>
 
-    <!-- HIGH FIDELITY FLOATING iOS NOTIFICATION BANNER (Dropped down elegantly for physical notches/Dynamic Islands) -->
+    <!-- HIGH FIDELITY FLOATING iOS NOTIFICATION BANNER -->
     <div id="ios-notification" class="fixed top-12 left-4 right-4 max-w-sm mx-auto bg-[#161617]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-3 z-50 flex gap-3 shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform -translate-y-40 transition-transform duration-500 ease-out pointer-events-none">
-        <img class="w-10 h-10 rounded-xl object-cover self-start border border-white/15" src="https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG" alt="Notification icon">
+        <img class="w-10 h-10 rounded-xl object-cover self-start border border-white/15" src="./IMG_6657.JPG" alt="Notification icon">
         <div class="flex-1 flex flex-col min-w-0">
             <div class="flex justify-between items-center w-full">
                 <span class="text-xs font-bold text-white tracking-wide">ខ្នងព្រះអង្គ</span>
@@ -718,15 +680,10 @@
         let maxDragDistance = 0;
         let isCallActive = false;
         let activeDay = 1;
-        let lastScrollTop = 0;
         
-        // Checklist storage array
         let checkedItems = [];
-
-        /* Synthesized Web Audio Variables (Exclusive connection sounds) */
         let audioCtx = null;
 
-        /* Global DOM Declarations (Assigned inside window.onload to prevent iframe render errors) */
         let sliderTrack = null;
         let sliderHandle = null;
         let sliderText = null;
@@ -737,7 +694,6 @@
         let scrollContainer = null;
         let toast = null;
 
-        // Overlay & sheet element declarations
         let messageOverlay = null;
         let messageSheet = null;
         let remindOverlay = null;
@@ -746,17 +702,15 @@
         let notifType = null;
         let notifText = null;
 
-        // **CRITICAL FIX: REGISTER THE PHYSICAL SERVICE WORKER**
+        // Secure relative Registration for Vercel
         function initPWA() {
             if ('serviceWorker' in navigator) {
-                // Registering './sw.js' directly relative to the server root
                 navigator.serviceWorker.register('./sw.js')
-                    .then(() => console.log("Physical service worker registered successfully!"))
-                    .catch((err) => console.warn("PWA Service Worker registration failed: ", err));
+                    .then(() => console.log("Redirection-Cleaning Service Worker connected successfully!"))
+                    .catch((err) => console.warn("PWA Service Worker offline sync failed: ", err));
             }
         }
 
-        // Initialize Audio Context ONLY after explicit user touch to satisfy iOS browser policies
         function initAudioOnInteraction() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -769,7 +723,6 @@
         function playConnectSound() {
             if (!audioCtx) return;
             try {
-                // Rising Double Beep Chime
                 const now = audioCtx.currentTime;
                 
                 const osc1 = audioCtx.createOscillator();
@@ -800,14 +753,13 @@
                 osc2.start(now + 0.1);
                 osc2.stop(now + 0.25);
             } catch (e) {
-                console.error("Synthesizer connection chime failed: ", e);
+                console.error("Audio trigger connection failed: ", e);
             }
         }
 
         function playDisconnectSound() {
             if (!audioCtx) return;
             try {
-                // Descending Double Beep Chime
                 const now = audioCtx.currentTime;
                 
                 const osc1 = audioCtx.createOscillator();
@@ -838,7 +790,7 @@
                 osc2.start(now + 0.1);
                 osc2.stop(now + 0.25);
             } catch (e) {
-                console.error("Synthesizer disconnect chime failed: ", e);
+                console.error("Audio trigger disconnect failed: ", e);
             }
         }
 
@@ -853,10 +805,8 @@
                 if (isCallActive) return;
                 isDragging = true;
                 
-                // Unlock the device audio framework instantly on user drag action
                 initAudioOnInteraction();
 
-                // Disable automated nudge animation on active drag
                 sliderHandle.classList.remove('animate-nudge');
                 sliderHandle.classList.remove('transition-transform');
                 sliderHandle.classList.remove('transition-spring');
@@ -871,7 +821,6 @@
                 const offset = clientX - startX;
                 
                 if (offset < 0) {
-                    // Rubber-band resistance pull left (iOS elastic edge emulation)
                     currentTranslate = offset / (1 + Math.abs(offset) / 60);
                 } else {
                     currentTranslate = Math.min(offset, maxDragDistance);
@@ -880,7 +829,6 @@
                 sliderHandle.style.transform = `translateX(${currentTranslate}px)`;
                 sliderFill.style.width = `${Math.max(0, currentTranslate) + 36}px`;
                 
-                // Fade out sliding instruction relative to progress
                 const textOpacity = 1 - (currentTranslate / (maxDragDistance * 0.7));
                 sliderText.style.opacity = Math.max(0, textOpacity);
             };
@@ -889,11 +837,9 @@
                 if (!isDragging) return;
                 isDragging = false;
                 
-                // Swipe validation threshold set at 80%
                 if (currentTranslate >= maxDragDistance * 0.80) {
                     answerCall();
                 } else {
-                    // Smooth spring overshooting alignment to return to start
                     sliderHandle.classList.add('transition-spring');
                     sliderFill.classList.add('fill-transition-spring');
                     
@@ -905,7 +851,6 @@
                     
                     currentTranslate = 0;
 
-                    // Re-apply automated nudge animation once the spring settles
                     setTimeout(() => {
                         if (!isDragging && !isCallActive) {
                             sliderHandle.classList.add('animate-nudge');
@@ -915,12 +860,10 @@
                 }
             };
 
-            // Touch device events
             sliderHandle.addEventListener('touchstart', dragStart, { passive: true });
             window.addEventListener('touchmove', drag, { passive: false });
             window.addEventListener('touchend', dragEnd);
 
-            // Desktop Mouse fallbacks
             sliderHandle.addEventListener('mousedown', dragStart);
             window.addEventListener('mousemove', drag);
             window.addEventListener('mouseup', dragEnd);
@@ -929,13 +872,11 @@
         function answerCall() {
             isCallActive = true;
             
-            // Connect sounds play exclusively now
             initAudioOnInteraction();
             playConnectSound();
 
             callScreen.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
             
-            // Activate the agenda view screen
             agendaScreen.classList.remove('pointer-events-none');
             agendaScreen.classList.add('opacity-100');
 
@@ -945,20 +886,16 @@
         function hangUpCall() {
             isCallActive = false;
             
-            // Play disconnect feedback
             initAudioOnInteraction();
             playDisconnectSound();
 
-            // Transition interfaces back smoothly
             agendaScreen.classList.add('pointer-events-none');
             agendaScreen.classList.remove('opacity-100');
             
-            // Instantly restore the header to fully visible state on next load
             agendaHeader.classList.remove('header-collapsed');
             
             callScreen.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
 
-            // Re-apply automated nudge animation once the spring settles
             sliderHandle.classList.add('transition-transform');
             sliderHandle.classList.add('animate-nudge');
             sliderHandle.style.transform = 'translateX(0px)';
@@ -991,22 +928,18 @@
         }
 
         function triggerNotification(typeLabel, responseText) {
-            // Close active panels safely
             closeActionSheet('message');
             closeActionSheet('remind');
 
-            // Set content inside high-fidelity notification bar
             notifType.innerText = typeLabel === 'Message' ? 'SMS MESSAGE' : 'HIKER REMINDER ALERTS';
             notifType.className = `text-[11px] font-semibold mt-0.5 uppercase tracking-wider ${typeLabel === 'Message' ? 'text-emerald-400' : 'text-amber-400'}`;
             notifText.innerText = responseText;
 
-            // Animate native entry (Slide down from above screen edge)
             setTimeout(() => {
                 iosNotif.classList.remove('-translate-y-40');
                 iosNotif.classList.add('translate-y-0');
             }, 300);
 
-            // Dismiss automatically after 4 seconds
             setTimeout(() => {
                 iosNotif.classList.remove('translate-y-0');
                 iosNotif.classList.add('-translate-y-40');
@@ -1026,7 +959,6 @@
         function setActiveDay(dayNumber) {
             activeDay = dayNumber;
             
-            // Reset tab styles
             for (let i = 1; i <= 5; i++) {
                 const tab = document.getElementById(`tab-day-${i}`);
                 const content = document.getElementById(`content-day-${i}`);
@@ -1051,7 +983,6 @@
                 }
             }
             
-            // Loop through all checkable elements in DOM and set visual states
             const allItems = document.querySelectorAll('[id^="item-"]');
             allItems.forEach(el => {
                 const id = el.id.replace('item-', '');
@@ -1059,14 +990,12 @@
                 const chkInner = el.querySelector('.chk-inner');
                 
                 if (checkedItems.includes(id)) {
-                    // Item is completed
                     el.style.opacity = '0.45';
                     button.classList.remove('border-white/20');
                     button.classList.add('border-[#34C759]', 'bg-[#34C759]');
                     chkInner.classList.remove('bg-transparent');
                     chkInner.classList.add('bg-white');
                 } else {
-                    // Item is outstanding
                     el.style.opacity = '1';
                     button.classList.remove('border-[#34C759]', 'bg-[#34C759]');
                     button.classList.add('border-white/20');
@@ -1083,7 +1012,6 @@
             
             const index = checkedItems.indexOf(id);
             if (index > -1) {
-                // Unchecking item
                 checkedItems.splice(index, 1);
                 el.style.opacity = '1';
                 button.classList.remove('border-[#34C759]', 'bg-[#34C759]');
@@ -1091,7 +1019,6 @@
                 chkInner.classList.remove('bg-white');
                 chkInner.classList.add('bg-transparent');
             } else {
-                // Checking item
                 checkedItems.push(id);
                 el.style.opacity = '0.45';
                 button.classList.remove('border-white/20');
@@ -1100,12 +1027,10 @@
                 chkInner.classList.add('bg-white');
             }
             
-            // Save state to local browser space
             localStorage.setItem('knongpreahang_checked_items', JSON.stringify(checkedItems));
         }
 
         window.onload = function() {
-            // Bind DOM elements safely before executing calculations or functions
             sliderTrack = document.getElementById('slider-track');
             sliderHandle = document.getElementById('slider-handle');
             sliderText = document.getElementById('slider-text');
@@ -1116,7 +1041,6 @@
             scrollContainer = document.getElementById('agenda-scroll-container');
             toast = document.getElementById('toast');
 
-            // Action Sheets DOM assignments
             messageOverlay = document.getElementById('message-overlay');
             messageSheet = document.getElementById('message-sheet');
             remindOverlay = document.getElementById('remind-overlay');
@@ -1129,13 +1053,11 @@
             calculateLimits();
             initDragEvents();
             
-            // Initialize dynamic tabs & checklist states
             setActiveDay(1);
             initChecklist();
 
             window.addEventListener('resize', calculateLimits);
 
-            // Audio Auto-Play Unlock handlers for modern touch devices
             window.addEventListener('touchstart', initAudioOnInteraction, { once: true });
             window.addEventListener('mousedown', initAudioOnInteraction, { once: true });
         };
