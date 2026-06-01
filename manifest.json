@@ -1,7 +1,7 @@
 {
 "name": "Knong Preah Ang Calling",
 "short_name": "iCall Sim",
-"start_url": "./index.html",
+"start_url": "./",
 "scope": "./",
 "display": "standalone",
 "orientation": "portrait",
@@ -9,13 +9,8 @@
 "theme_color": "#000000",
 "icons": [
 {
-"src": "https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG",
+"src": "./IMG_6657.JPG",
 "sizes": "512x512",
-"type": "image/jpeg"
-},
-{
-"src": "https://kohsantepheapdaily.com.kh/wp-content/uploads/2024/07/32e306abbd03809c70f67eb0ba1760f5-780x585.jpg",
-"sizes": "780x585",
 "type": "image/jpeg"
 }
 ]
