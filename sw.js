@@ -1,40 +1,46 @@
-const CACHE_NAME = 'preahang-expedition-v4';
+const CACHE_NAME = 'preahang-vercel-offline-v5';
 
-// The essential files required to make the UI render and look amazing offline
-const MANDATORY_ASSETS = [
+// Assets to cache relative to your Vercel root domain
+const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  'https://cdn.tailwindcss.com'
+  './IMG_6657.JPG',
+  'https://cdn.tailwindcss.com',
+  'https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap'
 ];
 
-// Optional assets (images/fonts/sounds) that we want to cache, but shouldn't break the installation if blocked
-const OPTIONAL_ASSETS = [
-  'https://raw.githubusercontent.com/Lorheng/knongpreahang/refs/heads/main/IMG_6657.JPG',
-  'https://kohsantepheapdaily.com.kh/wp-content/uploads/2024/07/32e306abbd03809c70f67eb0ba1760f5-780x585.jpg',
-  'https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap',
-  'https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg',
-  'https://actions.google.com/sounds/v1/telecom/phone_connect.ogg',
-  'https://actions.google.com/sounds/v1/telecom/hang_up.ogg'
-];
+// Helper to strip the redirected flag from responses before writing to iOS cache
+function cleanResponse(response) {
+  if (!response.redirected) {
+    return response;
+  }
+  
+  // Clone headers and recreate response without the "redirected" flag
+  const cleanedHeaders = new Headers(response.headers);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: cleanedHeaders
+  });
+}
 
+// Install event - Cache assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      console.log('Installing offline caching layers...');
+      console.log('SW: Initializing clean cache layers for Vercel...');
       
-      // 1. Force cache the core files first
-      await cache.addAll(MANDATORY_ASSETS);
-      
-      // 2. Cache optional assets one-by-one so any network/CORS blocks won't fail the PWA install
-      for (const asset of OPTIONAL_ASSETS) {
+      for (const url of ASSETS_TO_CACHE) {
         try {
-          const response = await fetch(asset, { mode: 'no-cors' });
-          if (response.status === 200 || response.type === 'opaque') {
-            await cache.put(asset, response);
+          const response = await fetch(url);
+          if (response.ok) {
+            // Clean response before storing in cache
+            const sanitizedResponse = cleanResponse(response);
+            await cache.put(url, sanitizedResponse);
           }
-        } catch (err) {
-          console.warn(`Optional asset failed to cache: ${asset}`, err);
+        } catch (error) {
+          console.warn(`SW: Failed to cache asset during install: ${url}`, error);
         }
       }
     })
@@ -42,13 +48,14 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
+// Activate event - Clean old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log('Cleaning old cache version:', key);
+            console.log('SW: Sweeping old cache version:', key);
             return caches.delete(key);
           }
         })
@@ -58,14 +65,25 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Fetch event - Respond from cache immediately when offline
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        return cachedResponse; // Load instantly from offline phone cache
+        return cachedResponse; // Instant offline loading
       }
-      return fetch(event.request).catch(() => {
-        console.warn('Network unavailable. Operating in full offline mountain mode.');
+      
+      return fetch(event.request).then((networkResponse) => {
+        // Cache new successful GET requests dynamically
+        if (event.request.method === 'GET' && networkResponse.status === 200) {
+          const responseToCache = cleanResponse(networkResponse.clone());
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
+        return networkResponse;
+      }).catch(() => {
+        console.warn('SW: Network offline. Operating in mountain mode.');
       });
     })
   );
