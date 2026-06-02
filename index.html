@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Knong Preah Ang Calling</title>
     
+    <!-- Vercel Web Analytics Integration -->
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script src="/_vercel/insights/script.js"></script>
+
     <!-- Telegram Link Preview Meta Tags (Using relative images to completely mask username) -->
     <meta property="og:title" content="ខ្នងព្រះអង្គ" />
     <meta property="og:description" content="Knong Preah Ang is Calling You! Pick up?" />
@@ -31,12 +35,6 @@
     <meta name="apple-mobile-web-app-title" content="Knong Preah Ang">
     <link class="rounded-full" rel="apple-touch-icon" href="./IMG_6657.JPG">
 
-    <!-- Vercel Web Analytics -->
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-
     <style>
         /* Force true edge-to-edge layout across notches, safe area insets & viewport heights */
         html, body {
@@ -46,7 +44,7 @@
             height: 100dvh;
             margin: 0;
             padding: 0;
-            background-color: #000;
+            background-color: #05180c; /* Updated fallback background-color to a beautiful, premium deep forest green */
             user-select: none;
             -webkit-user-select: none;
             touch-action: none;
@@ -54,7 +52,7 @@
 
         /* Modern Solar-Contrast Deep Obsidian Glass Card for high sunlight legibility */
         .glass-card {
-            background: rgba(15, 15, 15, 0.75);
+            background: rgba(10, 25, 15, 0.75); /* Deep green tinted obsidian glass */
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -62,7 +60,7 @@
 
         /* iOS Liquid Slider Track */
         .ios-slider-track {
-            background: rgba(30, 30, 30, 0.35);
+            background: rgba(15, 35, 20, 0.35);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 0.5px solid rgba(255, 255, 255, 0.12);
@@ -110,6 +108,265 @@
         .fill-transition-spring {
             transition: width 0.35s cubic-bezier(0.2, 1.45, 0.35, 1) !important;
         }
+
+        /* ==========================================================================
+           CRITICAL NATIVE CSS FALLBACKS (Prevents layout breakage if Tailwind fails)
+           ========================================================================== */
+        #wallpaper-bg {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background-size: cover !important;
+            background-position: center !important;
+            z-index: 0 !important;
+            transform: scale(1.05);
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .vignette-layer {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background: linear-gradient(to top, rgba(5,20,10,0.6), transparent, rgba(0,0,0,0.45)) !important;
+            z-index: 10 !important;
+            pointer-events: none !important;
+        }
+
+        #call-screen {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            z-index: 20 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            height: 100dvh !important;
+            padding-top: calc(env(safe-area-inset-top) + 20px) !important;
+            padding-bottom: calc(env(safe-area-inset-bottom) + 30px) !important;
+            box-sizing: border-box !important;
+        }
+
+        #call-screen > div:first-child {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            margin-top: 5vh !important;
+        }
+
+        #caller-name {
+            font-size: 52px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            text-shadow: 0 4px 16px rgba(0,0,0,0.8) !important;
+            line-height: 1.2 !important;
+        }
+
+        #caller-label {
+            font-size: 20px !important;
+            color: rgba(255,255,255,0.9) !important;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6) !important;
+            margin-top: 8px !important;
+        }
+
+        #call-screen > div:nth-child(2) {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
+            max-width: 384px !important;
+            margin: 0 auto !important;
+        }
+
+        .quick-options-fallback {
+            display: flex !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            padding-left: 3rem !important;
+            padding-right: 3rem !important;
+            margin-bottom: 3rem !important;
+            box-sizing: border-box !important;
+        }
+
+        .quick-options-fallback button {
+            background: none !important;
+            border: none !important;
+            color: #ffffff !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            cursor: pointer !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+        }
+
+        .quick-options-fallback button svg {
+            width: 28px !important;
+            height: 28px !important;
+            margin-bottom: 8px !important;
+            color: #ffffff !important;
+            fill: none !important;
+        }
+
+        .quick-options-fallback button:last-child svg {
+            fill: #ffffff !important;
+        }
+
+        #slider-track {
+            position: relative !important;
+            height: 88px !important;
+            width: 100% !important;
+            border-radius: 9999px !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 8px !important;
+            box-sizing: border-box !important;
+            background: rgba(15, 35, 20, 0.45) !important;
+            border: 0.5px solid rgba(255, 255, 255, 0.12) !important;
+            backdrop-filter: blur(25px) !important;
+            -webkit-backdrop-filter: blur(25px) !important;
+        }
+
+        #slider-handle {
+            position: absolute !important;
+            left: 8px !important;
+            width: 72px !important;
+            height: 72px !important;
+            background-color: #ffffff !important;
+            border-radius: 9999px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+            cursor: grab !important;
+            z-index: 30 !important;
+        }
+
+        #slider-handle svg {
+            width: 32px !important;
+            height: 32px !important;
+            fill: #34C759 !important;
+        }
+
+        #slider-text {
+            position: absolute !important;
+            inset: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding-left: 3.5rem !important;
+            pointer-events: none !important;
+            z-index: 10 !important;
+        }
+
+        #slider-fill {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-top-left-radius: 9999px !important;
+            border-bottom-left-radius: 9999px !important;
+            pointer-events: none !important;
+            z-index: 20 !important;
+        }
+
+        /* Agenda elements layout fallbacks */
+        #agenda-screen {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            z-index: 50 !important;
+            padding: 16px !important;
+            box-sizing: border-box !important;
+        }
+
+        #agenda-screen > div:first-child {
+            position: absolute !important;
+            inset: 0 !important;
+            background-size: cover !important;
+            background-position: center !important;
+            filter: blur(3px) !important;
+            opacity: 0.85 !important;
+            z-index: 0 !important;
+            transform: scale(1.1) !important;
+        }
+
+        #agenda-screen > div:nth-child(2) {
+            position: absolute !important;
+            inset: 0 !important;
+            background: rgba(5,20,10,0.65) !important;
+            z-index: 0 !important;
+        }
+
+        #agenda-scroll-container {
+            position: absolute !important;
+            left: 16px !important;
+            right: 16px !important;
+            top: calc(env(safe-area-inset-top) + 16px) !important;
+            bottom: 0 !important;
+            overflow-y: auto !important;
+            z-index: 10 !important;
+            padding-bottom: 120px !important;
+            box-sizing: border-box !important;
+        }
+
+        .sticky-bottom-center {
+            position: absolute !important;
+            bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
+            left: 16px !important;
+            right: 16px !important;
+            display: flex !important;
+            justify-content: center !important;
+            gap: 12px !important;
+            z-index: 30 !important;
+        }
+
+        .sticky-bottom-center button {
+            flex: 1 !important;
+            max-width: 170px !important;
+            height: 44px !important;
+            border-radius: 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: #ffffff !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            box-sizing: border-box !important;
+        }
+
+        .sticky-bottom-center button:first-child {
+            background-color: rgba(198, 63, 63, 0.8) !important;
+            border-color: rgba(239, 68, 68, 0.15) !important;
+        }
+
+        .sticky-bottom-center button:last-child {
+            background-color: rgba(255,255,255,0.1) !important;
+        }
+
+        .sticky-bottom-center button svg {
+            width: 16px !important;
+            height: 16px !important;
+        }
+        
+        .sticky-bottom-center button:first-child svg {
+            fill: #ffffff !important;
+            transform: rotate(135deg) !important;
+        }
     </style>
     
     <script>
@@ -150,75 +407,71 @@
 <body class="text-white font-sans antialiased flex flex-col justify-between overflow-hidden">
 
     <!-- Background Wallpaper: Clean local path, completely hiding username -->
-    <div id="wallpaper-bg" class="fixed inset-0 bg-cover bg-center transition-all duration-1000 ease-out z-0 scale-105" style="background-image: url('./IMG_6657.JPG');"></div>
+    <div id="wallpaper-bg" style="background-image: url('./IMG_6657.JPG');"></div>
     
     <!-- Subtle linear vignette for high contrast visibility -->
-    <div class="fixed inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/40 z-10 pointer-events-none"></div>
+    <div class="vignette-layer"></div>
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
-    <div id="call-screen" class="fixed inset-0 z-20 flex flex-col justify-between h-full w-full pt-[calc(env(safe-area-inset-top)+20px)] pb-[calc(env(safe-area-inset-bottom)+30px)] px-6 transition-all duration-500">
+    <div id="call-screen" class="transition-all duration-500">
         
         <!-- Top Section: Caller Identity -->
-        <div class="flex flex-col items-center text-center mt-20 select-none">
-            <h1 id="caller-name" class="font-khmer text-[52px] font-bold tracking-wide text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] leading-tight">ខ្នងព្រះអង្គ</h1>
-            <p id="caller-label" class="text-[20px] text-white/90 font-medium tracking-wide mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">Calling</p>
+        <div>
+            <h1 id="caller-name" class="font-khmer">ខ្នងព្រះអង្គ</h1>
+            <p id="caller-label">Calling</p>
         </div>
 
         <!-- Middle/Bottom Section: Actions & Slide to Answer -->
-        <div class="flex flex-col items-center w-full max-w-sm mx-auto space-y-12 mb-4">
+        <div>
             
             <!-- Quick Options: Remind Me & Message -->
-            <div class="grid grid-cols-2 gap-24 text-center w-full px-12">
+            <div class="quick-options-fallback">
                 <!-- Remind Me Button -->
-                <button onclick="openActionSheet('remind')" class="flex flex-col items-center justify-center space-y-2 group active:opacity-60 transition-opacity">
-                    <div class="w-12 h-12 flex items-center justify-center">
-                        <svg class="w-7 h-7 text-white drop-shadow-md" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <span class="text-[13px] font-medium text-white drop-shadow-md">Remind Me</span>
+                <button onclick="openActionSheet('remind')">
+                    <svg width="28" height="28" class="w-7 h-7 text-white drop-shadow-md" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Remind Me</span>
                 </button>
 
                 <!-- Message Button -->
-                <button onclick="openActionSheet('message')" class="flex flex-col items-center justify-center space-y-2 group active:opacity-60 transition-opacity">
-                    <div class="w-12 h-12 flex items-center justify-center">
-                        <svg class="w-7 h-7 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.14 2 11.25c0 2.87 1.45 5.44 3.75 7.12-.13.38-.47 1.41-1.46 2.45-.12.13-.13.33-.03.47.08.11.21.17.34.17.15 0 3.1-.19 5.37-1.8 1.15.34 2.39.54 3.67.54 5.52 0 10-4.14 10-9.25S17.52 2 12 2z" />
-                        </svg>
-                    </div>
-                    <span class="text-[13px] font-medium text-white drop-shadow-md">Message</span>
+                <button onclick="openActionSheet('message')">
+                    <svg width="28" height="28" class="w-7 h-7 text-white drop-shadow-md" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.14 2 11.25c0 2.87 1.45 5.44 3.75 7.12-.13.38-.47 1.41-1.46 2.45-.12.13-.13.33-.03.47.08.11.21.17.34.17.15 0 3.1-.19 5.37-1.8 1.15.34 2.39.54 3.67.54 5.52 0 10-4.14 10-9.25S17.52 2 12 2z" />
+                    </svg>
+                    <span>Message</span>
                 </button>
             </div>
 
             <!-- Swipe to Answer Section -->
             <div class="w-full px-2">
-                <div id="slider-track" class="relative h-[88px] w-full ios-slider-track rounded-full flex items-center p-2 select-none overflow-hidden">
+                <div id="slider-track" class="ios-slider-track select-none overflow-hidden">
                     
-                    <div id="slider-text" class="absolute inset-0 flex items-center justify-center pointer-events-none pl-14 select-none">
+                    <div id="slider-text" class="pointer-events-none select-none">
                         <span class="shimmer-text text-[17px] font-medium tracking-[0.03em]">slide to answer</span>
                     </div>
 
-                    <div id="slider-handle" class="absolute left-2 w-[72px] h-[72px] bg-white rounded-full flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.4)] cursor-grab active:cursor-grabbing z-30 transition-transform duration-75 nudge-anim animate-nudge">
-                        <svg class="w-8 h-8 text-[#34C759] fill-current" viewBox="0 0 24 24">
+                    <div id="slider-handle" class="shadow-[0_4px_16px_rgba(0,0,0,0.4)] cursor-grab active:cursor-grabbing nudge-anim animate-nudge">
+                        <svg width="32" height="32" class="w-8 h-8 text-[#34C759] fill-current" viewBox="0 0 24 24">
                             <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
                         </svg>
                     </div>
 
-                    <div id="slider-fill" class="absolute left-0 top-0 bottom-0 bg-white/10 rounded-l-full pointer-events-none" style="width: 2.5rem;"></div>
+                    <div id="slider-fill" class="pointer-events-none" style="width: 2.5rem;"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- EVENT AGENDA SCREEN INTERFACE (Appears upon answering the call) -->
-    <div id="agenda-screen" class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-all duration-700 p-4 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)] overflow-hidden">
+    <div id="agenda-screen" class="opacity-0 pointer-events-none transition-all duration-700">
         
         <!-- Slightly Blurred Green Mountain Background -->
-        <div class="absolute inset-0 bg-cover bg-center filter blur-[3px] scale-110 opacity-85 z-0" style="background-image: url('./IMG_6657.JPG');"></div>
-        <div class="absolute inset-0 bg-black/60 z-0 pointer-events-none"></div>
+        <div></div>
+        <div></div>
 
         <!-- Agenda Body Scroll Container -->
-        <div id="agenda-scroll-container" class="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+16px)] bottom-0 overflow-y-auto agenda-scroll px-1 space-y-4 touch-pan-y z-10 font-khmer pb-28">
+        <div id="agenda-scroll-container" class="agenda-scroll px-1 space-y-4 touch-pan-y font-khmer">
             
             <!-- Agenda Header -->
             <div id="agenda-header" class="w-full text-center select-none border-b border-white/10 pb-4 font-khmer mb-4">
@@ -430,7 +683,7 @@
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">3:00 PM • ⛰️ ដល់ភ្នំខ្នងសប្បាយ</span>
-                            <p class="text-sm text-white/90 leading-snug"> ដើរដល់ភ្នំខ្នងសប្បាយ រៀបចំអីវ៉ាន់បោះជុំរំ, ងូតទឹក, ដើរថតកម្សាន្ត... ។</p>
+                            <p class="text-sm text-white/90 leading-snug">ដើរដល់ភ្នំខ្នងសប្បាយ រៀបចំអីវ៉ាន់បោះជុំរំ, ងូតទឹក, ដើរថតកម្សាន្ត... ។</p>
                         </div>
                     </div>
 
@@ -514,7 +767,7 @@
                             <div class="chk-inner w-3.5 h-3.5 rounded-full bg-transparent transition-all"></div>
                         </button>
                         <div class="flex-1 space-y-1">
-                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍲 ញុាំបាយល្ងាច</span>
+                            <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍲 ញ៉ាំបាយល្ងាច</span>
                             <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំបាយល្ងាច, ជជែកគ្នាលេងកម្សាន្ត ។</p>
                         </div>
                     </div>
@@ -609,7 +862,7 @@
             </div>
 
             <!-- Destinations List -->
-            <div class="glass-card rounded-2xl p-4 border-l-4 border-emerald-500 space-y-2 select-none font-khmer">
+            <div class="glass-card rounded-2xl p-4 border-l-4 border-emerald-500 space-y-2 select-none">
                 <h5 class="text-sm font-bold text-emerald-400 flex items-center gap-1.5 uppercase tracking-wide">
                     📍 គោលដៅត្រូវទស្សនា និងថតរូបលេងកម្សាន្ត
                 </h5>
@@ -624,29 +877,27 @@
             </div>
         </div>
 
-        <!-- Floating Action Button Footer: Contains both "Offline Mode" and "Disconnect" side-by-side -->
-        <div class="absolute bottom-[calc(env(safe-area-inset-bottom)+16px)] left-1/2 -translate-x-1/2 flex items-center justify-center gap-3 z-30 w-auto max-w-[95%] select-none font-khmer">
-            
-            <!-- Offline Mode Instruction Trigger Button -->
-            <button onclick="openOfflineSheet()" class="h-[38px] px-4 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 backdrop-blur-md flex items-center justify-center space-x-1.5 shadow-md active:scale-[0.96] transition-all duration-150 whitespace-nowrap">
-                <svg class="w-4 h-4 text-[#34C759]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                   <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2" />
-                </svg>
-                <span class="text-[12px] font-semibold text-white/90">Offline Mode</span>
-            </button>
-
-            <!-- Floating Action Disconnect Button -->
-            <button onclick="hangUpCall()" class="h-[38px] px-4 rounded-full bg-[#C63F3F]/75 hover:bg-[#B23333] border border-red-500/10 backdrop-blur-md flex items-center justify-center space-x-1.5 shadow-md active:scale-[0.96] transition-all duration-150 whitespace-nowrap">
-                <svg class="w-3.5 h-3.5 text-white/90 fill-current rotate-[135deg]" viewBox="0 0 24 24">
+        <!-- Sticky Bottom Control Center (Side-By-Side Buttons) -->
+        <div class="sticky-bottom-center">
+            <!-- Disconnect/Hangup Button -->
+            <button onclick="hangUpCall()">
+                <svg width="16" height="16" class="text-white fill-current rotate-[135deg]" viewBox="0 0 24 24">
                     <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
                 </svg>
-                <span class="text-[12px] font-semibold text-white/90 font-sans">Disconnect</span>
+                <span>បិទការសន្ទនា</span>
+            </button>
+
+            <!-- Offline Mode Guide Button -->
+            <button onclick="openActionSheet('offline')">
+                <svg width="16" height="16" class="text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>
+                <span>របៀបប្រើ Offline</span>
             </button>
         </div>
     </div>
 
-    <!-- MOCK NATIVE iOS ACTION SHEETS FOR FUN HIKING DIALOGS -->
+    <!-- MOCK NATIVE iOS ACTION SHEETS -->
     <!-- 1. Message Sheet -->
     <div id="message-overlay" class="fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 hidden pointer-events-auto" onclick="closeActionSheet('message')"></div>
     <div id="message-sheet" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 transform translate-y-full transition-transform duration-300 ease-out bg-[#1c1c1e]/95 backdrop-blur-2xl rounded-t-3xl p-4 pb-[calc(env(safe-area-inset-bottom)+16px)] select-none">
@@ -676,109 +927,90 @@
         <button onclick="closeActionSheet('remind')" class="w-full text-center py-4 mt-2.5 bg-white/10 text-white rounded-2xl font-semibold active:opacity-75 transition-opacity">Cancel</button>
     </div>
 
-    <!-- 3. Offline Mode Instructions Sheet -->
-    <div id="offline-overlay" class="fixed inset-0 bg-black/60 z-[60] transition-opacity duration-300 hidden pointer-events-auto" onclick="closeOfflineSheet()"></div>
-    <div id="offline-sheet" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-[70] transform translate-y-full transition-transform duration-400 ease-out bg-[#121214]/98 border-t border-white/10 backdrop-blur-3xl rounded-t-[28px] p-5 pb-[calc(env(safe-area-inset-bottom)+18px)] select-none font-khmer">
+    <!-- 3. Offline Mode Guide Sheet (Premium Custom Modal UI) -->
+    <div id="offline-overlay" class="fixed inset-0 bg-black/60 z-40 transition-opacity duration-300 hidden pointer-events-auto" onclick="closeActionSheet('offline')"></div>
+    <div id="offline-sheet" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 transform translate-y-full transition-transform duration-300 ease-out bg-[#0e2114]/95 backdrop-blur-3xl rounded-t-[28px] p-5 pb-[calc(env(safe-area-inset-bottom)+20px)] select-none border-t border-white/10 text-left font-khmer">
         
-        <!-- Pull bar decoration -->
+        <!-- Drag Handle Indicator -->
         <div class="w-12 h-1 bg-white/20 rounded-full mx-auto mb-4"></div>
-        
-        <div class="text-center pb-3.5 border-b border-white/10">
-            <h3 class="text-lg font-bold text-white">របៀបប្រើ Offline Mode</h3>
-            <p class="text-xs text-white/50 mt-1">ដើម្បីប្រើរដោយគ្មានអ៊ីនធឺណិត​​​ សូមធើតាមកាណែរនាំខាងក្រោម</p>
+
+        <!-- Modal Header -->
+        <div class="text-center pb-4 border-b border-white/10">
+            <h3 class="text-lg font-bold text-white tracking-wide">របៀបដំឡើងសម្រាប់ប្រើប្រាស់ Offline</h3>
+            <p class="text-xs text-white/40 mt-1">ទោះគ្មានសេវា ឬអ៊ីនធឺណិតនៅលើភ្នំក៏អាចមើលបាន</p>
         </div>
 
-        <!-- Platform Tabs Navigation -->
-        <div class="flex gap-2 p-1 bg-white/5 rounded-xl mt-4 border border-white/5">
-            <button id="offline-tab-ios" onclick="setOfflinePlatform('ios')" class="flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 bg-white/10 text-white shadow-sm">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.69-1.12 1.84-.98 2.94.1 0 .2.01.3.01.97 0 2.05-.59 2.51-1.34z"/>
+        <!-- OS Tab Switcher -->
+        <div class="flex bg-white/5 p-1 rounded-xl mt-4 gap-1 border border-white/5">
+            <button onclick="switchOfflineTab('ios')" id="tab-off-ios" class="flex-1 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-all duration-200">
+                <svg width="16" height="16" class="fill-current" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.21.67-2.93 1.49-.62.69-1.16 1.84-1.01 2.96 1.12.09 2.27-.57 2.95-1.39z"/>
                 </svg>
                 iOS (Safari)
             </button>
-            <button id="offline-tab-android" onclick="setOfflinePlatform('android')" class="flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 text-white/50 hover:text-white">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.523 15.3l1.816 3.146a.5.5 0 0 1-.178.683h-.002a.5.5 0 0 1-.682-.178l-1.83-3.17a8.956 8.956 0 0 1-9.294 0l-1.83 3.17a.5.5 0 0 1-.68.18.5.5 0 0 1-.18-.68l1.816-3.146A9.012 9.012 0 0 1 2.1 8.544h19.8a9.01 9.01 0 0 1-4.377 6.756M7 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2m10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-5 3.5c-1.38 0-2.5-.35-2.5-1h5c0 .65-1.12 1-2.5 1"/>
+            <button onclick="switchOfflineTab('android')" id="tab-off-android" class="flex-1 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-all duration-200">
+                <svg width="16" height="16" class="fill-current" viewBox="0 0 24 24">
+                    <path d="M17.523 15.3c-.144 0-.261-.117-.261-.261V13.67h-1.63v1.37c0 .144-.117.261-.261.261h-.783c-.144 0-.261-.117-.261-.261v-1.37H12.7v1.37c0 .144-.117.261-.261.261h-.783c-.144 0-.261-.117-.261-.261v-1.37h-1.63v1.37c0 .144-.117.261-.261.261H8.72c-.144 0-.261-.117-.261-.261V11.23c0-.144.117-.261.261-.261h8.54c.144 0 .261.117.261.261v3.81c0 .144-.117.261-.261.261h-.783zM15.11 8.35a.87.87 0 110-1.74.87.87 0 010 1.74zm-6.22 0a.87.87 0 110-1.74.87.87 0 010 1.74zM17.91 9.8H6.09a.82.82 0 01-.82-.82V6.63c0-.45.37-.82.82-.82h2.24l-1.42-1.42a.54.54 0 010-.76.54.54 0 01.76 0L9.4 5.36a.54.54 0 01-.15.82h5.5l1.73-1.73a.54.54 0 01.76 0c.21.21.21.55 0 .76l-1.42 1.42h2.24c.45 0 .82.37.82.82v2.35c0 .45-.37.82-.82.82z"/>
                 </svg>
                 Android (Chrome)
             </button>
         </div>
 
-        <!-- Scrollable Instruction Body -->
-        <div class="mt-4 max-h-[280px] overflow-y-auto pr-1 space-y-4 agenda-scroll">
+        <!-- Instructions Dynamic List -->
+        <div class="mt-5 space-y-4 max-h-[300px] overflow-y-auto pr-1">
             
-            <!-- iOS Safari Steps -->
-            <div id="offline-content-ios" class="space-y-3.5">
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
-                    <p class="text-[13px] text-white/90 leading-relaxed">
-                        បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី <b>Safari</b>។
-                    </p>
+            <!-- iOS Instructions Block -->
+            <div id="offline-steps-ios" class="space-y-3.5 hidden">
+                <div class="flex gap-3.5 items-start">
+                    <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</div>
+                    <p class="text-[13px] text-white/90 leading-relaxed">បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី <span class="text-[#34C759] font-bold">Safari</span>។</p>
                 </div>
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
-                    <p class="text-[13px] text-white/90 leading-relaxed flex items-center gap-1.5 flex-wrap">
-                        ចុចលើប៊ូតុង Share (រូបសញ្ញាព្រួញឡើងលើ) នៅរបារខាងក្រោម។
-                    </p>
+                <div class="flex gap-3.5 items-start">
+                    <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</div>
+                    <p class="text-[13px] text-white/90 leading-relaxed">ចុចលើប៊ូតុង <span class="text-[#34C759] font-bold">Share</span> (រូបសញ្ញាព្រួញឡើងលើ) នៅរបារខាងក្រោម។</p>
                 </div>
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
-                    <p class="text-[13px] text-white/90 leading-relaxed">
-                        អូសចុះក្រោម រួចជ្រើសរើសយក<span class="text-[#34C759] font-bold"> Add to Home Screen</span>។
-                    </p>
+                <div class="flex gap-3.5 items-start">
+                    <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</div>
+                    <p class="text-[13px] text-white/90 leading-relaxed">អូសចុះក្រោម រួចជ្រើសរើសយក <span class="text-[#34C759] font-bold">Add to Home Screen</span>។</p>
                 </div>
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
-                    <p class="text-[13px] text-white/90 leading-relaxed">
-                        ចុចបើក App នេះម្តងទៀតនៅ Home Screen ជាមួយ internet! រងចាំ 15s
-                    </p>
+                <div class="flex gap-3.5 items-start">
+                    <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</div>
+                    <p class="text-[13px] text-white/90 leading-relaxed">ចុចបើក App នេះម្តងទៀតនៅ Home Screen ជាមួយ internet! រងចាំ 15s</p>
                 </div>
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
-                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">
-                        ឥឡូវអ្នកអាចបិទ Internet បន្ទប់មកបើក Airplane Mode ដើម្បី Test បាន។
-                    </p>
+                <div class="flex gap-3.5 items-start p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl">
+                    <div class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</div>
+                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">ឥឡូវអ្នកអាចបិទអុីនធឺណិត (Airplane Mode) ដើម្បី Test បាន។</p>
                 </div>
             </div>
 
-            <!-- Android Chrome Steps -->
-            <div id="offline-content-android" class="space-y-3.5 hidden">
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
-                    <p class="text-[13px] text-white/90 leading-relaxed">
-                        បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី Google Chrome។
-                    </p>
+            <!-- Android Instructions Block -->
+            <div id="offline-steps-android" class="space-y-3.5 hidden">
+                <div class="flex gap-3.5 items-start">
+                    <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</div>
+                    <p class="text-[13px] text-white/90 leading-relaxed">បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី <span class="text-[#34C759] font-bold">Google Chrome</span>។</p>
                 </div>
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
-                    <p class="text-[13px] text-white/90 leading-relaxed flex items-center gap-1.5 flex-wrap">
-                        ចុចលើសញ្ញាចុចបី (More Options) នៅជ្រុងខាងលើស្តាំ។
-                    </p>
+                <div class="flex gap-3.5 items-start">
+                    <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</div>
+                    <p class="text-[13px] text-white/90 leading-relaxed">ចុចលើសញ្ញាចុចបី <span class="text-[#34C759] font-bold">(More Options)</span> នៅជ្រុងខាងលើស្តាំ។</p>
                 </div>
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
-                    <p class="text-[13px] text-white/90 leading-relaxed">
-                        ជ្រើសរើសយកពាក្យថា Install App ឬ Add to Home Screen។
-                    </p>
+                <div class="flex gap-3.5 items-start">
+                    <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</div>
+                    <p class="text-[13px] text-white/90 leading-relaxed">ជ្រើសរើសយកពាក្យថា <span class="text-[#34C759] font-bold">Install App</span> ឬ <span class="text-[#34C759] font-bold">Add to Home Screen</span>។</p>
                 </div>
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759]/15 text-[#34C759] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
-                    <p class="text-[13px] text-white/90 leading-relaxed">
-                        ចុចបើក App នេះម្តងទៀតនៅ Home Screen ជាមួយ internet! រងចាំ 15s
-                    </p>
+                <div class="flex gap-3.5 items-start">
+                    <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</div>
+                    <p class="text-[13px] text-white/90 leading-relaxed">ចុចបើក App នេះម្តងទៀតនៅ Home Screen ជាមួយ internet! រងចាំ 15s</p>
                 </div>
-                <div class="flex gap-3 items-start">
-                    <span class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
-                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">
-                        ឥឡូវអ្នកអាចបិទ Internet បន្ទប់មកបើក Airplane Mode ដើម្បី Test បាន។
-                    </p>
+                <div class="flex gap-3.5 items-start p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl">
+                    <div class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</div>
+                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">ឥឡូវអ្នកអាចបិទអុីនធឺណិត (Airplane Mode) ដើម្បី Test បាន។</p>
                 </div>
             </div>
 
         </div>
 
-        <!-- Close Button -->
-        <button onclick="closeOfflineSheet()" class="w-full text-center py-3.5 mt-4 bg-white/10 hover:bg-white/15 text-white rounded-2xl font-semibold active:opacity-75 transition-colors">យល់ព្រម (Close)</button>
+        <!-- Close button -->
+        <button onclick="closeActionSheet('offline')" class="w-full text-center py-3.5 mt-5 bg-white/10 text-white rounded-2xl font-semibold active:opacity-75 transition-opacity">បិទចោល (Close)</button>
     </div>
 
     <!-- HIGH FIDELITY FLOATING iOS NOTIFICATION BANNER -->
@@ -822,23 +1054,29 @@
         let messageSheet = null;
         let remindOverlay = null;
         let remindSheet = null;
+        let offlineOverlay = null;
+        let offlineSheet = null;
         let iosNotif = null;
         let notifType = null;
         let notifText = null;
 
-        // Offline components DOM mapping
-        let offlineOverlay = null;
-        let offlineSheet = null;
-        let tabIos = null;
-        let tabAndroid = null;
-        let contentIos = null;
-        let contentAndroid = null;
-
-        // Secure relative Registration for Vercel
+        // Secure relative Registration with instant client updates
         function initPWA() {
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(() => console.log("Redirection-Cleaning Service Worker connected successfully!"))
+                    .then((reg) => {
+                        console.log("Service Worker registered successfully!");
+                        // Listen for updates
+                        reg.addEventListener('updatefound', () => {
+                            const newWorker = reg.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    console.log("New content detected; auto-reloading...");
+                                    window.location.reload();
+                                }
+                            });
+                        });
+                    })
                     .catch((err) => console.warn("PWA Service Worker offline sync failed: ", err));
             }
         }
@@ -1046,6 +1284,11 @@
             } else if (type === 'remind') {
                 remindOverlay.classList.remove('hidden');
                 remindSheet.classList.remove('translate-y-full');
+            } else if (type === 'offline') {
+                offlineOverlay.classList.remove('hidden');
+                offlineSheet.classList.remove('translate-y-full');
+                const isAndroid = /Android/i.test(navigator.userAgent);
+                switchOfflineTab(isAndroid ? 'android' : 'ios');
             }
         }
 
@@ -1056,36 +1299,28 @@
             } else if (type === 'remind') {
                 remindOverlay.classList.add('hidden');
                 remindSheet.classList.add('translate-y-full');
-            }
-        }
-
-        function openOfflineSheet() {
-            initAudioOnInteraction();
-            if (offlineOverlay && offlineSheet) {
-                offlineOverlay.classList.remove('hidden');
-                offlineSheet.classList.remove('translate-y-full');
-            }
-        }
-
-        function closeOfflineSheet() {
-            if (offlineOverlay && offlineSheet) {
+            } else if (type === 'offline') {
                 offlineOverlay.classList.add('hidden');
                 offlineSheet.classList.add('translate-y-full');
             }
         }
 
-        function setOfflinePlatform(platform) {
-            initAudioOnInteraction();
+        function switchOfflineTab(platform) {
+            const tabIos = document.getElementById('tab-off-ios');
+            const tabAndroid = document.getElementById('tab-off-android');
+            const stepsIos = document.getElementById('offline-steps-ios');
+            const stepsAndroid = document.getElementById('offline-steps-android');
+
             if (platform === 'ios') {
-                tabIos.className = "flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 bg-white/10 text-white shadow-sm";
-                tabAndroid.className = "flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 text-white/50 hover:text-white";
-                contentIos.classList.remove('hidden');
-                contentAndroid.classList.add('hidden');
+                tabIos.className = "flex-1 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 bg-white/10 text-white shadow-sm";
+                tabAndroid.className = "flex-1 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 text-white/55 hover:text-white";
+                stepsIos.classList.remove('hidden');
+                stepsAndroid.classList.add('hidden');
             } else {
-                tabAndroid.className = "flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 bg-white/10 text-white shadow-sm";
-                tabIos.className = "flex-1 py-2 text-sm font-bold rounded-lg text-center transition-all flex items-center justify-center gap-1.5 text-white/50 hover:text-white";
-                contentAndroid.classList.remove('hidden');
-                contentIos.classList.add('hidden');
+                tabAndroid.className = "flex-1 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 bg-white/10 text-white shadow-sm";
+                tabIos.className = "flex-1 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 text-white/55 hover:text-white";
+                stepsAndroid.classList.remove('hidden');
+                stepsIos.classList.add('hidden');
             }
         }
 
@@ -1207,17 +1442,11 @@
             messageSheet = document.getElementById('message-sheet');
             remindOverlay = document.getElementById('remind-overlay');
             remindSheet = document.getElementById('remind-sheet');
+            offlineOverlay = document.getElementById('offline-overlay');
+            offlineSheet = document.getElementById('offline-sheet');
             iosNotif = document.getElementById('ios-notification');
             notifType = document.getElementById('notif-type');
             notifText = document.getElementById('notif-text');
-
-            // Offline DOM mapping
-            offlineOverlay = document.getElementById('offline-overlay');
-            offlineSheet = document.getElementById('offline-sheet');
-            tabIos = document.getElementById('offline-tab-ios');
-            tabAndroid = document.getElementById('offline-tab-android');
-            contentIos = document.getElementById('offline-content-ios');
-            contentAndroid = document.getElementById('offline-content-android');
 
             initPWA();
             calculateLimits();
