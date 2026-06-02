@@ -1,4 +1,4 @@
-const CACHE_NAME = 'preahang-vercel-offline-v2';
+const CACHE_NAME = 'preahang-vercel-offline-v5'; // Cache version v5 matching the green theme update
 
 // Assets to cache relative to your Vercel root domain
 const ASSETS_TO_CACHE = [
@@ -16,7 +16,7 @@ function cleanResponse(response) {
     return response;
   }
   
-  // Clone headers and recreate response without the "redirected" flag
+  // Clone headers and recreate response without the "redirected" flag to prevent iOS webapp crashes
   const cleanedHeaders = new Headers(response.headers);
   return new Response(response.body, {
     status: response.status,
@@ -33,11 +33,19 @@ self.addEventListener('install', (event) => {
       
       for (const url of ASSETS_TO_CACHE) {
         try {
-          const response = await fetch(url);
-          if (response.ok) {
-            // Clean response before storing in cache
+          // Explicitly fetch cross-origin scripts/fonts with CORS configuration
+          const isCrossOrigin = url.startsWith('http') && !url.includes(self.location.hostname);
+          const fetchOptions = isCrossOrigin ? { mode: 'cors' } : {};
+          
+          const response = await fetch(url, fetchOptions);
+          
+          // Allow cross-origin caching if response status is successful (200) or opaque (0)
+          if (response.ok || response.status === 0) {
             const sanitizedResponse = cleanResponse(response);
             await cache.put(url, sanitizedResponse);
+            console.log(`SW: Successfully cached during install: ${url}`);
+          } else {
+            console.warn(`SW: Fetch returned bad status (${response.status}) for: ${url}`);
           }
         } catch (error) {
           console.warn(`SW: Failed to cache asset during install: ${url}`, error);
@@ -74,8 +82,8 @@ self.addEventListener('fetch', (event) => {
       }
       
       return fetch(event.request).then((networkResponse) => {
-        // Cache new successful GET requests dynamically
-        if (event.request.method === 'GET' && networkResponse.status === 200) {
+        // Cache new successful GET requests dynamically (supporting status 0 for CDN requests)
+        if (event.request.method === 'GET' && (networkResponse.status === 200 || networkResponse.status === 0)) {
           const responseToCache = cleanResponse(networkResponse.clone());
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache);
