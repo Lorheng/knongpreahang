@@ -7,9 +7,9 @@
     
     <!-- Vercel Web Analytics Integration -->
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
-    <script defer src="/_vercel/insights/script.js"></script>
+    <script src="/_vercel/insights/script.js"></script>
 
-    <!-- Telegram Link Preview Meta Tags (Using relative images to completely mask username) -->
+    <!-- Telegram Link Preview Meta Tags -->
     <meta property="og:title" content="ខ្នងព្រះអង្គ" />
     <meta property="og:description" content="Knong Preah Ang is Calling You! Pick up?" />
     <meta property="og:image" content="./IMG_6657.JPG" />
@@ -19,7 +19,7 @@
     <meta name="twitter:description" content="Knong Preah Ang is Calling You! Pick up?" />
     <meta name="twitter:image" content="./IMG_6657.JPG" />
 
-    <!-- Tailwind CSS (Directly version-locked to bypass redirect blocks inside Service Workers) -->
+    <!-- CORS-Friendly, Version-Locked Tailwind CDN -->
     <script src="https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.10/tailwindcss.js"></script>
     
     <!-- Google Fonts: Kantumruy Pro for premium, high-fidelity Khmer text rendering -->
@@ -44,15 +44,15 @@
             height: 100dvh;
             margin: 0;
             padding: 0;
-            background-color: #05180c; /* Fallback background-color to a beautiful, premium deep forest green */
+            background-color: #05180c; /* Premium deep forest green background fallback */
             user-select: none;
             -webkit-user-select: none;
             touch-action: none;
         }
 
-        /* Modern Solar-Contrast Deep Obsidian Glass Card for high sunlight legibility */
+        /* Modern Solar-Contrast Deep Obsidian Glass Card */
         .glass-card {
-            background: rgba(10, 25, 15, 0.75); /* Deep green tinted obsidian glass */
+            background: rgba(10, 25, 15, 0.75);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -81,25 +81,20 @@
         }
 
         @keyframes shine {
-            0% {
-                background-position: 150% 0;
-            }
-            100% {
-                background-position: -150% 0;
-            }
+            0% { background-position: 150% 0; }
+            100% { background-position: -150% 0; }
         }
 
-        /* Highly Optimized Smooth Momentum Scroll Container with Webkit Support */
+        /* Momentum Scroll Container */
         .agenda-scroll {
             -webkit-overflow-scrolling: touch !important;
             scroll-behavior: smooth;
             touch-action: pan-y !important;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
+            scrollbar-width: none;
         }
 
         .agenda-scroll::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
+            display: none;
         }
 
         .transition-spring {
@@ -110,8 +105,8 @@
         }
 
         /* ==========================================================================
-           CRITICAL NATIVE CSS FALLBACKS (Prevents layout breakage if Tailwind fails)
-           ========================================================================= */
+           CRITICAL NATIVE CSS FALLBACKS (Prevents layout breakage if CDN fails)
+           ========================================================================== */
         #wallpaper-bg {
             position: fixed !important;
             top: 0 !important;
@@ -323,7 +318,7 @@
 
         .sticky-bottom-center {
             position: absolute !important;
-            bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
+            bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
             left: 16px !important;
             right: 16px !important;
             display: flex !important;
@@ -334,16 +329,16 @@
 
         .sticky-bottom-center button {
             flex: 1 !important;
-            max-width: 170px !important;
-            height: 44px !important;
-            border-radius: 16px !important;
+            max-width: 140px !important;
+            height: 36px !important;
+            border-radius: 9999px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: 8px !important;
+            gap: 6px !important;
             border: 1px solid rgba(255,255,255,0.1) !important;
             color: #ffffff !important;
-            font-size: 12px !important;
+            font-size: 11px !important;
             font-weight: 600 !important;
             cursor: pointer !important;
             box-sizing: border-box !important;
@@ -355,12 +350,14 @@
         }
 
         .sticky-bottom-center button:last-child {
-            background-color: rgba(255,255,255,0.1) !important;
+            background-color: rgba(20, 20, 22, 0.95) !important;
+            backdrop-filter: blur(30px) !important;
+            -webkit-backdrop-filter: blur(30px) !important;
         }
 
         .sticky-bottom-center button svg {
-            width: 16px !important;
-            height: 16px !important;
+            width: 14px !important;
+            height: 14px !important;
         }
         
         .sticky-bottom-center button:first-child svg {
@@ -406,11 +403,30 @@
 </head>
 <body class="text-white font-sans antialiased flex flex-col justify-between overflow-hidden">
 
-    <!-- Background Wallpaper: Clean local path, completely hiding username -->
+    <!-- Background Wallpaper: Clean local path -->
     <div id="wallpaper-bg" style="background-image: url('./IMG_6657.JPG');"></div>
     
     <!-- Subtle linear vignette for high contrast visibility -->
     <div class="vignette-layer"></div>
+
+    <!-- PREMIUM FLOATING iOS OFF-LINE DOWNLOAD PROGRESS PILL -->
+    <div id="progress-pill" class="fixed top-12 left-1/2 -translate-x-1/2 z-50 bg-[#0e2114]/90 border border-white/10 px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-3.5 max-w-[90%] transition-all duration-500 transform -translate-y-40 select-none backdrop-blur-3xl font-khmer w-auto min-w-[280px]">
+        <div id="progress-spinner-container" class="relative w-5 h-5 flex items-center justify-center shrink-0">
+            <!-- Active downloading iOS spinner -->
+            <svg id="progress-spinner" class="animate-spin h-5 w-5 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <!-- Checkmark loaded icon -->
+            <svg id="progress-checkmark" class="h-5 w-5 text-emerald-400 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <div class="flex flex-col min-w-0">
+            <span id="progress-title-text" class="text-[12px] font-semibold text-white tracking-wide">កំពុងទាញយកទិន្នន័យក្រៅប្រព័ន្ធ...</span>
+            <span id="progress-status-text" class="text-[10px] text-emerald-400 font-bold tracking-wider uppercase mt-0.5">Caching Assets: 0%</span>
+        </div>
+    </div>
 
     <!-- MAIN INCOMING CALL UI (iOS Authentic Lockscreen Layout) -->
     <div id="call-screen" class="transition-all duration-500">
@@ -563,7 +579,7 @@
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍽️ ញ៉ាំអាហារពេលល្ងាច</span>
-                            <p class="text-sm text-white/90 leading-snug">ជជែកគ្នាលេងកម្សាន្តជុំគ្នា និងជួបជុំញ៉ាំអាហារពេលល្ងាច ។</p>
+                            <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំអាហារពេលល្ងាច និងជជែកគ្នាលេងកម្សាន្តជុំគ្នា ។</p>
                         </div>
                     </div>
 
@@ -877,22 +893,22 @@
             </div>
         </div>
 
-        <!-- Sticky Bottom Control Center (Side-By-Side Buttons) -->
-        <div class="sticky-bottom-center absolute bottom-[calc(env(safe-area-inset-bottom)+8px)] left-4 right-4 flex gap-2.5 justify-center z-30">
+        <!-- Sticky Bottom Control Center (Side-By-Side Rounded Capsule Buttons) -->
+        <div class="sticky-bottom-center">
             <!-- Disconnect/Hangup Button -->
-            <button onclick="hangUpCall()" class="flex-1 max-w-[140px] h-[36px] rounded-full bg-[#C63F3F]/90 hover:bg-[#B23333] border border-red-500/20 backdrop-blur-2xl flex items-center justify-center space-x-1.5 shadow-lg active:scale-[0.97] transition-all duration-150">
+            <button onclick="hangUpCall()">
                 <svg width="14" height="14" class="text-white fill-current rotate-[135deg]" viewBox="0 0 24 24">
                     <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z" />
                 </svg>
-                <span class="text-[11px] font-semibold tracking-wide text-white font-khmer">បិទការសន្ទនា</span>
+                <span>បិទការសន្ទនា</span>
             </button>
 
             <!-- Offline Mode Guide Button -->
-            <button onclick="openActionSheet('offline')" class="flex-1 max-w-[140px] h-[36px] rounded-full bg-[#141416]/95 hover:bg-[#202024] border border-white/12 backdrop-blur-3xl flex items-center justify-center space-x-1.5 shadow-lg active:scale-[0.97] transition-all duration-150">
-                <svg width="14" height="14" class="text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <button onclick="openActionSheet('offline')">
+                <svg width="14" height="14" class="text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
                 </svg>
-                <span class="text-[11px] font-semibold tracking-wide text-white/90 font-khmer">របៀបប្រើ Offline</span>
+                <span>របៀបប្រើ Offline</span>
             </button>
         </div>
     </div>
@@ -963,7 +979,7 @@
             <div id="offline-steps-ios" class="space-y-3.5 hidden">
                 <div class="flex gap-3.5 items-start">
                     <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</div>
-                    <p class="text-[13px] text-white/90 leading-relaxed">បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី <span class="text-[#34C759] font-bold">Safari</span>。</p>
+                    <p class="text-[13px] text-white/90 leading-relaxed">បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី <span class="text-[#34C759] font-bold">Safari</span>។</p>
                 </div>
                 <div class="flex gap-3.5 items-start">
                     <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</div>
@@ -1060,9 +1076,24 @@
         let notifType = null;
         let notifText = null;
 
-        // Secure relative Registration with instant client updates
+        // Offline Caching Progress Controls
+        let progressPill = null;
+        let progressText = null;
+        let progressTitle = null;
+        let progressSpinner = null;
+        let progressCheckmark = null;
+
+        // Secure relative Registration with instant progress tracking
         function initPWA() {
             if ('serviceWorker' in navigator) {
+                // Listen for messages dispatched from active Service Worker
+                navigator.serviceWorker.addEventListener('message', (event) => {
+                    if (event.data && event.data.type === 'CACHE_PROGRESS') {
+                        const progress = event.data.progress;
+                        showCacheProgress(progress);
+                    }
+                });
+
                 navigator.serviceWorker.register('./sw.js')
                     .then((reg) => {
                         console.log("Service Worker registered successfully!");
@@ -1078,6 +1109,40 @@
                         });
                     })
                     .catch((err) => console.warn("PWA Service Worker offline sync failed: ", err));
+            }
+        }
+
+        // Show Offline Cache Progress Pill UI
+        function showCacheProgress(progress) {
+            if (!progressPill) {
+                progressPill = document.getElementById('progress-pill');
+                progressText = document.getElementById('progress-status-text');
+                progressTitle = document.getElementById('progress-title-text');
+                progressSpinner = document.getElementById('progress-spinner');
+                progressCheckmark = document.getElementById('progress-checkmark');
+            }
+
+            // Slide pill down into view
+            progressPill.classList.remove('-translate-y-40');
+            progressPill.classList.add('translate-y-0');
+
+            if (progress < 100) {
+                progressText.innerText = `Caching Assets: ${progress}%`;
+                progressTitle.innerText = "កំពុងទាញយកទិន្នន័យក្រៅប្រព័ន្ធ...";
+                progressSpinner.classList.remove('hidden');
+                progressCheckmark.classList.add('hidden');
+            } else {
+                // Progress is complete!
+                progressText.innerText = "Offline Ready! 100%";
+                progressTitle.innerText = "ទាញយកទិន្នន័យរួចរាល់!";
+                progressSpinner.classList.add('hidden');
+                progressCheckmark.classList.remove('hidden');
+
+                // Wait 2 seconds so the user feels verified, then slide up and disappear
+                setTimeout(() => {
+                    progressPill.classList.remove('translate-y-0');
+                    progressPill.classList.add('-translate-y-40');
+                }, 2000);
             }
         }
 
