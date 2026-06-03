@@ -1,11 +1,12 @@
-const CACHE_NAME = 'preahang-vercel-offline-v8'; // Cache version matching your Canvas progress bar implementation
+const CACHE_NAME = 'preahang-vercel-offline-v9'; // Upgraded cache version to v9 for Programmatic Font Unrolling
 
-// Assets to cache relative to your Vercel root domain (fully CORS-compliant mirror for Tailwind)
+// Assets to cache relative to your Vercel root domain (fully CORS-compliant)
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
   './IMG_6657.JPG',
+  './_vercel/insights/script.js', // Pre-cache Vercel analytics on the very first try!
   'https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.10/tailwindcss.js',
   'https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap'
 ];
@@ -36,21 +37,43 @@ async function broadcastProgress(progressValue) {
   });
 }
 
-// Install event - Cache assets and track real-time download progress percentages
+// Install event - Dynamic unrolling of font files and sequential caching progress reporting
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      console.log('SW: Initializing clean cache layers with progress tracking...');
+      console.log('SW: Initializing clean cache layers with dynamic asset discovery...');
       
+      // Compile the final flat list of assets to cache
+      let finalUrlsToCache = [...ASSETS_TO_CACHE];
+      
+      // Programmatically unroll Google Font CSS rules to extract true underlying .woff2 files
+      try {
+        const fontCssUrl = 'https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap';
+        const cssResponse = await fetch(fontCssUrl, { mode: 'cors' });
+        if (cssResponse.ok) {
+          const cssText = await cssResponse.text();
+          // Regular expression to match all Google Font font file links inside CSS url() attributes
+          const fontRegex = /url\(['"]?(https:\/\/fonts\.gstatic\.com\/[^'")]+)['"]?\)/g;
+          let match;
+          while ((match = fontRegex.exec(cssText)) !== null) {
+            const fontFileUrl = match[1];
+            if (!finalUrlsToCache.includes(fontFileUrl)) {
+              finalUrlsToCache.push(fontFileUrl);
+            }
+          }
+          console.log(`SW: Discovered ${finalUrlsToCache.length - ASSETS_TO_CACHE.length} dynamic Google font files to precache.`);
+        }
+      } catch (e) {
+        console.warn('SW: Failed to dynamically discover Google font files during install:', e);
+      }
+
       let cachedCount = 0;
-      
-      // Initialize with 0% progress
       await broadcastProgress(0);
 
-      for (let i = 0; i < ASSETS_TO_CACHE.length; i++) {
-        const url = ASSETS_TO_CACHE[i];
+      // Download and cache all files sequentially
+      for (let i = 0; i < finalUrlsToCache.length; i++) {
+        const url = finalUrlsToCache[i];
         try {
-          // Force CORS mode for cross-origin resources (Tailwind and Google Fonts) to prevent "opaque" responses
           const isCrossOrigin = url.startsWith('http') && !url.includes(self.location.hostname);
           const fetchOptions = isCrossOrigin ? { mode: 'cors' } : {};
           
@@ -62,12 +85,12 @@ self.addEventListener('install', (event) => {
             console.log(`SW: Successfully cached during install: ${url}`);
           }
         } catch (error) {
-          console.warn(`SW: Failed to cache asset during install loop: ${url}`, error);
+          console.warn(`SW: Failed to cache asset: ${url}`, error);
         }
         
-        // Calculate progress percentage and broadcast to index.html
+        // Broadcast accurate progress of all unrolled assets
         cachedCount++;
-        const currentPercentage = Math.round((cachedCount / ASSETS_TO_CACHE.length) * 100);
+        const currentPercentage = Math.round((cachedCount / finalUrlsToCache.length) * 100);
         await broadcastProgress(currentPercentage);
       }
     })
