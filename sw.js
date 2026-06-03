@@ -1,4 +1,4 @@
-const CACHE_NAME = 'preahang-vercel-offline-v9'; // Upgraded cache version to v9 for Programmatic Font Unrolling
+const CACHE_NAME = 'preahang-vercel-offline-v10'; // Upgraded cache version to v9 for Programmatic Font Unrolling
 
 // Assets to cache relative to your Vercel root domain (fully CORS-compliant)
 const ASSETS_TO_CACHE = [
