@@ -1,12 +1,12 @@
-const CACHE_NAME = 'preahang-vercel-offline-v7'; // Incremented cache version to v7 to force clear all previous states
+const CACHE_NAME = 'preahang-vercel-offline-v8'; // Cache version matching your Canvas progress bar implementation
 
-// Assets to cache relative to your Vercel root domain
+// Assets to cache relative to your Vercel root domain (fully CORS-compliant mirror for Tailwind)
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
   './IMG_6657.JPG',
-  'https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.10/tailwindcss.js', // Directly CORS-enabled on jsDelivr!
+  'https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.10/tailwindcss.js',
   'https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap'
 ];
 
@@ -16,7 +16,7 @@ function cleanResponse(response) {
     return response;
   }
   
-  // Clone headers and recreate response without the "redirected" flag to prevent iOS webapp crashes
+  // Clone headers and recreate response without the "redirected" flag to prevent crashes in standalone mode on iOS
   const cleanedHeaders = new Headers(response.headers);
   return new Response(response.body, {
     status: response.status,
@@ -25,38 +25,57 @@ function cleanResponse(response) {
   });
 }
 
-// Install event - Cache assets
+// Broadcast progress messages to the UI in index.html
+async function broadcastProgress(progressValue) {
+  const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
+  clients.forEach(client => {
+    client.postMessage({
+      type: 'CACHE_PROGRESS',
+      progress: progressValue
+    });
+  });
+}
+
+// Install event - Cache assets and track real-time download progress percentages
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      console.log('SW: Initializing clean cache layers for Vercel...');
+      console.log('SW: Initializing clean cache layers with progress tracking...');
       
-      for (const url of ASSETS_TO_CACHE) {
+      let cachedCount = 0;
+      
+      // Initialize with 0% progress
+      await broadcastProgress(0);
+
+      for (let i = 0; i < ASSETS_TO_CACHE.length; i++) {
+        const url = ASSETS_TO_CACHE[i];
         try {
-          // Explicitly fetch cross-origin scripts/fonts with CORS configuration
+          // Force CORS mode for cross-origin resources (Tailwind and Google Fonts) to prevent "opaque" responses
           const isCrossOrigin = url.startsWith('http') && !url.includes(self.location.hostname);
           const fetchOptions = isCrossOrigin ? { mode: 'cors' } : {};
           
           const response = await fetch(url, fetchOptions);
           
-          // Allow cross-origin caching if response status is successful (200) or opaque (0)
           if (response.ok || response.status === 0) {
             const sanitizedResponse = cleanResponse(response);
             await cache.put(url, sanitizedResponse);
             console.log(`SW: Successfully cached during install: ${url}`);
-          } else {
-            console.warn(`SW: Fetch returned bad status (${response.status}) for: ${url}`);
           }
         } catch (error) {
-          console.warn(`SW: Failed to cache asset during install: ${url}`, error);
+          console.warn(`SW: Failed to cache asset during install loop: ${url}`, error);
         }
+        
+        // Calculate progress percentage and broadcast to index.html
+        cachedCount++;
+        const currentPercentage = Math.round((cachedCount / ASSETS_TO_CACHE.length) * 100);
+        await broadcastProgress(currentPercentage);
       }
     })
   );
   self.skipWaiting();
 });
 
-// Activate event - Clean old caches
+// Activate event - Sweeps and destroys older Cache versions
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -73,16 +92,16 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event - Respond from cache immediately when offline
+// Fetch event - Serving cached assets instantly
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        return cachedResponse; // Instant offline loading
+        return cachedResponse; // Load instantly from local storage
       }
       
       return fetch(event.request).then((networkResponse) => {
-        // Cache new successful GET requests dynamically (supporting status 0 for CDN requests)
+        // Cache dynamic runtime assets securely
         if (event.request.method === 'GET' && (networkResponse.status === 200 || networkResponse.status === 0)) {
           const responseToCache = cleanResponse(networkResponse.clone());
           caches.open(CACHE_NAME).then((cache) => {
@@ -91,7 +110,7 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       }).catch(() => {
-        console.warn('SW: Network offline. Operating in mountain mode.');
+        console.warn('SW: Network disconnected. Seamlessly serving offline cache.');
       });
     })
   );
