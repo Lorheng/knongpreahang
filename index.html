@@ -593,7 +593,7 @@
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍽️ ញ៉ាំអាហារពេលល្ងាច</span>
-                            <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំអាហារពេលល្ងាច និងជជែកគ្នាលេងកម្សាន្តជុំគ្នា ។</p>
+                            <p class="text-sm text-white/90 leading-snug">ជជែកគ្នាលេងកម្សាន្តជុំគ្នា និងជួបជុំញ៉ាំអាហារពេលល្ងាចយ៉ាងសប្បាយ។</p>
                         </div>
                     </div>
 
@@ -1143,7 +1143,7 @@
 
             if (progress < 100) {
                 progressText.innerText = `Caching Assets: ${progress}%`;
-                progressTitle.innerText = "កំពុងទាញយកទិន្នន័យក្រៅប្រព័ន្ធ...";
+                progressTitle.innerText = "កំពុងទាញយកទិន្នន័យក្រៅប្រព័ន្ធ...</span>";
                 progressSpinner.classList.remove('hidden');
                 progressCheckmark.classList.add('hidden');
             } else {
@@ -1329,8 +1329,6 @@
             
             agendaScreen.classList.remove('pointer-events-none');
             agendaScreen.classList.add('opacity-100');
-
-            showToast("បានទទួលការហៅចូល (Call Answered)");
         }
 
         function hangUpCall() {
@@ -1352,8 +1350,6 @@
             sliderFill.style.width = '2.5rem';
             sliderText.style.opacity = '1';
             currentTranslate = 0;
-
-            showToast("បានបិទការសន្ទនា (Disconnected)");
         }
 
         function openActionSheet(type) {
