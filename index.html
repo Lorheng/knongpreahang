@@ -967,8 +967,8 @@
 
         <!-- Modal Header -->
         <div class="text-center pb-4 border-b border-white/10">
-            <h3 class="text-lg font-bold text-white tracking-wide">របៀបដំឡើងសម្រាប់ប្រើប្រាស់ Offline</h3>
-            <p class="text-xs text-white/40 mt-1">ទោះគ្មានសេវា ឬអ៊ីនធឺណិតនៅលើភ្នំក៏អាចមើលបាន</p>
+            <h3 class="text-lg font-bold text-white tracking-wide">របៀប Mini App ដំឡើងសម្រាប់ប្រើប្រាស់ Offline</h3>
+            <p class="text-xs text-white/40 mt-1">សូមធ្វើតាមការណែនាំខាងក្រោម</p>
         </div>
 
         <!-- OS Tab Switcher -->
@@ -1010,7 +1010,7 @@
                 </div>
                 <div class="flex gap-3.5 items-start p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl">
                     <div class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</div>
-                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">ឥឡូវអ្នកអាចបិទអុីនធឺណិត (Airplane Mode) ដើម្បី Test បាន។</p>
+                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">ឥឡូវអ្នកអាចបិទ Internet​​ រួចបើក Airplane Mode ដើម្បី Test បាន។</p>
                 </div>
             </div>
 
@@ -1034,7 +1034,7 @@
                 </div>
                 <div class="flex gap-3.5 items-start p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl">
                     <div class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</div>
-                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">ឥឡូវអ្នកអាចបិទអុីនធឺណិត (Airplane Mode) ដើម្បី Test បាន។</p>
+                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">ឥឡូវអ្នកអាចបិទ Internet​​ រួចបើក Airplane Mode ដើម្បី Test បាន។</p>
                 </div>
             </div>
 
@@ -1143,13 +1143,13 @@
 
             if (progress < 100) {
                 progressText.innerText = `Caching Assets: ${progress}%`;
-                progressTitle.innerText = "កំពុងទាញយកទិន្នន័យក្រៅប្រព័ន្ធ...";
+                progressTitle.innerText = "App Loading...";
                 progressSpinner.classList.remove('hidden');
                 progressCheckmark.classList.add('hidden');
             } else {
                 // Progress is complete!
                 progressText.innerText = "Offline Ready! 100%";
-                progressTitle.innerText = "ទាញយកទិន្នន័យរួចរាល់!";
+                progressTitle.innerText = "App Fully Loaded";
                 progressSpinner.classList.add('hidden');
                 progressCheckmark.classList.remove('hidden');
 
