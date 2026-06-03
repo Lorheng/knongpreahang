@@ -1,4 +1,4 @@
-const CACHE_NAME = 'preahang-vercel-offline-v5'; // Cache version v5 matching the green theme update
+const CACHE_NAME = 'preahang-vercel-offline-v6'; // Updated cache version v6 to clean out v5 cache
 
 // Assets to cache relative to your Vercel root domain
 const ASSETS_TO_CACHE = [
@@ -6,7 +6,7 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './manifest.json',
   './IMG_6657.JPG',
-  'https://cdn.tailwindcss.com',
+  'https://cdn.tailwindcss.com/3.4.16', // Directly locked to a versioned, non-redirecting script that accepts CORS natively!
   'https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap'
 ];
 
