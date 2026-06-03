@@ -345,8 +345,12 @@
         }
 
         .sticky-bottom-center button:first-child {
-            background-color: rgba(198, 63, 63, 0.8) !important;
-            border-color: rgba(239, 68, 68, 0.15) !important;
+            background-color: #C63F3F !important; /* Made disconnect button color fully solid red */
+            border-color: rgba(239, 68, 68, 0.4) !important; /* Solid premium border contrast */
+        }
+
+        .sticky-bottom-center button:last-child {
+            background-color: rgba(255, 255, 255, 0.1) !important;
         }
 
         .sticky-bottom-center button:last-child {
@@ -363,6 +367,16 @@
         .sticky-bottom-center button:first-child svg {
             fill: #ffffff !important;
             transform: rotate(135deg) !important;
+        }
+
+        /* ==========================================================================
+           MODAL LAYER SHIELD ELEVATION (Puts overlay on top of Agenda Screen)
+           ========================================================================== */
+        #message-overlay, #remind-overlay, #offline-overlay {
+            z-index: 60 !important;
+        }
+        #message-sheet, #remind-sheet, #offline-sheet {
+            z-index: 70 !important;
         }
     </style>
     
@@ -944,7 +958,8 @@
     </div>
 
     <!-- 3. Offline Mode Guide Sheet (Premium Custom Modal UI) -->
-    <div id="offline-overlay" class="fixed inset-0 bg-black/60 z-40 transition-opacity duration-300 hidden pointer-events-auto" onclick="closeActionSheet('offline')"></div>
+    <!-- Increased background dark level to bg-black/85 and added interactive pointer cursor to dim space -->
+    <div id="offline-overlay" class="fixed inset-0 bg-black/85 z-40 transition-opacity duration-300 hidden pointer-events-auto cursor-pointer" onclick="closeActionSheet('offline')"></div>
     <div id="offline-sheet" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 transform translate-y-full transition-transform duration-300 ease-out bg-[#0e2114]/95 backdrop-blur-3xl rounded-t-[28px] p-5 pb-[calc(env(safe-area-inset-bottom)+20px)] select-none border-t border-white/10 text-left font-khmer">
         
         <!-- Drag Handle Indicator -->
