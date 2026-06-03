@@ -7,7 +7,7 @@
     
     <!-- Vercel Web Analytics Integration -->
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
-    <script src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 
     <!-- Telegram Link Preview Meta Tags (Using relative images to completely mask username) -->
     <meta property="og:title" content="ខ្នងព្រះអង្គ" />
@@ -19,8 +19,8 @@
     <meta name="twitter:description" content="Knong Preah Ang is Calling You! Pick up?" />
     <meta name="twitter:image" content="./IMG_6657.JPG" />
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS (Directly version-locked to bypass redirect blocks inside Service Workers) -->
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     
     <!-- Google Fonts: Kantumruy Pro for premium, high-fidelity Khmer text rendering -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +44,7 @@
             height: 100dvh;
             margin: 0;
             padding: 0;
-            background-color: #05180c; /* Updated fallback background-color to a beautiful, premium deep forest green */
+            background-color: #05180c; /* Fallback background-color to a beautiful, premium deep forest green */
             user-select: none;
             -webkit-user-select: none;
             touch-action: none;
@@ -111,7 +111,7 @@
 
         /* ==========================================================================
            CRITICAL NATIVE CSS FALLBACKS (Prevents layout breakage if Tailwind fails)
-           ========================================================================== */
+           ========================================================================= */
         #wallpaper-bg {
             position: fixed !important;
             top: 0 !important;
@@ -323,49 +323,44 @@
 
         .sticky-bottom-center {
             position: absolute !important;
-            bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
+            bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
             left: 16px !important;
             right: 16px !important;
             display: flex !important;
             justify-content: center !important;
-            gap: 10px !important;
+            gap: 12px !important;
             z-index: 30 !important;
         }
 
         .sticky-bottom-center button {
             flex: 1 !important;
-            max-width: 140px !important;
-            height: 36px !important;
-            border-radius: 9999px !important;
+            max-width: 170px !important;
+            height: 44px !important;
+            border-radius: 16px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: 6px !important;
+            gap: 8px !important;
             border: 1px solid rgba(255,255,255,0.1) !important;
             color: #ffffff !important;
-            font-size: 11px !important;
+            font-size: 12px !important;
             font-weight: 600 !important;
             cursor: pointer !important;
             box-sizing: border-box !important;
         }
 
         .sticky-bottom-center button:first-child {
-            background-color: rgba(198, 63, 63, 0.9) !important;
-            border-color: rgba(239, 68, 68, 0.2) !important;
-            backdrop-filter: blur(25px) !important;
-            -webkit-backdrop-filter: blur(25px) !important;
+            background-color: rgba(198, 63, 63, 0.8) !important;
+            border-color: rgba(239, 68, 68, 0.15) !important;
         }
 
         .sticky-bottom-center button:last-child {
-            background-color: rgba(20, 20, 22, 0.95) !important;
-            border-color: rgba(255, 255, 255, 0.12) !important;
-            backdrop-filter: blur(25px) !important;
-            -webkit-backdrop-filter: blur(25px) !important;
+            background-color: rgba(255,255,255,0.1) !important;
         }
 
         .sticky-bottom-center button svg {
-            width: 14px !important;
-            height: 14px !important;
+            width: 16px !important;
+            height: 16px !important;
         }
         
         .sticky-bottom-center button:first-child svg {
@@ -568,7 +563,7 @@
                         </button>
                         <div class="flex-1 space-y-1">
                             <span class="text-xs font-bold text-[#34C759] tracking-wider">6:00 PM • 🍽️ ញ៉ាំអាហារពេលល្ងាច</span>
-                            <p class="text-sm text-white/90 leading-snug">ជួបជុំញ៉ាំអាហារពេលល្ងាច និងជជែកគ្នាលេងកម្សាន្តជុំគ្នា ។</p>
+                            <p class="text-sm text-white/90 leading-snug">ជជែកគ្នាលេងកម្សាន្តជុំគ្នា និងជួបជុំញ៉ាំអាហារពេលល្ងាច ។</p>
                         </div>
                     </div>
 
@@ -968,7 +963,7 @@
             <div id="offline-steps-ios" class="space-y-3.5 hidden">
                 <div class="flex gap-3.5 items-start">
                     <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</div>
-                    <p class="text-[13px] text-white/90 leading-relaxed">បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី <span class="text-[#34C759] font-bold">Safari</span>។</p>
+                    <p class="text-[13px] text-white/90 leading-relaxed">បើកដំណើរការលីងនេះនៅក្នុងកម្មវិធី <span class="text-[#34C759] font-bold">Safari</span>。</p>
                 </div>
                 <div class="flex gap-3.5 items-start">
                     <div class="w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</div>
@@ -984,7 +979,7 @@
                 </div>
                 <div class="flex gap-3.5 items-start p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl">
                     <div class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</div>
-                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">បិទ Internet រួចបើក Airplane Mode ដើម្បី Test</p>
+                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">ឥឡូវអ្នកអាចបិទអុីនធឺណិត (Airplane Mode) ដើម្បី Test បាន។</p>
                 </div>
             </div>
 
@@ -1008,7 +1003,7 @@
                 </div>
                 <div class="flex gap-3.5 items-start p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl">
                     <div class="w-6 h-6 rounded-full bg-[#34C759] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</div>
-                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">បិទ Internet រួចបើក Airplane Mode ដើម្ប Test។</p>
+                    <p class="text-[13px] text-[#34C759] font-semibold leading-relaxed">ឥឡូវអ្នកអាចបិទអុីនធឺណិត (Airplane Mode) ដើម្បី Test បាន។</p>
                 </div>
             </div>
 
